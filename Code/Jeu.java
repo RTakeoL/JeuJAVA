@@ -19,7 +19,7 @@ public class Jeu {
 	public void creerCarte() {
         this.zones = new Stack<Zone>();
         
-        this.zones.add(new Zone("Ruelle de Départ", "Couloir.jpg" ));
+        this.zones.add(new Zone("Ruelle de Départ", "../img/Couloir.jpg" ));
         this.zones.add(new Zone("Métro", "Escalier.jpg" ));
         this.zones.add(new Zone("Ruelle EST (Sud)", "GrandeSalle.jpg" ));
         this.zones.add(new Zone("Station Essence", "SalleAManger.jpg"));
@@ -98,6 +98,14 @@ public class Jeu {
         
         this.zoneCourante = zones.get(0);
     }
+	
+	
+	
+	public void remplirZone() {
+		
+	}
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

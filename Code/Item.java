@@ -1,3 +1,5 @@
+package ownProject;
+
 
 public class Item {
 	private String nomItem;

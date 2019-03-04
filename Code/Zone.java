@@ -17,15 +17,17 @@ public class Zone {
 	private String description;
 	private String nomImage;
 	private HashMap<String, Zone> sorties;
+	private HashMap<String,Item> listItemZone;
+	private PersoNonJoueur PNJZone;
+	
 	/**
-	 * @param 
-	 * String => Nom de l'objet comme clé
-	 * ObjetJeu => Le type objet (la classe qui définit ce qu'est un objet
-	 * @method
-	 * private HashMap<String, ObjetJeu> objets;
 	 * 
 	 * @param
-	 * Personnage, classe qui décrit les propriété des personnages
+	 * descripition, String qui décrit un peu la zone
+	 * nomImage, chemin où est localisé l'image de la zone
+	 * sorties, la direction de la sortie
+	 * listItemZone, les items présente dans la zone
+	 * PNJZone, le PNJ présent dans la zone
 	 * 
 	 * @method
 	 * private Personnage persZone;
@@ -42,7 +44,11 @@ public class Zone {
 		sorties.put(sortie.name(), zoneVoisine);
 	}
 	
-	public String nomImage() {
+	public void ajoutePNJ(PersoNonJoueur nomPNJ) {
+		this.PNJZone = nomPNJ;
+	}
+	
+	public String getNomImage() {
 		return(this.nomImage);
 	}
 	
@@ -64,6 +70,10 @@ public class Zone {
 	
 	public Zone obtientSortie(String direction) {
 		return(this.sorties.get(direction));
+	}
+	
+	public void ajouteItems(String nomItem, Item itemZone) {
+		this.listItemZone.put(nomItem, itemZone);
 	}
 	
 }
