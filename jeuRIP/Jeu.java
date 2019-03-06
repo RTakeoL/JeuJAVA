@@ -37,7 +37,7 @@ public class Jeu {
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	}
 	private void creerCarte() {
-        this.zones = new Zone[14];
+        this.zones = new Zone[15];
         
         this.zones[0] = new Zone("Ruelle de Départ", "../img/Couloir.jpg" );
         this.zones[1] = new Zone("Métro", "Escalier.jpg" );
@@ -166,21 +166,21 @@ public class Jeu {
 	// remplir d'item par jb
 		public void créerItem() {
 			this.tableItems = new HashMap<String, Item>();
-			Item Hache = new Item("Hache","/itemsImage/hache.png","Ceci est une hache");
+			Item Hache = new Item("Hache","/images/hache.png","Ceci est une hache");
 			tableItems.put("Hache", Hache);
-			Item Gun = new Item("Gun","/itemsImage/gun.png","Ceci est un gun");
+			Item Gun = new Item("Gun","/images/gun.png","Ceci est un gun");
 			tableItems.put("Gun", Gun);
-			Item Pince = new Item("Pince","/itemsImage/pince.png","Ceci est une pince");
+			Item Pince = new Item("Pince","/images/pince.png","Ceci est une pince");
 			tableItems.put("Pince", Pince);
-			Item Bouteille = new Item("Bouteille","/itemsImage/bouteille.png","Ceci est une bouteille");
+			Item Bouteille = new Item("Bouteille","/images/bouteille.png","Ceci est une bouteille");
 			tableItems.put("Bouteille", Bouteille);
-			Item Jerrican = new Item("Jerrican","/itemsImage/jerrican.png","Ceci est un jerrican");
+			Item Jerrican = new Item("Jerrican","/images/jerrican.png","Ceci est un jerrican");
 			tableItems.put("Jerrican", Jerrican);
-			Item Parachute = new Item("Parachute","/itemsImage/parachute.png","Ceci est un parachute");
+			Item Parachute = new Item("Parachute","/images/parachute.png","Ceci est un parachute");
 			tableItems.put("Parachute",Parachute);
-			Item Pills = new Item("Pills","/itemsImage/pills.png","Ceci est un pills");
+			Item Pills = new Item("Pills","/images/pills.png","Ceci est un pills");
 			tableItems.put("Pills",Pills);
-			Item Tel = new Item("Tel","/itemsImage/tel.png","Ceci est un tel");
+			Item Tel = new Item("Tel","/images/tel.png","Ceci est un tel");
 			tableItems.put("Tel", Tel);
 		}
 }
