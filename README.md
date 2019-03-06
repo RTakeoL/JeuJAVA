@@ -1,3 +1,12 @@
+
+jb update 06/03 12:00
+
+ajout dans class Jeu:
+methode créerItem()
+
+changement de de la taille du tableau zone 14->15
+
+-------------------------------------------
 # JeuJAVA
 ProjetJAVA
    
