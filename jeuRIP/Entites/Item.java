@@ -44,9 +44,9 @@ public class Item {
 		this.itemY=y;
 	}
 	
-	public void setSize(int pxH, int pxW) {
-		this.itemPxH=pxH;
+	public void setSize(int pxW, int pxH) {
 		this.itemPxW=pxW;
+		this.itemPxH=pxH;
 	}
 
 	public int getItemPxH() {
