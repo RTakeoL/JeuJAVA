@@ -3,7 +3,7 @@ package jeuRIP;
 
 import jeuRIP.Entites.Zone;
 import jeuRIP.elementsGraphiques.JeuPanel;
-import ownProject.Sortie;
+import jeuRIP.Entites.Sortie;
 import java.util.HashMap;
 import jeuRIP.Entites.*;
 import jeuRIP.Item;
