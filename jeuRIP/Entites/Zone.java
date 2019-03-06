@@ -77,4 +77,7 @@ public class Zone   {
 			return(this.listItemZone.get(nomItem));
 		}
 		
+		public String getDescription() {
+			return(this.description);
+		}
 }
