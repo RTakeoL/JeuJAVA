@@ -1,12 +1,10 @@
 package jeuRIP;
 
-
 import jeuRIP.Entites.Zone;
 import jeuRIP.elementsGraphiques.JeuPanel;
 import jeuRIP.Entites.Sortie;
 import java.util.HashMap;
 import jeuRIP.Entites.*;
-import jeuRIP.Item;
 
 public class Jeu {
 	
@@ -39,7 +37,7 @@ public class Jeu {
 	private void creerCarte() {
         this.zones = new Zone[15];
         
-        this.zones[0] = new Zone("Ruelle de Départ", "../img/Couloir.jpg" );
+        this.zones[0] = new Zone("Ruelle de Départ", "z1.png" );
         this.zones[1] = new Zone("Métro", "Escalier.jpg" );
         this.zones[2] = new Zone("Ruelle EST (Sud)", "GrandeSalle.jpg" );
         this.zones[3] = new Zone("Station Essence", "SalleAManger.jpg");
@@ -116,7 +114,18 @@ public class Jeu {
         // Piste Aéroport
         this.zones[6].ajouteSortie(Sortie.SUD, zones[5]);
         
-        this.zoneCourante = zones[0];   
+        this.zoneCourante = zones[0]; 
+        
+        // Ajout items par zone
+        this.créerItem();
+        this.zones[5].ajouteItems("Hache", tableItems.get("Hache"));
+        this.zones[4].ajouteItems("Gun", tableItems.get("Gun"));
+        this.zones[7].ajouteItems("Pills", tableItems.get("Pills"));
+        this.zones[12].ajouteItems("Bouteille", tableItems.get("Bouteille"));
+        this.zones[5].ajouteItems("Parachute", tableItems.get("Parachute"));
+        this.zones[13].ajouteItems("Portable", tableItems.get("Portable"));
+        this.zones[7].ajouteItems("Pince", tableItems.get("Pince"));
+        this.zones[7].ajouteItems("Jerrican", tableItems.get("Jerrican"));
 	}
 
 	
@@ -180,7 +189,7 @@ public class Jeu {
 			tableItems.put("Parachute",Parachute);
 			Item Pills = new Item("Pills","/images/pills.png","Ceci est un pills");
 			tableItems.put("Pills",Pills);
-			Item Tel = new Item("Tel","/images/tel.png","Ceci est un tel");
-			tableItems.put("Tel", Tel);
+			Item Portable = new Item("Portable","/images/portable.jpg","Ceci est un portable");
+			tableItems.put("Portable", Portable);
 		}
 }
