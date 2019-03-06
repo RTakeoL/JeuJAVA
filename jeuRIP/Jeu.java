@@ -116,7 +116,7 @@ public class Jeu {
         
         this.zoneCourante = zones[0]; 
         
-        // Ajout items par zone
+        // Ajout items par zones
         this.créerItem();
         this.zones[5].ajouteItems("Hache", tableItems.get("Hache"));
         this.zones[4].ajouteItems("Gun", tableItems.get("Gun"));
