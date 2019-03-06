@@ -37,7 +37,7 @@ public class Jeu {
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	}
 	private void creerCarte() {
-        this.zones = new Zone[14];
+        this.zones = new Zone[15];
         
         this.zones[0] = new Zone("Ruelle de Départ", "../img/Couloir.jpg" );
         this.zones[1] = new Zone("Métro", "Escalier.jpg" );
