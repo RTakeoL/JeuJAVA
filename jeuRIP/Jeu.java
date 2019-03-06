@@ -3,8 +3,10 @@ package jeuRIP;
 
 import jeuRIP.Entites.Zone;
 import jeuRIP.elementsGraphiques.JeuPanel;
-import ownProject.Sortie;
+import jeuRIP.Entites.Sortie;
+import java.util.HashMap;
 import jeuRIP.Entites.*;
+import jeuRIP.Item;
 
 public class Jeu {
 	
@@ -13,7 +15,7 @@ public class Jeu {
 	Zone[] zones;
 	Fenetre fenetre  ; 
 	JeuPanel jeuPanel ;
-	
+	public HashMap<String, Item> tableItems ;
 	
 	
 	
@@ -35,7 +37,7 @@ public class Jeu {
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	}
 	private void creerCarte() {
-        this.zones = new Zone[14];
+        this.zones = new Zone[15];
         
         this.zones[0] = new Zone("Ruelle de Départ", "../img/Couloir.jpg" );
         this.zones[1] = new Zone("Métro", "Escalier.jpg" );
@@ -161,5 +163,24 @@ public class Jeu {
 	            break;
 	        }
 	    }
-	
+	// remplir d'item par jb
+		public void créerItem() {
+			this.tableItems = new HashMap<String, Item>();
+			Item Hache = new Item("Hache","/images/hache.png","Ceci est une hache");
+			tableItems.put("Hache", Hache);
+			Item Gun = new Item("Gun","/images/gun.png","Ceci est un gun");
+			tableItems.put("Gun", Gun);
+			Item Pince = new Item("Pince","/images/pince.png","Ceci est une pince");
+			tableItems.put("Pince", Pince);
+			Item Bouteille = new Item("Bouteille","/images/bouteille.png","Ceci est une bouteille");
+			tableItems.put("Bouteille", Bouteille);
+			Item Jerrican = new Item("Jerrican","/images/jerrican.png","Ceci est un jerrican");
+			tableItems.put("Jerrican", Jerrican);
+			Item Parachute = new Item("Parachute","/images/parachute.png","Ceci est un parachute");
+			tableItems.put("Parachute",Parachute);
+			Item Pills = new Item("Pills","/images/pills.png","Ceci est un pills");
+			tableItems.put("Pills",Pills);
+			Item Tel = new Item("Tel","/images/tel.png","Ceci est un tel");
+			tableItems.put("Tel", Tel);
+		}
 }
