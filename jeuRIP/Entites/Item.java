@@ -1,4 +1,4 @@
-package ownProject;
+package jeuRIP.Entites;
 
 
 public class Item {

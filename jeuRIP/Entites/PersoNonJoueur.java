@@ -1,4 +1,4 @@
-package ownProject;
+package jeuRIP.Entites;
 
 
 public class PersoNonJoueur {
@@ -15,6 +15,7 @@ public class PersoNonJoueur {
 	private String dialogue;
 	private String descriptionPNJ;
 	private Boolean etatPNJ;
+	private Item itemPNJ;
 	
 	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue) { // Exemple : Capitaine / Fille capitaine....)
 		this(nomPNJ,nomImage,dialogue,"");
@@ -67,4 +68,8 @@ public class PersoNonJoueur {
 	public void setDialogue(String newDialogue) {
 		this.dialogue = newDialogue;
 	}	
+	
+	public void setItemPNJ(Item itemPNJ) {
+		this.itemPNJ = itemPNJ;
+	}
 }

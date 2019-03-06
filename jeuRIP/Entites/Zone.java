@@ -2,16 +2,20 @@ package jeuRIP.Entites;
 
 import java.util.HashMap;
 
+
 public class Zone   {
 	
+	/**
+	 * @param args
+	 */
 	/**
 	 * @param args
 	 */
 		private String description;
 		private String nomImage;
 		private HashMap<String, Zone> sorties;
-		//private HashMap<String,Item> listItemZone;
-		//private PersoNonJoueur PNJZone;
+		private HashMap<String,Item> listItemZone;
+		private PersoNonJoueur PNJZone;
 		
 		/**
 		 * 
@@ -36,19 +40,11 @@ public class Zone   {
 		public void ajouteSortie(Sortie sortie, Zone zoneVoisine) {
 			sorties.put(sortie.name(), zoneVoisine);
 		}
-//		
-//		public void ajoutePNJ(PersoNonJoueur nomPNJ) {
-//			this.PNJZone = nomPNJ;
-//		}
 		
-		public String getDescription() {
-			return description;
+		public void ajoutePNJ(PersoNonJoueur nomPNJ) {
+			this.PNJZone = nomPNJ;
 		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
+		
 		public String getNomImage() {
 			return(this.nomImage);
 		}
@@ -73,8 +69,16 @@ public class Zone   {
 			return(this.sorties.get(direction));
 		}
 		
-//		public void ajouteItems(String nomItem, Item itemZone) {
-//			this.listItemZone.put(nomItem, itemZone);
-//		}
+		public void ajouteItems(String nomItem, Item itemZone) {
+			this.listItemZone.put(nomItem, itemZone);
+		}
+		
+		public Item getItem(String nomItem) {
+			return(this.listItemZone.get(nomItem));
+		}
+		
+		public String getDescription() {
+			return(this.description);
+		}
 		
 }
