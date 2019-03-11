@@ -1,4 +1,6 @@
 jb update 11/03
+
++ AJOUT DES IMAGE ZONE AVEC NUMERO ET NOM + DIRECTION
 arraylist pour item
 changemeny dans jeu.java, zone.java jeupanel.java, et panelZone.java
 + changement des indices des zones et ajustement des sorties
