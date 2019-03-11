@@ -14,7 +14,7 @@ public class Zone   {
 		private String description;
 		private String nomImage;
 		private HashMap<String, Zone> sorties;
-		public ArrayList <Item> listItemZone = new ArrayList<Item>();
+		public ArrayList <Item> listItemZone ;
 		private PersoNonJoueur PNJZone;
 		
 		/**
@@ -35,6 +35,7 @@ public class Zone   {
 			this.description = description;
 			this.nomImage = nomImage;
 			this.sorties = new HashMap<String, Zone>();
+			this.listItemZone= new ArrayList<Item>();
 		}
 		
 		public void ajouteSortie(Sortie sortie, Zone zoneVoisine) {

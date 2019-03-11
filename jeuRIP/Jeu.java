@@ -31,7 +31,8 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-		afficherItemZC(zoneCourante, 0); // affichage item 1
+
+  //afficherItemZC(zoneCourante, 0); // affichage item 1
 	}
 	private void creerCarte() {
         this.zones = new Zone[15];
@@ -54,16 +55,13 @@ public class Jeu {
         
         this.creerItem();
         this.zones[5].ajouteItems(0, tableItems.get("Hache"));
-        this.zones[4].ajouteItems(0, tableItems.get("Gun"));
-        this.zones[7].ajouteItems(0, tableItems.get("Pills"));
+        this.zones[4].ajouteItems(0, tableItems.get("Gun"));        
+        //this.zones[7].ajouteItems(2, tableItems.get("Pills"));
         this.zones[12].ajouteItems(0, tableItems.get("Bouteille"));
-//        this.zones[5].ajouteItems("Parachute", tableItems.get("Parachute"));
-//        this.zones[13].ajouteItems(0, tableItems.get("Portable"));
-//        this.zones[7].ajouteItems("Pince", tableItems.get("Pince"));
-//        this.zones[7].ajouteItems("Jerrican", tableItems.get("Jerrican"));
-        
-        
-        
+       //this.zones[5].ajouteItems(1, tableItems.get("Parachute"));
+        this.zones[13].ajouteItems(0, tableItems.get("Portable"));
+        this.zones[7].ajouteItems(0, tableItems.get("Pince"));
+        //this.zones[7].ajouteItems(1, tableItems.get("Jerrican"));
         
         // Zone Ruelle de départ
         this.zones[0].ajouteSortie(Sortie.EST, zones[1]);
@@ -71,7 +69,7 @@ public class Jeu {
         
         // Zone Metro
         this.zones[1].ajouteSortie(Sortie.OUEST, zones[0]);
-        this.zones[1].ajouteSortie(Sortie.EST, zones[13]);
+       //  this.zones[1].ajouteSortie(Sortie.EST, zones[13]);
         this.zones[1].ajouteSortie(Sortie.METRO, zones[5]);
         this.zones[1].ajouteSortie(Sortie.NORD, zones[2]);
         
@@ -228,13 +226,11 @@ public void afficherItemZC(Zone zc , int indexItem) {
 			Gun.setPosition(100, 100);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
-			
-			Item Pince = new Item("Pince","pince.png","Ceci est une pince");
+			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince");
 			Pince.setPosition(100, 100);
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
-			
-			Item Bouteille = new Item("Bouteille","bouteille.png","Ceci est une bouteille");
+			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille");
 			Bouteille.setPosition(100, 100);
 			Bouteille.setSize(100, 100);
 			tableItems.put("Bouteille", Bouteille);
