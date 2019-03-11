@@ -16,8 +16,6 @@ public class Jeu {
 	public HashMap<String, Item> tableItems ;
 	
 	
-	
-	
 	public Jeu () {
 		
 		 creerCarte();
@@ -33,25 +31,38 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
+		afficherItemZC(zoneCourante, 0); // affichage item 1
 	}
 	private void creerCarte() {
         this.zones = new Zone[15];
         
-        this.zones[0] = new Zone("Ruelle de Départ", "z1.png" );
-        this.zones[1] = new Zone("Métro", "Escalier.jpg" );
-        this.zones[2] = new Zone("Ruelle EST (Sud)", "GrandeSalle.jpg" );
-        this.zones[3] = new Zone("Station Essence", "SalleAManger.jpg");
-        this.zones[4] = new Zone("Armurerie", "SalleAManger.jpg");
-        this.zones[5] = new Zone("Entrée Aéroport", "SalleAManger.jpg");
-        this.zones[6] = new Zone("Piste Aéroport", "SalleAManger.jpg");
-        this.zones[7] = new Zone("Supermarché", "SalleAManger.jpg");
-        this.zones[8] = new Zone("Ruelle OUEST (Nord)", "SalleAManger.jpg");
-        this.zones[9] = new Zone("Ruelle OUEST (Sud)", "SalleAManger.jpg");
-        this.zones[10] = new Zone("Marina", "SalleAManger.jpg");
-        this.zones[11] = new Zone("Hotel", "SalleAManger.jpg");
-        this.zones[12] = new Zone("Bar", "SalleAManger.jpg");
-        this.zones[13] = new Zone("Maison", "Maison.jpg");
-        this.zones[14] = new Zone("Ruelle EST (Nord)", "GrandeSalle.jpg" );
+        this.zones[0] = new Zone("Ruelle de Départ", "ZONE1.png" );
+        this.zones[1] = new Zone("Métro", "ZONE15.png" );
+        this.zones[2] = new Zone("Ruelle EST (Sud)", "ZONE2.png" );
+        this.zones[3] = new Zone("Station Essence", "ZONE3.png");
+        this.zones[4] = new Zone("Armurerie", "ZONE4.png");
+        this.zones[5] = new Zone("Entrée Aéroport", "ZONE5.png");
+        this.zones[6] = new Zone("Piste Aéroport", "ZONE6.png");
+        this.zones[7] = new Zone("Supermarché", "ZONE7.png");
+        this.zones[8] = new Zone("Ruelle OUEST (Nord)", "ZONE8.png");
+        this.zones[9] = new Zone("Ruelle OUEST (Sud)", "ZONE9.png");
+        this.zones[10] = new Zone("Marina", "ZONE10.png");
+        this.zones[11] = new Zone("Hotel", "ZONE11.png");
+        this.zones[12] = new Zone("Bar", "ZONE12.png");
+        this.zones[13] = new Zone("Maison", "ZONE13.png");
+        this.zones[14] = new Zone("Ruelle EST (Nord)", "ZONE14.png" );
+        
+        this.creerItem();
+        this.zones[5].ajouteItems(0, tableItems.get("Hache"));
+        this.zones[4].ajouteItems(0, tableItems.get("Gun"));
+        this.zones[7].ajouteItems(0, tableItems.get("Pills"));
+        this.zones[12].ajouteItems(0, tableItems.get("Bouteille"));
+//        this.zones[5].ajouteItems("Parachute", tableItems.get("Parachute"));
+//        this.zones[13].ajouteItems(0, tableItems.get("Portable"));
+//        this.zones[7].ajouteItems("Pince", tableItems.get("Pince"));
+//        this.zones[7].ajouteItems("Jerrican", tableItems.get("Jerrican"));
+        
+        
         
         
         // Zone Ruelle de départ
@@ -116,21 +127,19 @@ public class Jeu {
         
         this.zoneCourante = zones[0]; 
         
-        // Ajout items par zone
-        this.créerItem();
-        this.zones[5].ajouteItems("Hache", tableItems.get("Hache"));
-        this.zones[4].ajouteItems("Gun", tableItems.get("Gun"));
-        this.zones[7].ajouteItems("Pills", tableItems.get("Pills"));
-        this.zones[12].ajouteItems("Bouteille", tableItems.get("Bouteille"));
-        this.zones[5].ajouteItems("Parachute", tableItems.get("Parachute"));
-        this.zones[13].ajouteItems("Portable", tableItems.get("Portable"));
-        this.zones[7].ajouteItems("Pince", tableItems.get("Pince"));
-        this.zones[7].ajouteItems("Jerrican", tableItems.get("Jerrican"));
+      /*  // Ajout items par zone
+        this.creerItem();
+        this.zones[5].ajouteItems(0, tableItems.get("Hache"));
+        this.zones[4].ajouteItems(0, tableItems.get("Gun"));
+        this.zones[7].ajouteItems(0, tableItems.get("Pills"));
+        this.zones[12].ajouteItems(0, tableItems.get("Bouteille"));
+//        this.zones[5].ajouteItems("Parachute", tableItems.get("Parachute"));
+        this.zones[13].ajouteItems(0, tableItems.get("Portable"));
+//        this.zones[7].ajouteItems("Pince", tableItems.get("Pince"));
+//        this.zones[7].ajouteItems("Jerrican", tableItems.get("Jerrican"));
+       */ 
 	}
 
-	
-	
-	
 	
 	
 	
@@ -142,13 +151,45 @@ public class Jeu {
 	    	}
 	        else {
 	        	zoneCourante = nouvelle;
-	        	jeuPanel.afficher(zoneCourante.getDescription());
 	        	
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
+	        	afficherItemZC(zoneCourante, 0); // affichage item 1
 	        }
 	    }
-	    
-	
+
+//public void initZC() {
+//	afficherItemZC(zoneCourante, 0); // affichage item 1
+//	afficherZC();
+//}
+//
+//private void afficherZC() {
+//	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
+//
+//}
+	 // pour afficher un item dans la zone 
+public void afficherItemZC(Zone zc , int indexItem) {
+	// check si liste items non vide
+	if(zc.listItemZone.size() > 0) {	
+		if(zc.getItem(indexItem) != null) {
+				
+				// récuperer l'item avec l'index depuis la liste items zone courante
+				Item item = zc.getItem(indexItem);
+				String imgItem = item.getImage();
+				int X = item.getItemX();
+				int Y = item.getItemY();
+				int W = item.getItemPxW();
+				int H = item.getItemPxH();
+				// afficher item dans l'emplacement prévu
+				jeuPanel.afficherItem(indexItem, imgItem, X, Y, W, H);
+		}	
+	}	else {
+		// si vide initialiser tous les items
+		jeuPanel.initAllItems();
+	}
+} 
+	public void ramasserItem(String nomItem) {
+//		jeuPanel.suprimmerItem1(nomItem);
+	}
 	 
 	 public void seDeplacer(String direction) {
 	    	// seDeplacer doit prendre en compte la sortie METRO
@@ -172,24 +213,50 @@ public class Jeu {
 	            break;
 	        }
 	    }
+	 
+	 
+	 
 	// remplir d'item par jb
-		public void créerItem() {
+		public void creerItem() {
 			this.tableItems = new HashMap<String, Item>();
-			Item Hache = new Item("Hache","/images/hache.png","Ceci est une hache");
+			Item Hache = new Item("Hache","hache.png","Ceci est une hache");
+			Hache.setPosition(100, 100);
+			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
-			Item Gun = new Item("Gun","/images/gun.png","Ceci est un gun");
+			
+			Item Gun = new Item("Gun","gun.png","Ceci est un gun");
+			Gun.setPosition(100, 100);
+			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
-			Item Pince = new Item("Pince","/images/pince.png","Ceci est une pince");
+			
+			Item Pince = new Item("Pince","pince.png","Ceci est une pince");
+			Pince.setPosition(100, 100);
+			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
-			Item Bouteille = new Item("Bouteille","/images/bouteille.png","Ceci est une bouteille");
+			
+			Item Bouteille = new Item("Bouteille","bouteille.png","Ceci est une bouteille");
+			Bouteille.setPosition(100, 100);
+			Bouteille.setSize(100, 100);
 			tableItems.put("Bouteille", Bouteille);
-			Item Jerrican = new Item("Jerrican","/images/jerrican.png","Ceci est un jerrican");
+			
+			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican");
+			Jerrican.setPosition(100, 100);
+			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
-			Item Parachute = new Item("Parachute","/images/parachute.png","Ceci est un parachute");
+			
+			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute");
+			Parachute.setPosition(100, 100);
+			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
-			Item Pills = new Item("Pills","/images/pills.png","Ceci est un pills");
+			
+			Item Pills = new Item("Pills","pills.png","Ceci est un pills");
+			Pills.setPosition(100, 100);
+			Pills.setSize(100, 100);
 			tableItems.put("Pills",Pills);
-			Item Portable = new Item("Portable","/images/portable.jpg","Ceci est un portable");
+			
+			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable");
+			Portable.setPosition(100, 100);
+			Portable.setSize(100, 100);
 			tableItems.put("Portable", Portable);
 		}
 }
