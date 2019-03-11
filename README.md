@@ -1,6 +1,8 @@
 jb update 11/03
 arraylist pour item
 changemeny dans jeu.java, zone.java jeupanel.java, et panelZone.java
++ changement des indices des zones et ajustement des sorties
+
 ---------------------------------------------------
 jb update 06/03 13:30
 ajout images zone et image telephone dans folder image
