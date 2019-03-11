@@ -1,4 +1,12 @@
+jb update 06/03 13:30
+ajout images zone et image telephone dans folder image
 
+ajout dans la class jeu: ajouterItem() dans chaque zone
+ajout dans la class item: ajout des position et size
+
+
+
+-----------------------
 jb update 06/03 12:00
 
 ajout dans class Jeu:
