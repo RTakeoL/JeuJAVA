@@ -36,23 +36,23 @@ public class Jeu {
 	private void creerCarte() {
         this.zones = new Zone[15];
         // partie de gauche (marina)
-        this.zones[0] = new Zone("Ruelle de Départ", "ZONE1.png" );
-        this.zones[1] = new Zone("Ruelle OUEST (Sud)", "ZONE2.png");
-        this.zones[2] = new Zone("Bar", "ZONE3.png");
-        this.zones[3] = new Zone("Hotel", "ZONE4.png");
-        this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE5.png");
-        this.zones[5] = new Zone("Marina", "ZONE6.png");
-        this.zones[6] = new Zone("Supermarché", "ZONE7.png");
+        this.zones[0] = new Zone("Ruelle de Départ", "ZONE0.png" );
+        this.zones[1] = new Zone("Ruelle OUEST (Sud)", "ZONE1.png");
+        this.zones[2] = new Zone("Bar", "ZONE2.png");
+        this.zones[3] = new Zone("Hotel", "ZONE3.png");
+        this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE4.png");
+        this.zones[5] = new Zone("Marina", "ZONE5.png");
+        this.zones[6] = new Zone("Supermarché", "ZONE6.png");
         
         //partie de droite (aéroport)
-        this.zones[7] = new Zone("Métro", "ZONE8.png" );
-        this.zones[8] = new Zone("Maison", "ZONE9.png");
-        this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE10.png" ); 
-        this.zones[10] = new Zone("Armurerie", "ZONE11.png");
-         this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE12.png" );
-        this.zones[12] = new Zone("Station Essence", "ZONE13.png");
-        this.zones[13] = new Zone("Entrée Aéroport", "ZONE14.png");
-        this.zones[14] = new Zone("Piste Aéroport", "ZONE15.png");
+        this.zones[7] = new Zone("Métro", "ZONE7.png" );
+        this.zones[8] = new Zone("Maison", "ZONE8.png");
+        this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
+        this.zones[10] = new Zone("Armurerie", "ZONE10.png");
+         this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
+        this.zones[12] = new Zone("Station Essence", "ZONE12.png");
+        this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
+        this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
        
         this.creerItem();
         this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
