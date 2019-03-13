@@ -1,5 +1,5 @@
 jb update 13/03
-+ PJN.java completement refait
++ PNJ.java completement refait
 + ajout creerPNJ dans jeu.ava
 et ajout de la fille avec son image fille.png dans le dossier image
 
