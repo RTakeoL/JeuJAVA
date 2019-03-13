@@ -12,13 +12,12 @@ import jeuRIP.Jeu;
 public class JeuPanel extends JPanel{
 	
 	Jeu jeu ;
-	PanelInventaire panelInventaire = new PanelInventaire() ; 
 	
-	// 
+	PanelInventaire panelInventaire = new PanelInventaire() ; 
 	PanelCdes panelCdes = new PanelCdes();
-	 
 	PanelZone panelZone = new PanelZone(); // panel affichage zone
 	
+	// Btn de deplacement entre zones 
 	public JLabel NORD = new JLabel("NORD");
 	public JLabel SUD = new JLabel("SUD");
 	public JLabel EST = new JLabel("EST");
@@ -26,8 +25,9 @@ public class JeuPanel extends JPanel{
 	
 	
 	
-	public JeuPanel(Jeu jeu) { // Constructeur permet de creer un PANEL MASTER qui va contenir 
-						//PANEL ZONE qui elle meme doit gerer le changement zoneCourante => zoneNouvelle
+	// Constructeur permet de creer un PANEL MASTER qui va contenir 
+	//PANEL ZONE + Panel Commandes + Panel Inventaire
+	public JeuPanel(Jeu jeu) { 
 		super(null);
 		
 		this.jeu = jeu ;
@@ -39,16 +39,16 @@ public class JeuPanel extends JPanel{
 		this.setBtnSortie();  
 	    this.setPanelCdes();
 	    this.add(panelZone);
+	    
+	    
+	    
 	    	
 	}
 	
+	
+	
 	private void updateJeu() {
-		this.removeAll();
-		this.setPanelInventaire();
-		this.setBtnSortie();
-		this.add(panelInventaire, 1);
-		this.add(panelCdes , 7);
-		this.add(panelZone, 8);
+		//this.removeAll();
 		
 		this.repaint();
 		this.revalidate();
@@ -61,40 +61,20 @@ public class JeuPanel extends JPanel{
 			
 			this.panelZone.ajouterImgZoneCourante(nomImg);
 			
-			System.out.println("init..............");
-			this.add(panelInventaire );
-			this.add(panelCdes );
-			this.add(panelZone);
+			updateJeu();
 			
-			this.revalidate();
-			this.repaint();
+			
 	}
 	
-	
-	public void changerImgZone( String nomImg) {
-		
-		
-		this.panelZone.ajouterImgNvlleZone(nomImg);
-		
-		//this.panelZone.ajouterImgZoneCourante(nomImg);
-				
-		System.out.println("init..............");
-		this.setPanelInventaire();
-		this.setBtnSortie();
-		this.add(panelInventaire);
-		this.add(panelCdes );
-		this.add(panelZone );
-		
-		this.revalidate();
-		this.repaint();
-		//updateJeu();
-	 	
-		
-		
+	/// affichage item dans la zone
+	public void afficherItem(int indexItem , String nomImgItem , int X , int Y , int W , int H) {
+		this.panelZone.setImgItem(indexItem,nomImgItem, X, Y, W, H);
 	}
 	
-	
-	
+	/// initialiser (cacher) tous les objets dans la zone
+	public void initAllItems() {
+		this.panelZone.initAllItems();
+	}
 	
 	public void setPanelInventaire () {
 		
@@ -118,8 +98,6 @@ public class JeuPanel extends JPanel{
 	}
 	
 	public void setPanelCdes() {
-		
-	    
 	    this.add(panelCdes);
 	}
 	
@@ -133,7 +111,7 @@ public class JeuPanel extends JPanel{
 	    	public void mouseClicked(MouseEvent arg0) {
 	    		System.out.println("NORD CLICKED...");
 	    		 seDeplacer("NORD"); 
-	          
+	    		
 	    	}	
 	    });
 	    this.add(NORD );
@@ -146,7 +124,7 @@ public class JeuPanel extends JPanel{
 	    		System.out.println("EST CLICKED...");
 	    		 String dir = "EST" ;
 	    		 seDeplacer(dir); 
-	          
+	    		
 	    	}	
 	    });
 	    
@@ -161,6 +139,7 @@ public class JeuPanel extends JPanel{
 	    		
 	    		System.out.println("OUEST CLICKED...");
 	    		seDeplacer("OUEST"); 
+	    		
 	    	}
 	    });
 	    this.add(OUEST);
@@ -173,6 +152,8 @@ public class JeuPanel extends JPanel{
 	    		
 	    		System.out.println("sud CLICKED...");
 	    		seDeplacer("SUD");
+	    		
+	    		
 	    	}
 	    });
 	    this.add(SUD);
@@ -182,15 +163,16 @@ public class JeuPanel extends JPanel{
 	
 	 public void afficher(String s) {
 	        System.out.println("---- "+ s);
-	    }
-	
-	
+	 }
 	
 	 private void seDeplacer(String dir) {
 	        
 	        jeu.seDeplacer( dir);
-	    }
+	 }
+	 
 	
+	 
+	 
+	 
 	
-
 }
