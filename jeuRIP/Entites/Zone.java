@@ -82,7 +82,5 @@ public class Zone   {
 		
 		public String getDescription() {
 			return(this.description);
-		}
-		
-		
+		}	
 }
