@@ -14,6 +14,7 @@ public class Jeu {
 	Fenetre fenetre  ; 
 	JeuPanel jeuPanel ;
 	public HashMap<String, Item> tableItems ;
+	public HashMap<String, PersoNonJoueur> tablePNJ;
 	
 	
 	public Jeu () {
@@ -64,10 +65,12 @@ public class Jeu {
         this.zones[10].ajouteItems(0, tableItems.get("Gun"));
        //this.zones[13].ajouteItems(1, tableItems.get("Parachute"));
        
+        this.créerPNJ();
+        this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
         
         // Zone Ruelle de départ
-        this.zones[0].ajouteSortie(Sortie.EST, zones[1]);
-        this.zones[0].ajouteSortie(Sortie.OUEST, zones[7]); 
+        this.zones[0].ajouteSortie(Sortie.EST, zones[7]);
+        this.zones[0].ajouteSortie(Sortie.OUEST, zones[1]); 
         
         //Zone Ruelle OUEST (Sud)
         this.zones[1].ajouteSortie(Sortie.NORD, zones[4]);
@@ -87,7 +90,7 @@ public class Jeu {
         this.zones[4].ajouteSortie(Sortie.SUD, zones[1]);
        
         // Marina
-        this.zones[5].ajouteSortie(Sortie.EST, zones[4]);
+        this.zones[5].ajouteSortie(Sortie.SUD, zones[4]);
          
         // Zone supermarché
         this.zones[6].ajouteSortie(Sortie.EST, zones[11]);
@@ -243,5 +246,13 @@ public void afficherItemZC(Zone zc , int indexItem) {
 			Portable.setPosition(100, 100);
 			Portable.setSize(100, 100);
 			tableItems.put("Portable", Portable);
+		}
+		
+		public void créerPNJ() {
+			this.tablePNJ = new HashMap<String, PersoNonJoueur>();
+			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Salut tu peux me chercher mon portable", "alors tu y vas", "Merci bien", "fille en detresse qui se dit etre la fille du capitaine");
+			Fille.setPosition(100, 700);
+			Fille.setSize(100, 100);
+			tablePNJ.put("Fille",Fille);
 		}
 }
