@@ -13,8 +13,13 @@ public class PanelZone extends JPanel {
 	public JPanel panelZoneNouvelle= new JPanel (null);
 	private JLabel lblImgZone= new JLabel() ;
 	private JLabel lblImgZoneNvlle= new JLabel() ;
+	
 	private int zoneW = 800 ;
 	private int zoneH = 500 ;
+	
+	JLabel imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item1
+	JLabel imgItem2 = new JLabel("ITEM 2 ....");
+	JLabel imgItem3 = new JLabel("ITEM 3 ....");
 	
 	public PanelZone() {
 		super(null);
@@ -22,126 +27,93 @@ public class PanelZone extends JPanel {
 		setBackground(Color.LIGHT_GRAY);
 	    setBounds(0, 0, this.zoneW, this.zoneH);
 	    
+	    
+	    
 	    this.panelZoneCourante.setBounds(0, 0, this.zoneW, this.zoneH);
 	    this.panelZoneNouvelle.setBounds(0, -600, this.zoneW, this.zoneH);
 	    
 	    this.lblImgZone.setBounds(0, 0, this.zoneW, this.zoneH);
 	    this.lblImgZoneNvlle.setBounds(0, 0, this.zoneW, this.zoneH);
 	    
+	    
+	    imgItem1.setBounds(50, 50, 100, 100);
+	    this.add(imgItem1);
+	    
+	    this.panelZoneCourante.add(imgItem1);
 	    this.panelZoneCourante.add(lblImgZone);
 	    this.panelZoneNouvelle.add(lblImgZoneNvlle);
 	    
 		this.add(this.panelZoneCourante);
 		this.add(this.panelZoneNouvelle);
+		
+		
 	}
 	
 	
-	private void setImgZoneCourante(String nomImgFond , JPanel zone ) {
+	
+	
+	private void setImgZone(String nomImgFond , JPanel zone ) {
 	    
 		 setImageDeFondLbl(nomImgFond, lblImgZone);
 		 lblImgZone.setLocation(0, 0);
-		 zone.add(lblImgZone);
+		 //zone.add(lblImgZone);
 	
 	}
 	
-	private void setImgZoneNvlle(String nomImgFond , JPanel zone ) {
-	    
-		 setImageDeFondLbl(nomImgFond, lblImgZoneNvlle);
-		 lblImgZoneNvlle.setLocation(0, 0);
-		 zone.add(lblImgZoneNvlle);
 	
-	}
 	
-	public void ajouterImgZoneCourante(String nomImg) {
-		this.removeAll();
-		this.setImgZoneCourante(nomImg, panelZoneCourante);
-		panelZoneCourante.setLocation(0 , 0);
-		this.add(panelZoneCourante , 0);
-		this.add(panelZoneNouvelle , 1);
+	public void setImgItem(int index ,String imgItem , int X , int Y , int W , int H)  {
+		
+		if(index ==0) {
+			initImgItem(0);
+			this.imgItem1.setBounds(X ,Y , W , H);
+			this.setImageDeFondLbl(imgItem, imgItem1);
+		}
 		
 		this.revalidate();
 		this.repaint();
 	}
-
 	
-	public void ajouterImgNvlleZone( String nomImg) {
-				
-		this.setImgZoneNvlle(nomImg, panelZoneNouvelle);
-		//panelZoneNouvelle.setLocation(0, -500);
-		//panelZoneCourante.setLocation(0, 0);
-		
-		/*
-		
-		new Thread (new Runnable (){
+	
+	public void initImgItem(int index) {
+		if(index == 0) {
+			imgItem1.setBounds(50, 50, 100, 100);
+			this.imgItem1.setIcon(null);
+		}
+		if(index == 1) {
+			imgItem2.setBounds(50, 50, 100, 100);
+			this.imgItem1.setIcon(null);
+		}
+		if(index == 2) {
+			imgItem3.setBounds(50, 50, 100, 100);
+			this.imgItem1.setIcon(null);
+		}
+		System.out.println("init item par item");
+		this.revalidate();
+		this.repaint();
 
-			public void run() {
-				 for (int i=-500 ; i<=0 ; i++) {
-					 
-					 	panelZoneNouvelle.setLocation(0, i );
-					 	if(i==0) {
-					 		
-					 	}
-					 try {
-						Thread.currentThread().sleep(3);
-						System.out.println("marche ZONE");
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-						System.out.println("marche pas ZONE");
-					} 
-				 }
-				 
-				 
-				 //updatePanelZone();
-				 
-				
-			}
-			
-		}).start();     
-		*/
+	}
+	public void initAllItems() {
+		initImgItem(0);
+		initImgItem(1);
+		initImgItem(2);
+	}
+	
+	public void ajouterImgZoneCourante(String nomImg) {
+		//this.removeAll();
+		this.setImgZone(nomImg, panelZoneCourante);
+		panelZoneCourante.setLocation(0, 0);
+		//this.add(panelZoneCourante );
+		//this.add(panelZoneNouvelle );
 		
-		
-		ajouterImgZoneCourante(nomImg);
-		
+		this.revalidate();
+		this.repaint();
 	}
 	
 	
-	///  Animation slide Zone à terminer  ----------------------------
-	
-		public void slideZone(JPanel zoneNew) {
-		
-			
-			new Thread (new Runnable (){
-
-				public void run() {
-					 for (int i=-500 ; i<=0 ; i++) {
-						 
-						 	zoneNew.setLocation(0, i );
-						 	
-						 try {
-							Thread.currentThread().sleep(3);
-							System.out.println("marche ZONE");
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-							System.out.println("marche pas ZONE");
-						} 
-					 }
-					 
-					 updatePanelZone();
-				}
-				
-			}).start(); 
-		
-		}
-		
 		 private void updatePanelZone() {
 			 
 			 System.out.println("updatePanelZone");
-			 this.removeAll();
-			 panelZoneCourante.setLocation(0, 0);
-			 panelZoneNouvelle.setLocation(0, -500);
-			 this.add(this.panelZoneCourante);
-			
-			 this.add(this.panelZoneNouvelle);
 			 this.repaint();
 			 this.revalidate();
 
@@ -149,7 +121,8 @@ public class PanelZone extends JPanel {
 		
 		
 	public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-		System.out.println(this.getClass().getResource("/images/"+ nomFichier));
+		//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
+		lbl.setIcon(null);
 		ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
 	    Image img = icon.getImage();
 	    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
@@ -158,6 +131,7 @@ public class PanelZone extends JPanel {
 	}
 
 	
+
 	
 	
 

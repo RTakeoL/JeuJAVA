@@ -2,6 +2,6 @@ package jeuRIP.Entites;
 
 public enum Sortie {
 	
-	NORD,SUD,EST,OUEST,METRO
+	NORD,SUD,EST,OUEST
 
 }
