@@ -12,24 +12,24 @@ public class PersoNonJoueur {
 	 */
 	private String nomPNJ;
 	private String nomImage;
-	private String dialogue;
+	private String initDialogue;
+	private String waitDialogue;
+	private String doneDialogue;
 	private String descriptionPNJ;
-	private Boolean etatPNJ;
-	private Item itemPNJ;
+	private Boolean initQuete;
+	private Boolean doneQuete;
+	//private Item itemPNJ;
 	
-	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue) { // Exemple : Capitaine / Fille capitaine....)
-		this(nomPNJ,nomImage,dialogue,"");
-		this.etatPNJ = false;
-	}
 	
-	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue, String descriptionPNJ) {
+	public PersoNonJoueur(String nomPNJ, String nomImage, String initDialogue, String waitDialogue, String doneDialogue,  String descriptionPNJ) {
 		this.nomPNJ = nomPNJ;
 		this.nomImage = nomImage;
-		this.dialogue = dialogue;
+		this.initDialogue = initDialogue;
+		this.waitDialogue = waitDialogue;
+		this.doneDialogue = doneDialogue;
 		this.descriptionPNJ = descriptionPNJ;
-		this.etatPNJ = false;
-		
-		
+		this.initQuete = false;
+		this.doneQuete = false;	
 	}
 	
 	
@@ -41,12 +41,19 @@ public class PersoNonJoueur {
 		return(this.descriptionPNJ);
 	}
 	
-	public void setEtatPNJ(Boolean etatPNJ) {
-		this.etatPNJ = etatPNJ;
+	public void setInitQuete(Boolean etatPNJ) {
+		this.initQuete = etatPNJ;
 	}
 	
-	public Boolean getEtatPNJ() {
-		return(this.etatPNJ);
+	public Boolean getInitQuete() {
+		return(this.initQuete);
+	}
+	public void setDoneQuete(Boolean etatPNJ) {
+		this.doneQuete = etatPNJ;
+	}
+	
+	public Boolean getDoneQuete() {
+		return(this.doneQuete);
 	}
 	
 	public String getNomPNJ() {
@@ -61,15 +68,13 @@ public class PersoNonJoueur {
 		this.nomImage = newImage;
 	}
 	
-	public String printDialogue() {
-		return(this.dialogue);
+	public String getInitDialogue() {
+		return(this.initDialogue);
 	}
-	
-	public void setDialogue(String newDialogue) {
-		this.dialogue = newDialogue;
-	}	
-	
-	public void setItemPNJ(Item itemPNJ) {
-		this.itemPNJ = itemPNJ;
+	public String getWaitDialogue() {
+		return(this.waitDialogue);
+	}
+	public String getDoneDialogue() {
+		return(this.waitDialogue);
 	}
 }
