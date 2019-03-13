@@ -1,6 +1,6 @@
 jb update 13/03
 + PJN.java completement refait
-+ajout creerPNJ dans jeu.ava
++ ajout creerPNJ dans jeu.ava
 et ajout de la fille
 
 ----------------------------------------------------------
