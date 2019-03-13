@@ -35,7 +35,7 @@ public class Fenetre {
 		
 		 this.jeu = jeu;
 		 this.panel = new JeuPanel(jeu) ;
-	     creerFenetre();
+	     this.creerFenetre();
 		
 	}
 	

@@ -10,19 +10,14 @@ public class Jeu {
 	
 	
 	private Zone zoneCourante;
-	Zone[] zones;
-	Fenetre fenetre  ; 
-	JeuPanel jeuPanel ;
+	protected Zone[] zones;
+	protected Fenetre fenetre  ; 
+	protected JeuPanel jeuPanel ;
 	public HashMap<String, Item> tableItems ;
 	
-	
-	
-	
 	public Jeu () {
-		
 		 creerCarte();
 		 this.fenetre= null  ;
-		
 	}
 	
 	public void setFenetre( Fenetre fen) { 
@@ -36,6 +31,11 @@ public class Jeu {
 	}
 	private void creerCarte() {
         this.zones = new Zone[15];
+        
+        /**
+         * Certaines zones n'ont pas toutes les sorties de disponibles au début du jeu. 
+         * Ces sorties doivent être débloquer par le joueur au fil du jeu.
+         */
         
         this.zones[0] = new Zone("Ruelle de Départ", "z1.png" );
         this.zones[1] = new Zone("Métro", "Escalier.jpg" );
@@ -60,7 +60,7 @@ public class Jeu {
         
         // Zone Metro
         this.zones[1].ajouteSortie(Sortie.OUEST, zones[0]);
-        this.zones[1].ajouteSortie(Sortie.EST, zones[13]);
+//        this.zones[1].ajouteSortie(Sortie.EST, zones[13]);
         this.zones[1].ajouteSortie(Sortie.METRO, zones[5]);
         this.zones[1].ajouteSortie(Sortie.NORD, zones[2]);
         
@@ -88,7 +88,7 @@ public class Jeu {
         this.zones[5].ajouteSortie(Sortie.NORD, zones[6]);
         
         // Zone supermarché
-        this.zones[7].ajouteSortie(Sortie.EST, zones[2]);
+        this.zones[7].ajouteSortie(Sortie.EST, zones[14]);
         this.zones[7].ajouteSortie(Sortie.OUEST, zones[8]);
         
         // Zone Ruelle OUEST (Nord)
@@ -192,4 +192,25 @@ public class Jeu {
 			Item Portable = new Item("Portable","/images/portable.jpg","Ceci est un portable");
 			tableItems.put("Portable", Portable);
 		}
+		
+		/**
+		 * 
+		 * @param indexZone, index de la zone qui donne sur la zone à débloquer
+		 * @param directionSortie, la direction de la sortie à ajouter à la zone identifier avec indexZone
+		 * @param indexZoneSortie, quelle zone on ajoute avec la directionSortie
+		 */
+	public void debloqueSortie(Integer indexZone, Sortie directionSortie, Integer indexZoneSortie) {
+		String nomSortie = directionSortie.toString();
+		if(this.zones[indexZone].obtientSortie(nomSortie) == null) {
+			this.zones[indexZone].ajouteSortie(directionSortie, this.zones[indexZoneSortie]);	
+		}
+	}
+	
+	public void bloqueSortie(Integer indexZone, Sortie directionSortie,Integer indexZoneSortie) {
+		String nomSortie = directionSortie.toString();
+		if(this.zones[indexZone].obtientSortie(nomSortie) != null) {
+			this.zones[indexZone].enleveSortie(directionSortie, this.zones[indexZoneSortie]);	
+		}
+	}
+	
 }

@@ -14,12 +14,14 @@ public class PersoNonJoueur {
 	private String nomImage;
 	private String dialogue;
 	private String descriptionPNJ;
-	private Boolean etatPNJ;
+	private Boolean questDone; // Boolean to true if player achieve the quest triggered by NPC
+	private Boolean questInit; // Boolean to true if player accept the quest triggered by NPC
 	private Item itemPNJ;
 	
 	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue) { // Exemple : Capitaine / Fille capitaine....)
 		this(nomPNJ,nomImage,dialogue,"");
-		this.etatPNJ = false;
+		this.questDone = false;
+		this.questInit = false;
 	}
 	
 	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue, String descriptionPNJ) {
@@ -27,7 +29,8 @@ public class PersoNonJoueur {
 		this.nomImage = nomImage;
 		this.dialogue = dialogue;
 		this.descriptionPNJ = descriptionPNJ;
-		this.etatPNJ = false;
+		this.questDone = false;
+		this.questInit = false;
 		
 		
 	}
@@ -41,12 +44,12 @@ public class PersoNonJoueur {
 		return(this.descriptionPNJ);
 	}
 	
-	public void setEtatPNJ(Boolean etatPNJ) {
-		this.etatPNJ = etatPNJ;
+	public void setQuestDone(Boolean questResult) {
+		this.questDone = questResult;
 	}
 	
-	public Boolean getEtatPNJ() {
-		return(this.etatPNJ);
+	public void setQuestEtat() {
+		
 	}
 	
 	public String getNomPNJ() {

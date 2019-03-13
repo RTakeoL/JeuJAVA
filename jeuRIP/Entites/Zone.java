@@ -35,10 +35,15 @@ public class Zone   {
 			this.description = description;
 			this.nomImage = nomImage;
 			this.sorties = new HashMap<String, Zone>();
+			this.listItemZone = new HashMap<String, Item>();
 		}
 		
 		public void ajouteSortie(Sortie sortie, Zone zoneVoisine) {
 			sorties.put(sortie.name(), zoneVoisine);
+		}
+		
+		public void enleveSortie(Sortie sortie, Zone ZoneVoisine) {
+			sorties.remove(sortie.name(), ZoneVoisine);
 		}
 		
 		public void ajoutePNJ(PersoNonJoueur nomPNJ) {
