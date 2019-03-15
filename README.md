@@ -1,6 +1,6 @@
 Khamis update 15/03
 + ajouter la foncionnalité ramasserItem ( recuperer de la zone courante et ajouter à la liste inventaire ) 
-   fichiers concernés MAJ( Jeu.java / JeuPanel.java / zonePanel.java / inventairePanel.java )
+   fichiers concernés MAJ( Jeu.java / JeuPanel.java / PanelZone.java / PanelInventaire.java )
 + changement liste item zone en HashMap au lieu arrayList : fichiers modifiés en Zone.java / Jeu.java 
 
 
