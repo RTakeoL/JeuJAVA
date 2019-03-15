@@ -1,8 +1,7 @@
 package jeuRIP;
 
-import jeuRIP.Entites.Zone;
 import jeuRIP.elementsGraphiques.JeuPanel;
-import jeuRIP.Entites.Sortie;
+
 import java.util.HashMap;
 import jeuRIP.Entites.*;
 
@@ -15,6 +14,7 @@ public class Jeu {
 	JeuPanel jeuPanel ;
 	public HashMap<String, Item> tableItems ;
 	public HashMap<String, PersoNonJoueur> tablePNJ;
+	public HashMap<String, Item> inventaireItems; // par kh 15/03
 	
 	
 	public Jeu () {
@@ -58,12 +58,12 @@ public class Jeu {
         this.creerItem();
         this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
         this.zones[6].ajouteItems(0, tableItems.get("Pince"));
-        //this.zones[6].ajouteItems(2, tableItems.get("Pills"));
-        //this.zones[6].ajouteItems(1, tableItems.get("Jerrican"));
+        this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+        this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
         this.zones[8].ajouteItems(0, tableItems.get("Hache"));
-        // this.zones[8].ajouteItems(0, tableItems.get("Portable"));
+        this.zones[8].ajouteItems(1, tableItems.get("Portable"));
         this.zones[10].ajouteItems(0, tableItems.get("Gun"));
-       //this.zones[13].ajouteItems(1, tableItems.get("Parachute"));
+        this.zones[13].ajouteItems(0, tableItems.get("Parachute"));
 			 
 			 this.créerPNJ();
 			 this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
@@ -161,7 +161,7 @@ public class Jeu {
 						if(this.zones[7].obtientSortie("EST") == null) {
 							if(fille.getInitQuete()) {
 								this.zones[7].ajouteSortie(Sortie.EST, this.zones[8]);
-								this.zones[7].enleveSortie("SUD", this.zones[13]);
+								//this.zones[7].enleveSortie("SUD", this.zones[13]);
 							}
 						}
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
@@ -185,9 +185,9 @@ public class Jeu {
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
 					if(this.zones[7].obtientSortie("SUD") != null) {
-						this.zones[7].enleveSortie("SUD",this.zones[13]);
+						//this.zones[7].enleveSortie("SUD",this.zones[13]);
 						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
+						afficherItemZC(zoneCourante); // affichage item 
 					}
 					// La première fois que l'on atteint cette zone, la sortie vers
 					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
@@ -321,7 +321,9 @@ public class Jeu {
 	 
 	 
 	// remplir d'item par jb
-		public void creerItem() {
+	 public void creerItem() {
+			
+			this.inventaireItems = new HashMap<String, Item>() ;
 			this.tableItems = new HashMap<String, Item>();
 			Item Hache = new Item("Hache","hache.png","Ceci est une hache");
 			Hache.setPosition(100, 100);
@@ -344,7 +346,7 @@ public class Jeu {
 			tableItems.put("Bouteille", Bouteille);
 			
 			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican");
-			Jerrican.setPosition(100, 100);
+			Jerrican.setPosition(300, 100);
 			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
 			
@@ -353,8 +355,8 @@ public class Jeu {
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
-			Item Pills = new Item("Pills","pills.png","Ceci est un pills");
-			Pills.setPosition(100, 100);
+			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills");
+			Pills.setPosition(200, 100);
 			Pills.setSize(100, 100);
 			tableItems.put("Pills",Pills);
 			
