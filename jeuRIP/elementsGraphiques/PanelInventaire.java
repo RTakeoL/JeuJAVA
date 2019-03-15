@@ -4,17 +4,33 @@ package jeuRIP.elementsGraphiques;
 
 import javax.swing.*;
 import java.awt.*;
+
+import jeuRIP.Utils.ImageDeFond;
 import jeuRIP.Utils.MouseEventListener ;
 
 
 public class PanelInventaire extends JPanel {
 	
-		
+		ImageDeFond imgLoader = new ImageDeFond();
 		private int posInventX= -320;
 		private int posInventY= 50;
-	   
 		
-	    
+		JLabel lblObj_1 ;
+		JLabel lblObj_2 ;
+		JLabel lblObj_3 ;
+		JLabel lblObj_4 ;
+		JLabel lblObj_5 ;
+		JLabel lblObj_6 ;
+		JLabel lblObj_7 ;
+		boolean obj1Empty = true ;
+		boolean obj2Empty = true; 
+		boolean obj3Empty = true ;
+		boolean obj4Empty = true; 		
+		boolean obj5Empty = true ;
+		boolean obj6Empty = true; 
+		boolean obj7Empty = true ;
+		
+		
 	    public PanelInventaire( ) {
 	    	super(null);
 	    	setSize(new Dimension(20, 20));
@@ -25,103 +41,74 @@ public class PanelInventaire extends JPanel {
 	    	
 	    	
 	    	setBounds(-320, 50, 350, 300);
-	    	/*
-	    	GridBagLayout gridBagLayout = new GridBagLayout();
-	    	gridBagLayout.columnWidths = new int[]{36, 50, 50, 50, 50, 56, 37};
-	    	gridBagLayout.rowHeights = new int[]{56, 50, 50, 43, 0, 0, 0, 0, 0};
-	    	*/
 	    	
-	    	
-
 	    	setLayout(null);
 	    	
-	    	JLabel lblObj = new JLabel("obj");
-	    	lblObj.setLocation(22, 29);
-	    	lblObj.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
-	    	lblObj.setBackground(Color.BLACK);
-	    	lblObj.setSize(new Dimension(50, 50));
-	    	lblObj.setPreferredSize(new Dimension(50, 50));
-	    	
-	    	add(lblObj);
-	    	
-	    	JLabel lblObj_1 = new JLabel("obj");
-	    	lblObj_1.setLocation(82, 29);
+	    	lblObj_1 = new JLabel("obj");
+	    	lblObj_1.setLocation(22, 29);
 	    	lblObj_1.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
+	    	lblObj_1.setBackground(Color.BLACK);
 	    	lblObj_1.setSize(new Dimension(50, 50));
 	    	lblObj_1.setPreferredSize(new Dimension(50, 50));
-	    	lblObj_1.setMinimumSize(new Dimension(50, 50));
-	    	lblObj_1.setMaximumSize(new Dimension(50, 50));
-	    	lblObj_1.setBackground(Color.BLACK);
 	    	
 	    	add(lblObj_1);
 	    	
-	    	JLabel lblObj_2 = new JLabel("obj");
-	    	lblObj_2.setLocation(142, 29);
+	    	lblObj_2 = new JLabel("obj");
+	    	lblObj_2.setLocation(82, 29);
 	    	lblObj_2.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 	    	lblObj_2.setSize(new Dimension(50, 50));
 	    	lblObj_2.setPreferredSize(new Dimension(50, 50));
-	    	
+	    	lblObj_2.setMinimumSize(new Dimension(50, 50));
+	    	lblObj_2.setMaximumSize(new Dimension(50, 50));
 	    	lblObj_2.setBackground(Color.BLACK);
-	    	
 	    	add(lblObj_2);
-	    	JLabel lblObj_3 = new JLabel("obj");
-	    	lblObj_3.setLocation(202, 29);
+	    	
+	    	lblObj_3 = new JLabel("obj");
+	    	lblObj_3.setLocation(142, 29);
 	    	lblObj_3.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 	    	lblObj_3.setSize(new Dimension(50, 50));
 	    	lblObj_3.setPreferredSize(new Dimension(50, 50));
-	    	lblObj_3.setMinimumSize(new Dimension(50, 50));
-	    	lblObj_3.setMaximumSize(new Dimension(50, 50));
 	    	lblObj_3.setBackground(Color.BLACK);
-	    	
 	    	add(lblObj_3);
 	    	
-	    	JLabel lblObj_4 = new JLabel("obj");
-	    	lblObj_4.setLocation(262, 29);
+	    	lblObj_4 = new JLabel("obj");
+	    	lblObj_4.setLocation(202, 29);
 	    	lblObj_4.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 	    	lblObj_4.setSize(new Dimension(50, 50));
-	    	lblObj_4.setPreferredSize(new Dimension(50, 50));    	
+	    	lblObj_4.setPreferredSize(new Dimension(50, 50));
+	    	lblObj_4.setMinimumSize(new Dimension(50, 50));
+	    	lblObj_4.setMaximumSize(new Dimension(50, 50));
+	    	lblObj_4.setBackground(Color.BLACK);
 	    	add(lblObj_4);
 	    	
-	    	JLabel lblObj_5 = new JLabel("obj");
-	    	lblObj_5.setLocation(22, 90);
+	    	lblObj_5 = new JLabel("obj");
+	    	lblObj_5.setLocation(262, 29);
 	    	lblObj_5.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 	    	lblObj_5.setSize(new Dimension(50, 50));
-	    	lblObj_5.setPreferredSize(new Dimension(50, 50));
-	    	
-	    	lblObj_5.setBackground(Color.BLACK);
+	    	lblObj_5.setPreferredSize(new Dimension(50, 50));    	
 	    	add(lblObj_5);
 	    	
-	    	JLabel lblObj_6 = new JLabel("obj");
-	    	lblObj_6.setLocation(82, 90);
+	    	lblObj_6 = new JLabel("obj");
+	    	lblObj_6.setLocation(22, 90);
 	    	lblObj_6.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 	    	lblObj_6.setSize(new Dimension(50, 50));
 	    	lblObj_6.setPreferredSize(new Dimension(50, 50));
+	    	
 	    	lblObj_6.setBackground(Color.BLACK);
 	    	add(lblObj_6);
 	    	
-	    	JLabel lblObj_7 = new JLabel("obj");
-	    	lblObj_7.setLocation(142, 90);
+	    	lblObj_7 = new JLabel("obj");
+	    	lblObj_7.setLocation(82, 90);
 	    	lblObj_7.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 	    	lblObj_7.setSize(new Dimension(50, 50));
 	    	lblObj_7.setPreferredSize(new Dimension(50, 50));
 	    	lblObj_7.setBackground(Color.BLACK);
 	    	add(lblObj_7);
 	    	
-	    	JLabel lblObj_8 = new JLabel("obj");
-	    	lblObj_8.setLocation(202, 90);
-	    	lblObj_8.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
-	    	lblObj_8.setSize(new Dimension(50, 50));
-	    	lblObj_8.setPreferredSize(new Dimension(50, 50));
-	    	lblObj_8.setBackground(Color.BLACK);
-	    	add(lblObj_8);
 	    	
-	    	JLabel lblObj_9 = new JLabel("obj");
-	    	lblObj_9.setLocation(262, 90);
-	    	lblObj_9.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
-	    	lblObj_9.setSize(new Dimension(50, 50));
-	    	lblObj_9.setPreferredSize(new Dimension(50, 50));
-	    	lblObj_9.setBackground(Color.BLACK);
-	    	add(lblObj_9);
+	    	
+	    	
+	    	
 	    	
 	    	JLabel objDiscription = new JLabel("dfdsùsdfùsdùlslkkkkkkjkjkjkj");
 	    	objDiscription.setOpaque(true);
@@ -161,6 +148,7 @@ public class PanelInventaire extends JPanel {
 	    						    					 
 	    					 try {
 								Thread.currentThread().sleep(3);
+							
 								
 							} catch (InterruptedException e) {
 								e.printStackTrace();
@@ -182,7 +170,28 @@ public class PanelInventaire extends JPanel {
     		}	
 	    }
 	    	
-	    public void ajoutInventaire () {
-	    	
+	    public void ajouterItem (String nomImgItem) {
+	    		JLabel lblobj = new JLabel();
+	    		if(obj1Empty) { lblobj = lblObj_1 ;  obj1Empty = false ; }
+	    		else if(obj2Empty) { lblobj = lblObj_2 ;  obj2Empty = false ; }
+	    		else if(obj3Empty) { lblobj = lblObj_3 ;  obj3Empty = false ; }
+	    		else if(obj4Empty) { lblobj = lblObj_4 ;  obj4Empty = false ; }
+	    		else if(obj5Empty) { lblobj = lblObj_5 ;  obj5Empty = false ; }
+	    		
+	    		setImageDeFondLbl(nomImgItem, lblobj);
+	    		
 	    }
+	    
+	    
+	    
+	    private void supprimerItem() {
+			
+		}
+	    
+	    
+	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
+			imgLoader.setImageDeFondLbl(nomFichier, lbl);
+		}
+
+		
 }
