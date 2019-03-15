@@ -13,9 +13,9 @@ public class JeuPanel extends JPanel{
 	
 	Jeu jeu ;
 	
-	PanelInventaire panelInventaire = new PanelInventaire() ; 
-	PanelCdes panelCdes = new PanelCdes();
-	PanelZone panelZone = new PanelZone(); // panel affichage zone
+	PanelInventaire panelInventaire  ; 
+	PanelCdes panelCdes ;
+	PanelZone panelZone ; // panel affichage zone
 	
 	// Btn de deplacement entre zones 
 	public JLabel NORD = new JLabel("NORD");
@@ -31,7 +31,9 @@ public class JeuPanel extends JPanel{
 		super(null);
 		
 		this.jeu = jeu ;
-		
+		panelInventaire = new PanelInventaire();
+		panelZone = new PanelZone(this);
+		panelCdes = new PanelCdes();
 		setBackground(Color.ORANGE);
 		setBounds(0, 0, 800, 600);
 		
@@ -55,20 +57,27 @@ public class JeuPanel extends JPanel{
 
 	}
 	
-	
-	
+		
 	public void afficherImgZone(String nomImg) {
 			
-			this.panelZone.ajouterImgZoneCourante(nomImg);
-			
-			updateJeu();
-			
-			
+			this.panelZone.ajouterImgZoneCourante(nomImg);	
+			updateJeu();	
 	}
 	
 	/// affichage item dans la zone
 	public void afficherItem(int indexItem , String nomImgItem , int X , int Y , int W , int H) {
 		this.panelZone.setImgItem(indexItem,nomImgItem, X, Y, W, H);
+	}
+	
+	// ramasser Item 
+	public void ramasserItem(int indexItem) {
+			jeu.ramasserItem(indexItem);
+
+	}
+	
+	// ajouter item à l'inventaire 
+	public  void ajouterItemInventaire(String nomImgItem) {
+		this.panelInventaire.ajouterItem(nomImgItem);
 	}
 	
 	/// initialiser (cacher) tous les objets dans la zone
@@ -105,7 +114,8 @@ public class JeuPanel extends JPanel{
 	// creation et integration fleches sorties ( nord/ sud / est / ouest ) 
 	public void setBtnSortie () {
 		NORD.setBackground(Color.WHITE);
-	    NORD.setBounds(425, 118, 46, 14);
+	    NORD.setBounds(390, 0, 70 ,40);
+	    this.setImageDeFondLbl("flecheN.png", NORD);
 	    NORD.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
@@ -117,7 +127,8 @@ public class JeuPanel extends JPanel{
 	    this.add(NORD );
 	    
 	    EST.setBackground(Color.WHITE);
-	    EST.setBounds(543, 203, 46, 14);
+	    EST.setBounds(760, 200, 40 ,70);
+	    this.setImageDeFondLbl("flecheE.png", EST);
 	    EST.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
@@ -132,7 +143,8 @@ public class JeuPanel extends JPanel{
 	    
 	    
 	    OUEST.setBackground(Color.WHITE);
-	    OUEST.setBounds(267, 203, 46, 14);
+	    OUEST.setBounds(58, 200, 40 ,70);
+	    this.setImageDeFondLbl("flecheO.png", OUEST);
 	    OUEST.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
@@ -145,7 +157,8 @@ public class JeuPanel extends JPanel{
 	    this.add(OUEST);
 	    	    
 	    SUD.setBackground(Color.WHITE);
-	    SUD.setBounds(425, 296, 46, 14);
+	    SUD.setBounds(390, 474, 70 ,40);
+	    this.setImageDeFondLbl("flecheS.png", SUD);
 	    SUD.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
@@ -172,6 +185,16 @@ public class JeuPanel extends JPanel{
 	 
 	
 	 
+	 public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
+			//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
+			lbl.setIcon(null);
+			ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
+		    Image img = icon.getImage();
+		    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
+		    ImageIcon newIcon = new ImageIcon(newImg);
+		    lbl.setIcon(newIcon);
+		}
+
 	 
 	 
 	
