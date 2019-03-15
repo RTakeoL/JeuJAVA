@@ -12,30 +12,62 @@ public class PersoNonJoueur {
 	 */
 	private String nomPNJ;
 	private String nomImage;
-	private String dialogue;
+	private String initDialogue;
+	private String waitDialogue;
+	private String doneDialogue;
 	private String descriptionPNJ;
-	private Boolean questDone; // Boolean to true if player achieve the quest triggered by NPC
-	private Boolean questInit; // Boolean to true if player accept the quest triggered by NPC
-	private Item itemPNJ;
+	private Boolean initQuete;
+	private Boolean doneQuete;
 	
-	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue) { // Exemple : Capitaine / Fille capitaine....)
-		this(nomPNJ,nomImage,dialogue,"");
-		this.questDone = false;
-		this.questInit = false;
-	}
+	private int PNJPxH;
+	private int PNJPxW;
+	private int PNJX;
+	private int PNJY;
+	//private Item itemPNJ;
 	
-	public PersoNonJoueur(String nomPNJ, String nomImage, String dialogue, String descriptionPNJ) {
+	
+	public PersoNonJoueur(String nomPNJ, String nomImage, String initDialogue, String waitDialogue, String doneDialogue,  String descriptionPNJ) {
 		this.nomPNJ = nomPNJ;
 		this.nomImage = nomImage;
-		this.dialogue = dialogue;
+		this.initDialogue = initDialogue;
+		this.waitDialogue = waitDialogue;
+		this.doneDialogue = doneDialogue;
 		this.descriptionPNJ = descriptionPNJ;
-		this.questDone = false;
-		this.questInit = false;
-		
-		
+		this.initQuete = false;
+		this.doneQuete = false;
+		this.PNJPxH=0;
+		this.PNJPxW=0;
+		this.PNJX=0;
+		this.PNJY=0;
 	}
 	
+	public int getPNJPxH() {
+		return PNJPxH;
+	}
 	
+	public int getPNJPxW() {
+			return PNJPxW;
+	}
+	
+	public int getPNJX() {
+		return PNJX;
+	}
+	
+	public int getPNJY() {
+			return PNJY;
+	}
+
+	
+	public void setSize(int pNJPxH, int pxW) {
+		PNJPxH = pNJPxH;
+		PNJPxW = pxW;
+	}
+	
+	public void setPosition(int pNJX, int pNJY) {
+		PNJX = pNJX;
+		PNJY = pNJY;
+	}
+
 	public void setDescriptionPNJ(String descriptionPNJ) {
 		this.descriptionPNJ = descriptionPNJ;
 	}
@@ -44,12 +76,19 @@ public class PersoNonJoueur {
 		return(this.descriptionPNJ);
 	}
 	
-	public void setQuestDone(Boolean questResult) {
-		this.questDone = questResult;
+	public void setInitQuete(Boolean etatPNJ) {
+		this.initQuete = etatPNJ;
 	}
 	
-	public void setQuestEtat() {
-		
+	public Boolean getInitQuete() {
+		return(this.initQuete);
+	}
+	public void setDoneQuete(Boolean etatPNJ) {
+		this.doneQuete = etatPNJ;
+	}
+	
+	public Boolean getDoneQuete() {
+		return(this.doneQuete);
 	}
 	
 	public String getNomPNJ() {
@@ -64,15 +103,13 @@ public class PersoNonJoueur {
 		this.nomImage = newImage;
 	}
 	
-	public String printDialogue() {
-		return(this.dialogue);
+	public String getInitDialogue() {
+		return(this.initDialogue);
 	}
-	
-	public void setDialogue(String newDialogue) {
-		this.dialogue = newDialogue;
-	}	
-	
-	public void setItemPNJ(Item itemPNJ) {
-		this.itemPNJ = itemPNJ;
+	public String getWaitDialogue() {
+		return(this.waitDialogue);
+	}
+	public String getDoneDialogue() {
+		return(this.waitDialogue);
 	}
 }
