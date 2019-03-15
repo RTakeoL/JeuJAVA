@@ -1,3 +1,7 @@
+Khamis update 15/03
++ changement liste item zone en HashMap au lieu arrayList 
+MAJ en zone.java / 
+
 
 roland update 15/03/2019
 + Changement dans jeu avec ajout des different switch
