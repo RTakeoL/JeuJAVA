@@ -1,6 +1,6 @@
 Khamis update 15/03
-+ changement liste item zone en HashMap au lieu arrayList 
-MAJ en zone.java / 
++ changement liste item zone en HashMap au lieu arrayList : 
+fichiers modifiés en zone.java / JeuRIP.java 
 
 
 roland update 15/03/2019
