@@ -32,7 +32,7 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-		//afficherItemZC(zoneCourante, 0); // affichage item 1
+		//afficherItemZC(zoneCourante); // affichage item 1
 	}
 	private void creerCarte() {
         this.zones = new Zone[15];
@@ -141,7 +141,7 @@ public class Jeu {
 	        	this.zoneCourante = nouvelle;
 						this.etatJeu(zoneCourante);
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-	        	afficherItemZC(zoneCourante, 0); // affichage item 1
+	        	afficherItemZC(zoneCourante); // affichage item 1
 	        }
 			}
 			
@@ -165,17 +165,17 @@ public class Jeu {
 							}
 						}
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante, 0); // affichage item 1
+						afficherItemZC(zoneCourante); // affichage item 1
 						afficherDialoguePNJ(fille.getInitDialogue());
 					} else {
 						// Dans ce IF Inti True && Done False
 						if(!(fille.getDoneQuete())) {
 							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante, 0); // affichage item 1
+							afficherItemZC(zoneCourante); // affichage item 1
 							afficherDialoguePNJ(fille.getWaitDialogue());
 						} else {
 							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante, 0); // affichage item 1
+							afficherItemZC(zoneCourante); // affichage item 1
 							afficherDialoguePNJ(fille.getDoneDialogue());	
 						}
 					}
@@ -187,13 +187,13 @@ public class Jeu {
 					if(this.zones[7].obtientSortie("SUD") != null) {
 						this.zones[7].enleveSortie("SUD",this.zones[13]);
 						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante, 0); // affichage item 1
+						afficherItemZC(zoneCourante); // affichage item 1
 					}
 					// La première fois que l'on atteint cette zone, la sortie vers
 					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
 					if(this.zones[13].obtientSortie("NORD") == null) {
 						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante, 0); // affichage item 1
+						afficherItemZC(zoneCourante); // affichage item 1
 						afficherDialoguePNJ("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
 					}
 					break;
@@ -234,12 +234,12 @@ public class Jeu {
 					if(!(capitaine.getInitQuete())) {
 						capitaine.setInitQuete(true);
 						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante, 0); // affichage item 1
+						afficherItemZC(zoneCourante); // affichage item 1
 						afficherDialoguePNJ(capitaine.getInitDialogue());
 					} else {
 						if(!capitaine.getDoneQuete()) {
 							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante, 0); // affichage item 1
+							afficherItemZC(zoneCourante); // affichage item 1
 							afficherDialoguePNJ(capitaine.getWaitDialogue());	
 						}
 					}
@@ -266,29 +266,33 @@ public class Jeu {
 //	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 //
 //}
-	 // pour afficher un item dans la zone 
-public void afficherItemZC(Zone zc , int indexItem) {
-	// check si liste items non vide
-	if(zc.listItemZone.size() > 0) {	
-		if(zc.getItem(indexItem) != null) {
-				
+	// pour afficher un item dans la zone 
+	public void afficherItemZC(Zone zc) {
+
+		jeuPanel.initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
+		if(zc.listItemZone.size() > 0) {
+			for(int i=0 ; i<zc.listItemZone.size() ; i++){
 				// récuperer l'item avec l'index depuis la liste items zone courante
-				Item item = zc.getItem(indexItem);
+				Item item = zc.getItem(i);
 				String imgItem = item.getImage();
 				int X = item.getItemX();
 				int Y = item.getItemY();
 				int W = item.getItemPxW();
 				int H = item.getItemPxH();
-				// afficher item dans l'emplacement prévu
-				jeuPanel.afficherItem(indexItem, imgItem, X, Y, W, H);
+				// afficher item dans l'emplacement prévu au PanelZone
+				jeuPanel.afficherItem(i, imgItem, X, Y, W, H);	
+			}	
 		}	
-	}	else {
-		// si vide initialiser tous les items
-		jeuPanel.initAllItems();
-	}
-} 
-	public void ramasserItem(String nomItem) {
-//		jeuPanel.suprimmerItem1(nomItem);
+	} 
+	
+	/// par Khamis  le 15/03
+	public void ramasserItem(int indexItem) {	
+		Item item = this.zoneCourante.getItem(indexItem); // recuperer item de la zone
+		System.out.println(item.getNomItem());
+		this.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
+		this.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire
+		this.jeuPanel.ajouterItemInventaire(item.getImage()); // afficher item dans inventaire panel
+		System.out.println("----nb items inventaire :"+this.inventaireItems.size());
 	}
 	 
 	 public void seDeplacer(String direction) {
