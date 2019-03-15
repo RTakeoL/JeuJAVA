@@ -1,7 +1,7 @@
 package jeuRIP.Entites;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
 
 public class Zone   {
 	
@@ -14,7 +14,7 @@ public class Zone   {
 		private String description;
 		private String nomImage;
 		private HashMap<String, Zone> sorties;
-		private HashMap<String,Item> listItemZone;
+		public HashMap<Integer , Item> listItemZone ;
 		private PersoNonJoueur PNJZone;
 		
 		/**
@@ -35,6 +35,7 @@ public class Zone   {
 			this.description = description;
 			this.nomImage = nomImage;
 			this.sorties = new HashMap<String, Zone>();
+			this.listItemZone= new HashMap< Integer,Item>();
 		}
 		
 		public void ajouteSortie(Sortie sortie, Zone zoneVoisine) {
@@ -69,16 +70,17 @@ public class Zone   {
 			return(this.sorties.get(direction));
 		}
 		
-		public void ajouteItems(String nomItem, Item itemZone) {
-			this.listItemZone.put(nomItem, itemZone);
+		public void ajouteItems(int index, Item itemZone) {
+			this.listItemZone.put(index , itemZone);
 		}
 		
-		public Item getItem(String nomItem) {
-			return(this.listItemZone.get(nomItem));
+		public Item getItem(int indexItem) {
+			return(this.listItemZone.get(indexItem));
 		}
+		
+		
 		
 		public String getDescription() {
 			return(this.description);
-		}
-		
+		}	
 }
