@@ -1,3 +1,8 @@
+
+roland update 15/03/2019
++ Changement dans jeu avec ajout des different switch
+
+
 jb update 13/03
 + PNJ.java completement refait
 + ajout creerPNJ dans jeu.ava
