@@ -15,7 +15,7 @@ public class Jeu {
 	JeuPanel jeuPanel ;
 	public HashMap<String, Item> tableItems ;
 	public HashMap<String, PersoNonJoueur> tablePNJ;
-	
+	public HashMap<String, Item> inventaireItems; // par kh 15/03
 	
 	public Jeu () {
 		
