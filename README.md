@@ -1,18 +1,44 @@
-jb update 06/03 13:30
-ajout images zone et image telephone dans folder image
+Khamis update 15/03
++ ajouter la foncionnalité ramasserItem ( recuperer de la zone courante et ajouter à la liste inventaire ) 
+   fichiers concernés MAJ( Jeu.java / JeuPanel.java / PanelZone.java / PanelInventaire.java )
++ changement liste item zone en HashMap au lieu arrayList : fichiers modifiés en Zone.java / Jeu.java 
 
-ajout dans la class jeu: ajouterItem() dans chaque zone
-ajout dans la class item: ajout des position et size
+
+roland update 15/03/2019
++ Changement dans jeu avec ajout des different switch
+
+
+jb update 13/03
++ PNJ.java completement refait
++ ajout creerPNJ dans jeu.ava
+et ajout de la fille avec son image fille.png dans le dossier image
+
+----------------------------------------------------------
+jb update 11/03
+
++ AJOUT DES IMAGE ZONE AVEC NUMERO ET NOM + DIRECTION
+
++ arraylist pour item
++ changement dans jeu.java, zone.java jeupanel.java, et panelZone.java
+
++ changement des indices des zones et ajustement des sorties
+
+---------------------------------------------------
+jb update 06/03 13:30
++ ajout images zone et image telephone dans folder image
+
++ ajout dans la class jeu: ajouterItem() dans chaque zone
++ ajout dans la class item: ajout des position et size
 
 
 
 -----------------------
 jb update 06/03 12:00
 
-ajout dans class Jeu:
-methode créerItem()
++ ajout dans class Jeu:
++ methode créerItem()
 
-changement de de la taille du tableau zone 14->15
++ changement de de la taille du tableau zone 14->15
 
 -------------------------------------------
 # JeuJAVA

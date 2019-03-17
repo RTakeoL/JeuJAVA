@@ -18,6 +18,11 @@ public class PersoNonJoueur {
 	private String descriptionPNJ;
 	private Boolean initQuete;
 	private Boolean doneQuete;
+	
+	private int PNJPxH;
+	private int PNJPxW;
+	private int PNJX;
+	private int PNJY;
 	//private Item itemPNJ;
 	
 	
@@ -29,10 +34,40 @@ public class PersoNonJoueur {
 		this.doneDialogue = doneDialogue;
 		this.descriptionPNJ = descriptionPNJ;
 		this.initQuete = false;
-		this.doneQuete = false;	
+		this.doneQuete = false;
+		this.PNJPxH=0;
+		this.PNJPxW=0;
+		this.PNJX=0;
+		this.PNJY=0;
 	}
 	
+	public int getPNJPxH() {
+		return PNJPxH;
+	}
 	
+	public int getPNJPxW() {
+			return PNJPxW;
+	}
+	
+	public int getPNJX() {
+		return PNJX;
+	}
+	
+	public int getPNJY() {
+			return PNJY;
+	}
+
+	
+	public void setSize(int pNJPxH, int pxW) {
+		PNJPxH = pNJPxH;
+		PNJPxW = pxW;
+	}
+	
+	public void setPosition(int pNJX, int pNJY) {
+		PNJX = pNJX;
+		PNJY = pNJY;
+	}
+
 	public void setDescriptionPNJ(String descriptionPNJ) {
 		this.descriptionPNJ = descriptionPNJ;
 	}
