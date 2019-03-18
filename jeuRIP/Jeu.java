@@ -2,6 +2,7 @@ package jeuRIP;
 
 import jeuRIP.elementsGraphiques.JeuPanel;
 
+
 import java.util.HashMap;
 import jeuRIP.Entites.*;
 
@@ -50,7 +51,7 @@ public class Jeu {
         this.zones[8] = new Zone("Maison", "ZONE8.png");
         this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
         this.zones[10] = new Zone("Armurerie", "ZONE10.png");
-         this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
+        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
         this.zones[12] = new Zone("Station Essence", "ZONE12.png");
         this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
         this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
@@ -60,13 +61,17 @@ public class Jeu {
         this.zones[6].ajouteItems(0, tableItems.get("Pince"));
         this.zones[6].ajouteItems(1, tableItems.get("Pills"));
         this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
-        this.zones[8].ajouteItems(0, tableItems.get("Hache"));
-        this.zones[8].ajouteItems(1, tableItems.get("Portable"));
+        this.zones[12].ajouteItems(0, tableItems.get("Hache")); // attention changement de zone pour la hache qui est dans station essence
+        this.zones[8].ajouteItems(0, tableItems.get("Portable"));
         this.zones[10].ajouteItems(0, tableItems.get("Gun"));
         this.zones[13].ajouteItems(0, tableItems.get("Parachute"));
 			 
 			 this.créerPNJ();
 			 this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
+			 this.zones[2].ajoutePNJ(tablePNJ.get("Capitaine"));
+			 this.zones[13].ajoutePNJ(tablePNJ.get("VeterantGuerre"));
+			 this.zones[14].ajoutePNJ(tablePNJ.get("Pilote"));
+			 this.zones[6].ajoutePNJ(tablePNJ.get("Zombie"));
       
         // Zone Ruelle de départ
         this.zones[0].ajouteSortie(Sortie.EST, zones[7]);
@@ -122,7 +127,6 @@ public class Jeu {
         this.zones[12].ajouteSortie(Sortie.OUEST, zones[11]);
         
         // Zone Entrée Aéroport
-        this.zones[13].ajouteSortie(Sortie.SUD, zones[11]);
         this.zones[13].ajouteSortie(Sortie.NORD, zones[14]);
        
         // Piste Aéroport
@@ -139,13 +143,13 @@ public class Jeu {
 	    	}
 	        else {
 	        	this.zoneCourante = nouvelle;
-						this.etatJeu(zoneCourante);
+				//		this.etatJeu(zoneCourante);
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	        	afficherItemZC(zoneCourante); // affichage item 1
 	        }
 			}
 			
-
+/*
 			private void etatJeu(Zone zoneCourante) {
 				PersoNonJoueur fille = this.tablePNJ.get("Fille");
 				PersoNonJoueur capitaine = this.tablePNJ.get("Capitaine");
@@ -164,58 +168,56 @@ public class Jeu {
 								//this.zones[7].enleveSortie("SUD", this.zones[13]);
 							}
 						}
-	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
-						afficherDialoguePNJ(fille.getInitDialogue());
+						jeuPanel.afficherDialoguePNJ(fille.getInitDialogue());
 					} else {
 						// Dans ce IF Inti True && Done False
 						if(!(fille.getDoneQuete())) {
-							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante); // affichage item 1
-							afficherDialoguePNJ(fille.getWaitDialogue());
+							jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue());
 						} else {
-							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante); // affichage item 1
-							afficherDialoguePNJ(fille.getDoneDialogue());	
+							jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue());	
 						}
 					}
 					
 					break;
+					// ------------------------------------------------------------------
+					case "Métro" :
+					if(!fille.getInitQuete() && (this.zones[7].obtientSortie("SUD") != null)) {
+						this.zones[7].enleveSortie("NORD", this.zones[9]);
+					}
+					break;
+
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
 					if(this.zones[7].obtientSortie("SUD") != null) {
-						//this.zones[7].enleveSortie("SUD",this.zones[13]);
-						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 
+						this.zones[7].enleveSortie("SUD",this.zones[13]);
+						if(this.zones[7].obtientSortie("NORD") == null) {
+							this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
+						} 
 					}
-					// La première fois que l'on atteint cette zone, la sortie vers
-					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
-					if(this.zones[13].obtientSortie("NORD") == null) {
-						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
+					// Des que l'on atteint cette zone après qu'elle soit bloquée
+					// Il faut avoir la pince pour débloquée la zone 
+					if(this.zones[13].obtientSortie("NORD") == null && this.tableItems.get("Pince").getEtatItem()) {
+						this.zones[13].ajouteSortie(Sortie.NORD, this.zones[14]);
 						afficherDialoguePNJ("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
 					}
+
+					if(this.zones[13].obtientSortie("SUD") == null && pilote.getInitQuete()) {
+						this.zones[13].ajouteSortie(Sortie.SUD, this.zones[11]);
+					}
+
 					break;
 
 					//-------------------------------------------------------------------
 					case "Hotel" :
-					if(capitaine.getDoneQuete()) {
-						if(fille.getDoneQuete()) {
-							// On ramasse la clé et cela signifie que la bonne fin est débloquée
-						} else {
-							// On as pas accomplit la quete de fille....
-						}
+					if(!capitaine.getDoneQuete() && !fille.getDoneQuete()) {
+						jeuPanel.afficherDialoguePNJ("Je n'ai rien à faire ici.....");
 					} else {
-						if(fille.getDoneQuete()) {
-							// On as pas encore accomplit la quete du capitaine...
-						} else {
-							// On as accomplit aucune des deux quetes et donc on affiche
-							// Le dialogue qui renseigne qu'aucune action ne peut être effectuées avec cette zone.
-						}
+						Item Cle = new Item("Cle","","",null);
+						this.tableItems.put("Cle", Cle);
+						jeuPanel.afficherDialoguePNJ("Voici la clé !");
 					}
 					break;
-
 					//-------------------------------------------------------------------
 					// Le cas du supermarché doit être traiter pour le case des zombies...
 					case "Supermarché" :
@@ -226,25 +228,27 @@ public class Jeu {
 					break;
 					
 					//-------------------------------------------------------------------
-					
+					case "Marina" :
+					if() {
+
+					}
+					break;
+					//------------------------------------------------------------------
 					// Arrivée au Bar déclenche la quete du capitaine..
 					// On réutilise le même principe que pour la fille du capitaine...
 
 					case "Bar" :
 					if(!(capitaine.getInitQuete())) {
 						capitaine.setInitQuete(true);
-						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
 						afficherDialoguePNJ(capitaine.getInitDialogue());
 					} else {
 						if(!capitaine.getDoneQuete()) {
-							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante); // affichage item 1
 							afficherDialoguePNJ(capitaine.getWaitDialogue());	
+						} else {
+							afficherDialoguePNJ(capitaine.getDoneDialogue());
 						}
 					}
 					break; 
-
 
 					
 					//-------------------------------------------------------------------
@@ -252,20 +256,14 @@ public class Jeu {
 					break;
 				}
 			}
-
+*/
 			public void afficherDialoguePNJ(String dialoguePNJ) {
-
+				// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
+				jeuPanel.afficherDialogue(dialoguePNJ);
 			}
 
-//public void initZC() {
-//	afficherItemZC(zoneCourante, 0); // affichage item 1
-//	afficherZC();
-//}
-//
-//private void afficherZC() {
-//	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-//
-//}
+
+
 	// pour afficher un item dans la zone 
 	public void afficherItemZC(Zone zc) {
 
@@ -325,42 +323,42 @@ public class Jeu {
 			
 			this.inventaireItems = new HashMap<String, Item>() ;
 			this.tableItems = new HashMap<String, Item>();
-			Item Hache = new Item("Hache","hache.png","Ceci est une hache");
+			Item Hache = new Item("Hache","hache.png","Ceci est une hache",9);
 			Hache.setPosition(100, 100);
 			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
 			
-			Item Gun = new Item("Gun","gun.png","Ceci est un gun");
+			Item Gun = new Item("Gun","gun.png","Ceci est un gun",6);
 			Gun.setPosition(100, 100);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
 			
-			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince");
+			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince",13);
 			Pince.setPosition(100, 100);
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
 			
-			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille");
+			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille",6);
 			Bouteille.setPosition(100, 100);
 			Bouteille.setSize(100, 100);
 			tableItems.put("Bouteille", Bouteille);
 			
-			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican");
+			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",12);
 			Jerrican.setPosition(300, 100);
 			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
 			
-			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute");
+			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",14);
 			Parachute.setPosition(100, 100);
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
-			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills");
+			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills",2);
 			Pills.setPosition(200, 100);
 			Pills.setSize(100, 100);
 			tableItems.put("Pills",Pills);
 			
-			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable");
+			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable",1);
 			Portable.setPosition(100, 100);
 			Portable.setSize(100, 100);
 			tableItems.put("Portable", Portable);
@@ -369,10 +367,46 @@ public class Jeu {
 
 		public void créerPNJ() {
 			this.tablePNJ = new HashMap<String, PersoNonJoueur>();
-			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Salut tu peux me chercher mon portable", "alors tu y vas", "Merci bien", "fille en detresse qui se dit etre la fille du capitaine");
+			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Hey toi! Oui toi! J'ai besoin de ton aide. Mon père possède un bateau pour s'enfuire mais il doit être encore bourré au bar."
+					+ " J'ai oublier mon téléphone chez moi, je dois absolument appeler ma mère. Tu peux aller me le chercher? Ma maison se trouve près du métro en allant vers l'EST.",
+					"Alors tu as trouvé mon téléphone?",
+					"Oh merci à toi! Les clé du bateau de mon père sont dans sa chambre d'hotel, c'est la chambre n°14. Je te retrouve à la Marina",
+					"fille en detresse qui se dit etre la fille du capitaine.");
 			Fille.setPosition(100, 700);
 			Fille.setSize(100, 100);
 			tablePNJ.put("Fille",Fille);
+			
+			PersoNonJoueur Capitaine = new PersoNonJoueur("Capitaine", "capitaine.png", "Attention..*ich* ! Capitaine à..*ich* babord !",
+					"Zzzzzzzzzz !", "Oh ma tête ! Que ce passe-t-il ici? Je dois retrouver ma fille. "
+							+ "J'ai laisser mes clés de bateau dans ma chambre d'hotel, prends les et rejoins moi a la Marina, c'est la chambre n°14",
+					"Capitaine d'un bateau qui semble avoir un penchant pour l'alcool.");
+			Capitaine.setPosition(100, 700);
+			Capitaine.setSize(100, 100);
+			tablePNJ.put("Capiataine",Capitaine);
+			
+			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "veteran.png", "Hey vous! Par ici!", 
+					"", 
+					"Soldat l'ennemie a franchie nos frontière! Nous allons devoir frapper par les airs. Prenez ce parachute et embarquez dans le cargo C201-13 avec votre escoude. Exécution soldat!",
+					"Un étrange personnage qui semble avoir des séquels de la guerre.");
+			VeteranGuerre.setPosition(100, 700);
+			VeteranGuerre.setSize(100, 100);
+			tablePNJ.put("Veteran de guerre",VeteranGuerre);
+			
+			PersoNonJoueur Pilote = new PersoNonJoueur("Pilote", "pilote.png", "Tous les avions sont partis, il ne reste que ce tas de féraille. Il est a court d'essence."
+					+ " Ramenez nous de quoi faire le plein et on décolera d'ici avant qe les zombies nous attrapent", "On est a court d'essence", 
+					"",
+					"Pilote d'avion qui peut m'aider à quitter cette île.");
+			Pilote.setPosition(100, 700);
+			Pilote.setSize(100, 100);
+			tablePNJ.put("Pilote",Pilote);
+			
+			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombie.png", "",
+					"", 
+					"",
+					"");
+			Zombie.setPosition(100, 700);
+			Zombie.setSize(100, 100);
+			tablePNJ.put("Zombie",Zombie);
 		}
 
 }

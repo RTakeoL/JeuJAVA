@@ -8,17 +8,33 @@ public class Item {
 	private int itemPxW;
 	private int itemX;
 	private int itemY;
+	private int zoneUtilise;
+	private Boolean etatItem;
 	
-	public Item(String nomItem, String nomImage, String description) {
+	public Item(String nomItem, String nomImage, String description, int zoneUtilise) {
 		this.nomItem = nomItem;
 		this.nomImage = nomImage;
 		this.description = description;
+		this.zoneUtilise = zoneUtilise;
 		this.itemPxH=0;
 		this.itemPxW=0;
 		this.itemX=0;
 		this.itemY=0;
+		this.etatItem = false;
 	}
 	
+	public Boolean getEtatItem() {
+		return etatItem;
+	}
+
+	public void setEtatItem(Boolean etatItem) {
+		this.etatItem = etatItem;
+	}
+
+	public int getZoneUtilise() {
+		return zoneUtilise;
+	}
+
 	public String getNomItem() {
 		return(this.nomItem);
 	}
