@@ -50,7 +50,7 @@ public class Jeu {
         this.zones[8] = new Zone("Maison", "ZONE8.png");
         this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
         this.zones[10] = new Zone("Armurerie", "ZONE10.png");
-         this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
+        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
         this.zones[12] = new Zone("Station Essence", "ZONE12.png");
         this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
         this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
@@ -122,7 +122,6 @@ public class Jeu {
         this.zones[12].ajouteSortie(Sortie.OUEST, zones[11]);
         
         // Zone Entrée Aéroport
-        this.zones[13].ajouteSortie(Sortie.SUD, zones[11]);
         this.zones[13].ajouteSortie(Sortie.NORD, zones[14]);
        
         // Piste Aéroport
@@ -164,58 +163,56 @@ public class Jeu {
 								//this.zones[7].enleveSortie("SUD", this.zones[13]);
 							}
 						}
-	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
-						afficherDialoguePNJ(fille.getInitDialogue());
+						jeuPanel.afficherDialoguePNJ(fille.getInitDialogue());
 					} else {
 						// Dans ce IF Inti True && Done False
 						if(!(fille.getDoneQuete())) {
-							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante); // affichage item 1
-							afficherDialoguePNJ(fille.getWaitDialogue());
+							jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue());
 						} else {
-							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante); // affichage item 1
-							afficherDialoguePNJ(fille.getDoneDialogue());	
+							jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue());	
 						}
 					}
 					
 					break;
+					// ------------------------------------------------------------------
+					case "Métro" :
+					if(!fille.getInitQuete() && (this.zones[7].obtientSortie("SUD") != null)) {
+						this.zones[7].enleveSortie("NORD", this.zones[9]);
+					}
+					break;
+
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
 					if(this.zones[7].obtientSortie("SUD") != null) {
-						//this.zones[7].enleveSortie("SUD",this.zones[13]);
-						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 
+						this.zones[7].enleveSortie("SUD",this.zones[13]);
+						if(this.zones[7].obtientSortie("NORD") == null) {
+							this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
+						} 
 					}
-					// La première fois que l'on atteint cette zone, la sortie vers
-					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
-					if(this.zones[13].obtientSortie("NORD") == null) {
-						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
+					// Des que l'on atteint cette zone après qu'elle soit bloquée
+					// Il faut avoir la pince pour débloquée la zone 
+					if(this.zones[13].obtientSortie("NORD") == null && this.tableItems.get("Pince").getEtatItem()) {
+						this.zones[13].ajouteSortie(Sortie.NORD, this.zones[14]);
 						afficherDialoguePNJ("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
 					}
+
+					if(this.zones[13].obtientSortie("SUD") == null && pilote.getInitQuete()) {
+						this.zones[13].ajouteSortie(Sortie.SUD, this.zones[11]);
+					}
+
 					break;
 
 					//-------------------------------------------------------------------
 					case "Hotel" :
-					if(capitaine.getDoneQuete()) {
-						if(fille.getDoneQuete()) {
-							// On ramasse la clé et cela signifie que la bonne fin est débloquée
-						} else {
-							// On as pas accomplit la quete de fille....
-						}
+					if(!capitaine.getDoneQuete() && !fille.getDoneQuete()) {
+						jeuPanel.afficherDialoguePNJ("Je n'ai rien à faire ici.....");
 					} else {
-						if(fille.getDoneQuete()) {
-							// On as pas encore accomplit la quete du capitaine...
-						} else {
-							// On as accomplit aucune des deux quetes et donc on affiche
-							// Le dialogue qui renseigne qu'aucune action ne peut être effectuées avec cette zone.
-						}
+						Item Cle = new Item("Cle","","",null);
+						this.tableItems.put("Cle", Cle);
+						jeuPanel.afficherDialoguePNJ("Voici la clé !");
 					}
 					break;
-
 					//-------------------------------------------------------------------
 					// Le cas du supermarché doit être traiter pour le case des zombies...
 					case "Supermarché" :
@@ -226,25 +223,27 @@ public class Jeu {
 					break;
 					
 					//-------------------------------------------------------------------
-					
+					case "Marina" :
+					if() {
+
+					}
+					break;
+					//------------------------------------------------------------------
 					// Arrivée au Bar déclenche la quete du capitaine..
 					// On réutilise le même principe que pour la fille du capitaine...
 
 					case "Bar" :
 					if(!(capitaine.getInitQuete())) {
 						capitaine.setInitQuete(true);
-						jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-						afficherItemZC(zoneCourante); // affichage item 1
 						afficherDialoguePNJ(capitaine.getInitDialogue());
 					} else {
 						if(!capitaine.getDoneQuete()) {
-							jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-							afficherItemZC(zoneCourante); // affichage item 1
 							afficherDialoguePNJ(capitaine.getWaitDialogue());	
+						} else {
+							afficherDialoguePNJ(capitaine.getDoneDialogue());
 						}
 					}
 					break; 
-
 
 					
 					//-------------------------------------------------------------------
@@ -254,18 +253,12 @@ public class Jeu {
 			}
 
 			public void afficherDialoguePNJ(String dialoguePNJ) {
-
+				// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
+				jeuPanel.afficherDialogue(dialoguePNJ);
 			}
 
-//public void initZC() {
-//	afficherItemZC(zoneCourante, 0); // affichage item 1
-//	afficherZC();
-//}
-//
-//private void afficherZC() {
-//	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-//
-//}
+
+
 	// pour afficher un item dans la zone 
 	public void afficherItemZC(Zone zc) {
 
