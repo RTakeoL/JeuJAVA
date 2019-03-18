@@ -2,13 +2,15 @@ package jeuRIP.elementsGraphiques;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelZone extends JPanel {
-	
+	JeuPanel jeuPanel ;
 	public JPanel panelZoneCourante= new JPanel (null);
 	public JPanel panelZoneNouvelle= new JPanel (null);
 	private JLabel lblImgZone= new JLabel() ;
@@ -21,9 +23,9 @@ public class PanelZone extends JPanel {
 	JLabel imgItem2 = new JLabel("ITEM 2 ....");
 	JLabel imgItem3 = new JLabel("ITEM 3 ....");
 	
-	public PanelZone() {
+	public PanelZone(JeuPanel jeuPanel) {
 		super(null);
-		
+		this.jeuPanel = jeuPanel ;
 		setBackground(Color.LIGHT_GRAY);
 	    setBounds(0, 0, this.zoneW, this.zoneH);
 	    
@@ -35,9 +37,47 @@ public class PanelZone extends JPanel {
 	    this.lblImgZone.setBounds(0, 0, this.zoneW, this.zoneH);
 	    this.lblImgZoneNvlle.setBounds(0, 0, this.zoneW, this.zoneH);
 	    
+	 // cadre affichage item1
+	    imgItem1.setBounds(0, -100, 100, 100);
+	    imgItem1.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent arg0) {
+	    			System.out.println("item clicked  .....");
+	    		//initImgItem(0);
+	    		ramasserItem(0);
+
+	    	}
+	    });
 	    
-	    imgItem1.setBounds(50, 50, 100, 100);
 	    this.add(imgItem1);
+	    // cadre affichage item2
+	    imgItem2.setBounds(0, -100, 100, 100);
+	    imgItem2.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent arg0) {
+	    			System.out.println("item clicked  .....");
+	    		//initImgItem(1);
+	    		ramasserItem(1);
+
+	    	}
+	    });
+	    
+	    this.add(imgItem2);
+	    
+	 // cadre affichage item3
+	    imgItem3.setBounds(0, -100, 100, 100);
+	    imgItem3.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent arg0) {
+	    			System.out.println("item clicked  .....");
+	    		//initImgItem(2);
+	    		ramasserItem(2);
+
+	    	}
+	    });
+	    
+	    this.add(imgItem3);
+	    
 	    
 	    this.panelZoneCourante.add(imgItem1);
 	    this.panelZoneCourante.add(lblImgZone);
@@ -69,28 +109,44 @@ public class PanelZone extends JPanel {
 			this.imgItem1.setBounds(X ,Y , W , H);
 			this.setImageDeFondLbl(imgItem, imgItem1);
 		}
-		
-		this.revalidate();
-		this.repaint();
+		if(index ==1) {
+			initImgItem(1);
+			this.imgItem2.setBounds(X ,Y , W , H);
+			this.setImageDeFondLbl(imgItem, imgItem2);
+		}
+		if(index ==2) {
+			initImgItem(2);
+			this.imgItem3.setBounds(X ,Y , W , H);
+			this.setImageDeFondLbl(imgItem, imgItem3);
+		}
+		//this.revalidate();
+		//this.repaint();
 	}
 	
 	
+	private void ramasserItem(int indexItem) {
+		jeuPanel.ramasserItem(indexItem);
+		initImgItem(indexItem);
+		
+		
+	}
+	
 	public void initImgItem(int index) {
 		if(index == 0) {
-			imgItem1.setBounds(50, 50, 100, 100);
+			imgItem1.setBounds(0, -100, 100, 100);
 			this.imgItem1.setIcon(null);
 		}
 		if(index == 1) {
-			imgItem2.setBounds(50, 50, 100, 100);
-			this.imgItem1.setIcon(null);
+			imgItem2.setBounds(0, -100, 100, 100);
+			this.imgItem2.setIcon(null);
 		}
 		if(index == 2) {
-			imgItem3.setBounds(50, 50, 100, 100);
-			this.imgItem1.setIcon(null);
+			imgItem3.setBounds(50, -100, 100, 100);
+			this.imgItem3.setIcon(null);
 		}
-		System.out.println("init item par item");
-		this.revalidate();
-		this.repaint();
+		
+		//this.revalidate();
+		//this.repaint();
 
 	}
 	public void initAllItems() {
@@ -98,6 +154,8 @@ public class PanelZone extends JPanel {
 		initImgItem(1);
 		initImgItem(2);
 	}
+	
+	
 	
 	public void ajouterImgZoneCourante(String nomImg) {
 		//this.removeAll();
