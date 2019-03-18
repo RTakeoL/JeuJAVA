@@ -376,7 +376,7 @@ public class Jeu {
 					"Alors tu as trouvé mon téléphone?",
 					"Oh merci à toi! Les clé du bateau de mon père sont dans sa chambre d'hotel, c'est la chambre n°14. Je te retrouve à la Marina",
 					"fille en detresse qui se dit etre la fille du capitaine.");
-			Fille.setPosition(100, 700);
+			Fille.setPosition(100, 300);
 			Fille.setSize(100, 100);
 			tablePNJ.put("Fille",Fille);
 			
@@ -384,7 +384,7 @@ public class Jeu {
 					"Zzzzzzzzzz !", "Oh ma tête ! Que ce passe-t-il ici? Je dois retrouver ma fille. "
 							+ "J'ai laisser mes clés de bateau dans ma chambre d'hotel, prends les et rejoins moi a la Marina, c'est la chambre n°14",
 					"Capitaine d'un bateau qui semble avoir un penchant pour l'alcool.");
-			Capitaine.setPosition(100, 700);
+			Capitaine.setPosition(100, 300);
 			Capitaine.setSize(100, 100);
 			tablePNJ.put("Capiataine",Capitaine);
 			
@@ -392,7 +392,7 @@ public class Jeu {
 					"", 
 					"Soldat l'ennemie a franchie nos frontière! Nous allons devoir frapper par les airs. Prenez ce parachute et embarquez dans le cargo C201-13 avec votre escoude. Exécution soldat!",
 					"Un étrange personnage qui semble avoir des séquels de la guerre.");
-			VeteranGuerre.setPosition(100, 700);
+			VeteranGuerre.setPosition(100, 300);
 			VeteranGuerre.setSize(100, 100);
 			tablePNJ.put("Veteran de guerre",VeteranGuerre);
 			
@@ -400,7 +400,7 @@ public class Jeu {
 					+ " Ramenez nous de quoi faire le plein et on décolera d'ici avant qe les zombies nous attrapent", "On est a court d'essence", 
 					"",
 					"Pilote d'avion qui peut m'aider à quitter cette île.");
-			Pilote.setPosition(100, 700);
+			Pilote.setPosition(100, 300);
 			Pilote.setSize(100, 100);
 			tablePNJ.put("Pilote",Pilote);
 			
@@ -408,7 +408,7 @@ public class Jeu {
 					"", 
 					"",
 					"");
-			Zombie.setPosition(100, 700);
+			Zombie.setPosition(100, 300);
 			Zombie.setSize(100, 100);
 			tablePNJ.put("Zombie",Zombie);
 		}
