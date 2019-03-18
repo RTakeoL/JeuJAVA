@@ -110,6 +110,6 @@ public class PersoNonJoueur {
 		return(this.waitDialogue);
 	}
 	public String getDoneDialogue() {
-		return(this.waitDialogue);
+		return(this.doneDialogue);
 	}
 }
