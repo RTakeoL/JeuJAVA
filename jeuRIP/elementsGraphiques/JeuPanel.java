@@ -7,6 +7,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import jeuRIP.Jeu;
+import jeuRIP.Entites.Item;
+import jeuRIP.Entites.PersoNonJoueur;
+import jeuRIP.Entites.Zone;
 
 
 public class JeuPanel extends JPanel{
@@ -23,6 +26,10 @@ public class JeuPanel extends JPanel{
 	public JLabel EST = new JLabel("EST");
 	public JLabel OUEST = new JLabel("OUEST");
 	
+	// cadre affichage message 
+	MsgBox msgBox ;
+	
+	
 	
 	
 	// Constructeur permet de creer un PANEL MASTER qui va contenir 
@@ -31,11 +38,17 @@ public class JeuPanel extends JPanel{
 		super(null);
 		
 		this.jeu = jeu ;
-		panelInventaire = new PanelInventaire();
+		msgBox = new MsgBox(this);
+		msgBox.setMsgText("  WELCOME EN RIP...................");
+		msgBox.afficherMsg();
+		
+		
+		panelInventaire = new PanelInventaire(this);
 		panelZone = new PanelZone(this);
 		panelCdes = new PanelCdes();
-		setBackground(Color.ORANGE);
+		
 		setBounds(0, 0, 800, 600);
+		this.setMsgBox();
 		
 		this.setPanelInventaire();
 		this.setBtnSortie();  
@@ -47,7 +60,10 @@ public class JeuPanel extends JPanel{
 	    	
 	}
 	
-	
+	public void setMsgBox() {
+		
+		
+	}
 	
 	private void updateJeu() {
 		//this.removeAll();
@@ -69,15 +85,28 @@ public class JeuPanel extends JPanel{
 		this.panelZone.setImgItem(indexItem,nomImgItem, X, Y, W, H);
 	}
 	
-	// ramasser Item 
-	public void ramasserItem(int indexItem) {
-			jeu.ramasserItem(indexItem);
-
-	}
+	// ramasser Item  de la zone
+//	public void ramasserItem(int indexItem) {
+//			jeu.ramasserItem(indexItem);
+//			
+//
+//	}
+	
+	///// ramasser Item  de la zone  le 15/03
+		public void ramasserItem(int indexItem) {	
+			Item item = this.jeu.zoneCourante.getItem(indexItem); // recuperer item de la zone
+			
+			this.jeu.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
+			this.jeu.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire
+			this.ajouterItemInventaire(item); // afficher item dans inventaire panel
+			System.out.println(item.getNomItem()); // pr debug
+			System.out.println("----nb items inventaire :"+this.jeu.inventaireItems.size()); // pr debug
+		}
+		
 	
 	// ajouter item à l'inventaire 
-	public  void ajouterItemInventaire(String nomImgItem) {
-		this.panelInventaire.ajouterItem(nomImgItem);
+	public  void ajouterItemInventaire(Item item) {
+		this.panelInventaire.ajouterItem(item);
 	}
 	
 	/// initialiser (cacher) tous les objets dans la zone
@@ -85,6 +114,36 @@ public class JeuPanel extends JPanel{
 		this.panelZone.initAllItems();
 	}
 	
+	
+	
+	// pour verifier si on peut utiliser item  dans la bonne zone
+	public boolean checkItemWithZone(Item item) {
+		return (this.jeu.zoneCourante.getDescription() == "Ruelle de Départ" && item.getNomItem() == "Jerrican") ;
+		 // return ( this.zoneCourante.getDescription() == item.getZoneName() ) 
+
+	}
+	
+	
+	
+	public void utiliserItem(Item item) {
+		jeu.utiliserItem(item);
+
+	}
+	
+	// afficher PNJ 
+	public void afficherPNJ(PersoNonJoueur PNJ) {
+		this.panelZone.initImgPNJ();
+		if (PNJ != null) {
+			String imgPNJ = PNJ.getImage();
+			System.out.println(imgPNJ);
+			int X = PNJ.getPNJX();
+			int Y = PNJ.getPNJY();
+			int W = PNJ.getPNJPxW();
+			int H = PNJ.getPNJPxH();
+			this.panelZone.afficherPNJ(imgPNJ, X, Y, W, H);
+		}	
+	}
+
 	public void setPanelInventaire () {
 		
 		this.add(panelInventaire);
@@ -196,6 +255,25 @@ public class JeuPanel extends JPanel{
 		}
 
 	 
+	 
+	// pour afficher un item dans la zone 
+	 public void afficherItemZC(Zone zc) {
+
+			initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
+			if(zc.listItemZone.size() > 0) {
+				for(int i=0 ; i<zc.listItemZone.size() ; i++){
+					// récuperer l'item avec l'index depuis la liste items zone courante
+					Item item = zc.getItem(i);
+					String imgItem = item.getImage();
+					int X = item.getItemX();
+					int Y = item.getItemY();
+					int W = item.getItemPxW();
+					int H = item.getItemPxH();
+					// afficher item dans l'emplacement prévu au PanelZone
+					afficherItem(i, imgItem, X, Y, W, H);	
+				}	
+			}	
+		} 
 	 
 	
 }
