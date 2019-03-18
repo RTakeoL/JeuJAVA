@@ -9,7 +9,7 @@ import jeuRIP.Entites.*;
 public class Jeu {
 	
 	
-	private Zone zoneCourante;
+	public Zone zoneCourante;
 	Zone[] zones;
 	Fenetre fenetre  ; 
 	JeuPanel jeuPanel ;
@@ -145,7 +145,9 @@ public class Jeu {
 	        	this.zoneCourante = nouvelle;
 				//		this.etatJeu(zoneCourante);
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-	        	afficherItemZC(zoneCourante); // affichage item 1
+	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
+	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJ());
+	        	
 	        }
 			}
 			
@@ -257,44 +259,46 @@ public class Jeu {
 				}
 			}
 */
-			public void afficherDialoguePNJ(String dialoguePNJ) {
-				// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
-				jeuPanel.afficherDialogue(dialoguePNJ);
-			}
-
-
-
-	// pour afficher un item dans la zone 
-	public void afficherItemZC(Zone zc) {
-
-		jeuPanel.initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
-		if(zc.listItemZone.size() > 0) {
-			for(int i=0 ; i<zc.listItemZone.size() ; i++){
-				// récuperer l'item avec l'index depuis la liste items zone courante
-				Item item = zc.getItem(i);
-				String imgItem = item.getImage();
-				int X = item.getItemX();
-				int Y = item.getItemY();
-				int W = item.getItemPxW();
-				int H = item.getItemPxH();
-				// afficher item dans l'emplacement prévu au PanelZone
-				jeuPanel.afficherItem(i, imgItem, X, Y, W, H);	
-			}	
-		}	
-	} 
-	
-	/// par Khamis  le 15/03
-	public void ramasserItem(int indexItem) {	
-		Item item = this.zoneCourante.getItem(indexItem); // recuperer item de la zone
-		System.out.println(item.getNomItem());
-		this.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
-		this.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire
-		this.jeuPanel.ajouterItemInventaire(item.getImage()); // afficher item dans inventaire panel
-		System.out.println("----nb items inventaire :"+this.inventaireItems.size());
+	public void afficherDialoguePNJ(String dialoguePNJ) {
+		// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
+		jeuPanel.afficherDialogue(dialoguePNJ);
 	}
-	 
-	 public void seDeplacer(String direction) {
-	    	// seDeplacer doit prendre en compte la sortie METRO
+	
+	// par kh :  utiliser item  à completer ......
+	public void  utiliserItem (Item item) {
+		 switch (item.getNomItem()) {
+		 
+		 case "Hache":
+			
+			 break;
+		 case "Gun" :
+			 break;
+		 case "Pince" :
+			 break;
+		 case  "Bouteille":
+			 break;
+		 case "Jerrican" :
+			 // test 
+			 if(this.zoneCourante.getDescription()== "Ruelle de Départ") { 
+				 System.out.println("avant supr : nb item = "+inventaireItems.size());
+				 System.out.println("Jerrican utilisé dans zone Départ ...");
+				 this.inventaireItems.remove("Jerrican");
+				 System.out.println("apres supr : nb item = "+inventaireItems.size());
+			 }
+			 break;
+		 case  "Parachute":
+			 break;
+		 case "Pills" :
+			 break;
+		 case "Portable" :
+			 break;
+		 default: 
+	            break;
+		 }	 
+	}
+	
+	public void seDeplacer(String direction) {
+	    	
 	        switch (direction) {
 	        
 	        case "NORD" :
