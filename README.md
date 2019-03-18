@@ -1,4 +1,4 @@
-kh update 18/03
+khamis update 18/03
 + ajout affiche message dialogue PNJ à completer  : nv fichier MsgBox.java ; fichier concernés JeuPanel.java / Jeu.java
 + ajout afficher PNJ  : fichiers concernés  : Jeu.java / JeuPanel / PanelZone.java
 + méthode utiliserItem à completer dans Jeu.java ( méthode opérationnelle , il manque d'ajouter que fait l'item dans le jeu ...! ) 
