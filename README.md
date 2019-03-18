@@ -1,3 +1,11 @@
+jb update 18/03
++ ajout d'un int zoneUtilise dans Item et ajout du parametre dans jeu.java
++ ajout d'un etatItem boolean dans itam
++ creation de tout les personnages et ajout chaque perso dans leur zones
++ setter pnjZone dans zone
+
+------------------------------------------------------------------------------
+
 Khamis update 15/03
 + ajouter la foncionnalité ramasserItem ( recuperer de la zone courante et ajouter à la liste inventaire ) 
    fichiers concernés MAJ( Jeu.java / JeuPanel.java / PanelZone.java / PanelInventaire.java )
