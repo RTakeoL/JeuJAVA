@@ -1,3 +1,10 @@
+roland update 18/03
++ class jeu :
+   finit switch zone Bar, Hotel, Entrée Aéroport, Métro
++ class Zone :
+   ajout méthode enleveSortie
+
+
 jb update 18/03
 + ajout d'un int zoneUtilise dans Item et ajout du parametre dans jeu.java
 + ajout d'un etatItem boolean dans itam
