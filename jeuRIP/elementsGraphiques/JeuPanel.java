@@ -119,7 +119,7 @@ public class JeuPanel extends JPanel{
 	// pour verifier si on peut utiliser item  dans la bonne zone
 	public boolean checkItemWithZone(Item item) {
 		//return (this.jeu.zoneCourante.getDescription() == "Ruelle de Départ" && item.getNomItem() == "Jerrican") ;
-		 return ( this.jeu.zoneCourante.getDescription() == item.getZoneUtilise() ) 
+		 return ( this.jeu.zoneCourante.getDescription() == item.getZoneUtilise() ) ;
 
 	}
 	
