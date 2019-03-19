@@ -323,46 +323,46 @@ public class Jeu {
 	 
 	 
 	// remplir d'item par jb
-	 public void creerItem() {
+	  public void creerItem() {
 			
 			this.inventaireItems = new HashMap<String, Item>() ;
 			this.tableItems = new HashMap<String, Item>();
-			Item Hache = new Item("Hache","hache.png","Ceci est une hache",9);
+			Item Hache = new Item("Hache","hache.png","Ceci est une hache",this.zones[9].getDescription());
 			Hache.setPosition(100, 100);
 			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
 			
-			Item Gun = new Item("Gun","gun.png","Ceci est un gun",6);
+			Item Gun = new Item("Gun","gun.png","Ceci est un gun",this.zones[6].getDescription());
 			Gun.setPosition(100, 100);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
 			
-			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince",13);
+			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince",this.zones[13].getDescription());
 			Pince.setPosition(100, 100);
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
 			
-			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille",6);
+			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille",this.zones[6].getDescription());
 			Bouteille.setPosition(100, 100);
 			Bouteille.setSize(100, 100);
 			tableItems.put("Bouteille", Bouteille);
 			
-			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",12);
+			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",this.zones[12].getDescription());
 			Jerrican.setPosition(300, 100);
 			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
 			
-			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",14);
+			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",this.zones[14].getDescription());
 			Parachute.setPosition(100, 100);
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
-			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills",2);
+			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills",this.zones[2].getDescription());
 			Pills.setPosition(200, 100);
 			Pills.setSize(100, 100);
 			tableItems.put("Pills",Pills);
 			
-			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable",1);
+			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable",this.zones[1].getDescription());
 			Portable.setPosition(100, 100);
 			Portable.setSize(100, 100);
 			tableItems.put("Portable", Portable);
