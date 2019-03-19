@@ -1,3 +1,7 @@
+khamis 19/03
++ modif Item.java zone utiliée en STRING ; modis Jeu.java méthode creerItems() / modif JeuPanel.java methode checkItemWithZone() ..
+
+
 khamis update 18/03
 + ajout affiche message dialogue PNJ à completer  : nv fichier MsgBox.java ; fichier concernés JeuPanel.java / Jeu.java
 + ajout afficher PNJ  : fichiers concernés  : Jeu.java / JeuPanel / PanelZone.java
