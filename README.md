@@ -6,7 +6,9 @@ Roland 19/03
 
 
 khamis 19/03
-+ modif Item.java zone utiliée en STRING ; modis Jeu.java méthode creerItems() / modif JeuPanel.java methode checkItemWithZone() ..
++ affiche dialogPNJ complété + ajout aficherPensee 
++ ajout au click sur la zone , INVENTAIRE + MSGBOX doivent  être cachés .. 
++ modif Item.java zone utiliée en STRING ; modif Jeu.java méthode creerItems() / modif JeuPanel.java methode checkItemWithZone() ..
 
 
 khamis update 18/03
