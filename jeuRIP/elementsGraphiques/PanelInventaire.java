@@ -75,34 +75,41 @@ public class PanelInventaire extends JPanel {
 	    }
 	    
 	    
+	    public void cacherInventaire() {
+	    	posInventX = -320 ;
+			setLocation(posInventX, 50);
+    		System.out.println("inventaire invisible");
+    		this.repaint();
+    		this.revalidate();
+	    }
+	    
+	    public void afficherInventaire() {
+	    	posInventX = 0 ;
+			System.out.println("inventaire visible");
+			new Thread (new Runnable (){
+				public void run() {
+					 for (int i=-300 ; i<=0 ; i++) {
+    					 setLocation(i, 50);				    					 
+    					 try {
+							Thread.currentThread().sleep(3);
+							
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							System.out.println("marche pas");
+						} 
+    				 }	
+					 repaint();
+			    	revalidate();
+				}
+			}).start(); ;  			
+	    }
 	    // Afficher OU Cacher l'INVENTAIRE
 	    public void togglePanelInventaire () {
 	    	
 	    	if ( !this.estVisible() ) {
-    			posInventX = 0 ;
-    			System.out.println("inventaire visible");
-    			new Thread (new Runnable (){
-					public void run() {
-						 for (int i=-300 ; i<=0 ; i++) {
-	    					 setLocation(i, 50);				    					 
-	    					 try {
-								Thread.currentThread().sleep(3);
-								
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								System.out.println("marche pas");
-							} 
-	    				 }	
-						 repaint();
-				    	revalidate();
-					}
-    			}).start(); ;  					    		
+    				this.afficherInventaire();	    		
     		}else {
-    			posInventX = -320 ;
-    			setLocation(posInventX, 50);
-	    		System.out.println("inventaire invisible");
-	    		this.repaint();
-	    		this.revalidate();
+    			this.cacherInventaire();
     				    		
     		}	
 	    }
@@ -134,8 +141,9 @@ public class PanelInventaire extends JPanel {
 		}
 	    public void utiliserItem(Item item) {
 			if (item != null && this.btnUtiliserActif ) {
-			 jeuPanel.utiliserItem(item);
 			 supprimerItem(item) ;
+			 jeuPanel.utiliserItem(item);
+			 
 	    	}
 		}
 		

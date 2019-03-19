@@ -8,10 +8,10 @@ public class Item {
 	private int itemPxW;
 	private int itemX;
 	private int itemY;
-	private int zoneUtilise;
+	private String zoneUtilise;
 	private Boolean etatItem;
 	
-	public Item(String nomItem, String nomImage, String description, int zoneUtilise) {
+	public Item(String nomItem, String nomImage, String description, String zoneUtilise) {
 		this.nomItem = nomItem;
 		this.nomImage = nomImage;
 		this.description = description;
@@ -31,7 +31,7 @@ public class Item {
 		this.etatItem = etatItem;
 	}
 
-	public int getZoneUtilise() {
+	public String getZoneUtilise() {
 		return zoneUtilise;
 	}
 
