@@ -148,7 +148,7 @@ public class JeuPanel extends JPanel   {
 	}
 	
 	// afficher msg PNJ
-	public void afficherMsgPNJ(String msg , String nomImg) {
+	public void afficherDialoguePNJ(String msg , String nomImg) {
 	 	
 		this.msgBox.afficherMsgPJN(msg, nomImg);
 		
