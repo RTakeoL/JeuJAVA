@@ -1,3 +1,19 @@
+khamis 19/03
++ modif Item.java zone utiliée en STRING ; modis Jeu.java méthode creerItems() / modif JeuPanel.java methode checkItemWithZone() ..
+
+
+khamis update 18/03
++ ajout affiche message dialogue PNJ à completer  : nv fichier MsgBox.java ; fichier concernés JeuPanel.java / Jeu.java
++ ajout afficher PNJ  : fichiers concernés  : Jeu.java / JeuPanel / PanelZone.java
++ méthode utiliserItem à completer dans Jeu.java ( méthode opérationnelle , il manque d'ajouter que fait l'item dans le jeu ...! ) 
+
+roland update 18/03
++ class jeu :
+   finit switch zone Bar, Hotel, Entrée Aéroport, Métro
++ class Zone :
+   ajout méthode enleveSortie
+
+
 jb update 18/03
 + ajout d'un int zoneUtilise dans Item et ajout du parametre dans jeu.java
 + ajout d'un etatItem boolean dans itam

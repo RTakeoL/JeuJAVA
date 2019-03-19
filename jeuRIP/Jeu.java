@@ -9,7 +9,7 @@ import jeuRIP.Entites.*;
 public class Jeu {
 	
 	
-	private Zone zoneCourante;
+	public Zone zoneCourante;
 	Zone[] zones;
 	Fenetre fenetre  ; 
 	JeuPanel jeuPanel ;
@@ -145,7 +145,9 @@ public class Jeu {
 	        	this.zoneCourante = nouvelle;
 				//		this.etatJeu(zoneCourante);
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-	        	afficherItemZC(zoneCourante); // affichage item 1
+	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
+	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJ());
+	        	
 	        }
 			}
 			
@@ -257,44 +259,46 @@ public class Jeu {
 				}
 			}
 */
-			public void afficherDialoguePNJ(String dialoguePNJ) {
-				// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
-				jeuPanel.afficherDialogue(dialoguePNJ);
-			}
-
-
-
-	// pour afficher un item dans la zone 
-	public void afficherItemZC(Zone zc) {
-
-		jeuPanel.initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
-		if(zc.listItemZone.size() > 0) {
-			for(int i=0 ; i<zc.listItemZone.size() ; i++){
-				// récuperer l'item avec l'index depuis la liste items zone courante
-				Item item = zc.getItem(i);
-				String imgItem = item.getImage();
-				int X = item.getItemX();
-				int Y = item.getItemY();
-				int W = item.getItemPxW();
-				int H = item.getItemPxH();
-				// afficher item dans l'emplacement prévu au PanelZone
-				jeuPanel.afficherItem(i, imgItem, X, Y, W, H);	
-			}	
-		}	
-	} 
-	
-	/// par Khamis  le 15/03
-	public void ramasserItem(int indexItem) {	
-		Item item = this.zoneCourante.getItem(indexItem); // recuperer item de la zone
-		System.out.println(item.getNomItem());
-		this.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
-		this.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire
-		this.jeuPanel.ajouterItemInventaire(item.getImage()); // afficher item dans inventaire panel
-		System.out.println("----nb items inventaire :"+this.inventaireItems.size());
+	public void afficherDialoguePNJ(String dialoguePNJ) {
+		// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
+		jeuPanel.afficherDialogue(dialoguePNJ);
 	}
-	 
-	 public void seDeplacer(String direction) {
-	    	// seDeplacer doit prendre en compte la sortie METRO
+	
+	// par kh :  utiliser item  à completer ......
+	public void  utiliserItem (Item item) {
+		 switch (item.getNomItem()) {
+		 
+		 case "Hache":
+			
+			 break;
+		 case "Gun" :
+			 break;
+		 case "Pince" :
+			 break;
+		 case  "Bouteille":
+			 break;
+		 case "Jerrican" :
+			 // test 
+			 if(this.zoneCourante.getDescription()== "Ruelle de Départ") { 
+				 System.out.println("avant supr : nb item = "+inventaireItems.size());
+				 System.out.println("Jerrican utilisé dans zone Départ ...");
+				 this.inventaireItems.remove("Jerrican");
+				 System.out.println("apres supr : nb item = "+inventaireItems.size());
+			 }
+			 break;
+		 case  "Parachute":
+			 break;
+		 case "Pills" :
+			 break;
+		 case "Portable" :
+			 break;
+		 default: 
+	            break;
+		 }	 
+	}
+	
+	public void seDeplacer(String direction) {
+	    	
 	        switch (direction) {
 	        
 	        case "NORD" :
@@ -319,46 +323,46 @@ public class Jeu {
 	 
 	 
 	// remplir d'item par jb
-	 public void creerItem() {
+	  public void creerItem() {
 			
 			this.inventaireItems = new HashMap<String, Item>() ;
 			this.tableItems = new HashMap<String, Item>();
-			Item Hache = new Item("Hache","hache.png","Ceci est une hache",9);
+			Item Hache = new Item("Hache","hache.png","Ceci est une hache",this.zones[9].getDescription());
 			Hache.setPosition(100, 100);
 			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
 			
-			Item Gun = new Item("Gun","gun.png","Ceci est un gun",6);
+			Item Gun = new Item("Gun","gun.png","Ceci est un gun",this.zones[6].getDescription());
 			Gun.setPosition(100, 100);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
 			
-			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince",13);
+			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince",this.zones[13].getDescription());
 			Pince.setPosition(100, 100);
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
 			
-			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille",6);
+			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille",this.zones[6].getDescription());
 			Bouteille.setPosition(100, 100);
 			Bouteille.setSize(100, 100);
 			tableItems.put("Bouteille", Bouteille);
 			
-			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",12);
+			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",this.zones[12].getDescription());
 			Jerrican.setPosition(300, 100);
 			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
 			
-			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",14);
+			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",this.zones[14].getDescription());
 			Parachute.setPosition(100, 100);
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
-			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills",2);
+			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills",this.zones[2].getDescription());
 			Pills.setPosition(200, 100);
 			Pills.setSize(100, 100);
 			tableItems.put("Pills",Pills);
 			
-			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable",1);
+			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable",this.zones[1].getDescription());
 			Portable.setPosition(100, 100);
 			Portable.setSize(100, 100);
 			tableItems.put("Portable", Portable);
@@ -372,7 +376,7 @@ public class Jeu {
 					"Alors tu as trouvé mon téléphone?",
 					"Oh merci à toi! Les clé du bateau de mon père sont dans sa chambre d'hotel, c'est la chambre n°14. Je te retrouve à la Marina",
 					"fille en detresse qui se dit etre la fille du capitaine.");
-			Fille.setPosition(100, 700);
+			Fille.setPosition(100, 300);
 			Fille.setSize(100, 100);
 			tablePNJ.put("Fille",Fille);
 			
@@ -380,7 +384,7 @@ public class Jeu {
 					"Zzzzzzzzzz !", "Oh ma tête ! Que ce passe-t-il ici? Je dois retrouver ma fille. "
 							+ "J'ai laisser mes clés de bateau dans ma chambre d'hotel, prends les et rejoins moi a la Marina, c'est la chambre n°14",
 					"Capitaine d'un bateau qui semble avoir un penchant pour l'alcool.");
-			Capitaine.setPosition(100, 700);
+			Capitaine.setPosition(100, 300);
 			Capitaine.setSize(100, 100);
 			tablePNJ.put("Capiataine",Capitaine);
 			
@@ -388,7 +392,7 @@ public class Jeu {
 					"", 
 					"Soldat l'ennemie a franchie nos frontière! Nous allons devoir frapper par les airs. Prenez ce parachute et embarquez dans le cargo C201-13 avec votre escoude. Exécution soldat!",
 					"Un étrange personnage qui semble avoir des séquels de la guerre.");
-			VeteranGuerre.setPosition(100, 700);
+			VeteranGuerre.setPosition(100, 300);
 			VeteranGuerre.setSize(100, 100);
 			tablePNJ.put("Veteran de guerre",VeteranGuerre);
 			
@@ -396,7 +400,7 @@ public class Jeu {
 					+ " Ramenez nous de quoi faire le plein et on décolera d'ici avant qe les zombies nous attrapent", "On est a court d'essence", 
 					"",
 					"Pilote d'avion qui peut m'aider à quitter cette île.");
-			Pilote.setPosition(100, 700);
+			Pilote.setPosition(100, 300);
 			Pilote.setSize(100, 100);
 			tablePNJ.put("Pilote",Pilote);
 			
@@ -404,7 +408,7 @@ public class Jeu {
 					"", 
 					"",
 					"");
-			Zombie.setPosition(100, 700);
+			Zombie.setPosition(100, 300);
 			Zombie.setSize(100, 100);
 			tablePNJ.put("Zombie",Zombie);
 		}
