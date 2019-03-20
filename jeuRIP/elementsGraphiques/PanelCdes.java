@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
-//import com.sun.javafx.embed.swing.Disposer;
+import com.sun.javafx.embed.swing.Disposer;
 import javax.swing.border.LineBorder;
 
 public class PanelCdes extends JPanel {
