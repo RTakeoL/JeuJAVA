@@ -352,6 +352,7 @@ public class Jeu {
 
 
 
+
 	public void  utiliserItem (Item item) {
 		switch (item.getNomItem()) {
 		case "Hache":
