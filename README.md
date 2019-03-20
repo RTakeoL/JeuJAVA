@@ -1,5 +1,14 @@
+Roland 19/03
++ Modif de la classe jeu pour finir les switches des zones et objets.
+   - Les items sont crées lors de l'utilisation de d'autres items ou lors de l'arrivée du joueur dans certaines zones
+   - AJout d'un item à donner au vétéran de guerre pour débloquer le parachute.
+   - Les dialogues ne se font plus en cliquant sur le PNJ mais à chaque arrivé de zone.
+
+
 khamis 19/03
-+ modif Item.java zone utiliée en STRING ; modis Jeu.java méthode creerItems() / modif JeuPanel.java methode checkItemWithZone() ..
++ affiche dialogPNJ complété + ajout aficherPensee 
++ ajout au click sur la zone , INVENTAIRE + MSGBOX doivent  être cachés .. 
++ modif Item.java zone utiliée en STRING ; modif Jeu.java méthode creerItems() / modif JeuPanel.java methode checkItemWithZone() ..
 
 
 khamis update 18/03

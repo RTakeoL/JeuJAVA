@@ -20,7 +20,7 @@ public class PanelZone extends JPanel {
 	private JLabel lblImgZoneNvlle= new JLabel() ;
 	
 	private int zoneW = 800 ;
-	private int zoneH = 500 ;
+	private int zoneH = 600 ;
 	
 	JLabel imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item1
 	JLabel imgItem2 = new JLabel("ITEM 2 ....");

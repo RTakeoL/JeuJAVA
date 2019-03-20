@@ -3,7 +3,9 @@ package jeuRIP;
 import jeuRIP.elementsGraphiques.JeuPanel;
 
 
+
 import java.util.*;
+
 import jeuRIP.Entites.*;
 
 public class Jeu {
@@ -56,7 +58,7 @@ public class Jeu {
         this.zones[8] = new Zone("Maison", "ZONE8.png");
         this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
         this.zones[10] = new Zone("Armurerie", "ZONE10.png");
-        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
+         this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
         this.zones[12] = new Zone("Station Essence", "ZONE12.png");
         this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
         this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
@@ -71,17 +73,15 @@ public class Jeu {
 				// Création d'items pour le jeu.....
         this.creerItem();
         this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
+
         this.zones[12].ajouteItems(0, tableItems.get("Hache")); // attention changement de zone pour la hache qui est dans station essence
         this.zones[8].ajouteItems(0, tableItems.get("Portable"));
+
         this.zones[10].ajouteItems(0, tableItems.get("Gun"));
 				this.zones[10].ajouteItems(1, tableItems.get("Couteau de guerre")); // Le vétéran de guerre donne une quete...
 			 
 			 this.créerPNJ();
 			 this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
-			 this.zones[2].ajoutePNJ(tablePNJ.get("Capitaine"));
-			 this.zones[13].ajoutePNJ(tablePNJ.get("VeterantGuerre"));
-			 this.zones[14].ajoutePNJ(tablePNJ.get("Pilote"));
-			 this.zones[6].ajoutePNJ(tablePNJ.get("Zombie"));
       
         // Zone Ruelle de départ
         this.zones[0].ajouteSortie(Sortie.EST, zones[7]);
@@ -137,6 +137,7 @@ public class Jeu {
         this.zones[12].ajouteSortie(Sortie.OUEST, zones[11]);
         
         // Zone Entrée Aéroport
+        this.zones[13].ajouteSortie(Sortie.SUD, zones[11]);
         this.zones[13].ajouteSortie(Sortie.NORD, zones[14]);
        
         // Piste Aéroport
@@ -153,14 +154,16 @@ public class Jeu {
 	    	}
 	        else {
 	        	this.zoneCourante = nouvelle;
-				//		this.etatJeu(zoneCourante);
+				//this.etatJeu(zoneCourante);
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
-	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJ());
+	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
+	        	
 	        	
 	        }
-			}
-			
+	}
+
+
 			private void etatJeu(Zone zoneCourante) {
 				PersoNonJoueur fille = this.tablePNJ.get("Fille");
 				PersoNonJoueur capitaine = this.tablePNJ.get("Capitaine");
@@ -181,38 +184,31 @@ public class Jeu {
 								//this.zones[7].enleveSortie("SUD", this.zones[13]);
 							}
 						}
-						jeuPanel.afficherDialoguePNJ(fille.getInitDialogue(),fille.getNomImage());
+
+						jeuPanel.afficherDialoguePNJ(fille.getInitDialogue(),fille.getImage());
 					} else {
 						// Dans ce IF Inti True && Done False
 						if(!(fille.getDoneQuete())) {
-							jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue(),fille.getNomImage());
+							jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue(),fille.getImage());
 						} else {
-							jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue(),fille.getNomImage());	
+							jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue(),fille.getImage());	
+
 						}
 					}
 					
 					break;
-					// ------------------------------------------------------------------
-					case "Métro" :
-					if(!fille.getInitQuete() && (this.zones[7].obtientSortie("SUD") != null)) {
-						this.zones[7].enleveSortie("NORD", this.zones[9]);
-					}
-					break;
-
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
 					if(this.zones[7].obtientSortie("SUD") != null) {
-						this.zones[7].enleveSortie("SUD",this.zones[13]);
-						if(this.zones[7].obtientSortie("NORD") == null) {
-							this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
-						} 
+						//this.zones[7].enleveSortie("SUD",this.zones[13]);
+						
 					}
-					// Des que l'on atteint cette zone après qu'elle soit bloquée
-					// Il faut avoir la pince pour débloquée la zone 
-					if(this.zones[13].obtientSortie("NORD") == null && this.tableItems.get("Pince").getEtatItem()) {
-						this.zones[13].ajouteSortie(Sortie.NORD, this.zones[14]);
-						afficherDialoguePNJ("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
+					// La première fois que l'on atteint cette zone, la sortie vers
+					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
+					if(this.zones[13].obtientSortie("NORD") == null) {
+						
+						jeuPanel.afficherPensee("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
 					}
 
 					if(this.zones[13].obtientSortie("SUD") == null && pilote.getInitQuete()) {
@@ -223,25 +219,34 @@ public class Jeu {
 
 					if(!veteranGuerre.getInitQuete()){
 						veteranGuerre.setInitQuete(true);
-						jeuPanel.afficherDialoguePNJ(veteranGuerre.getInitDialogue(),veteranGuerre.getNomImage());
+						jeuPanel.afficherDialoguePNJ(veteranGuerre.getInitDialogue(),veteranGuerre.getImage());
 					} else {
 						if(!veteranGuerre.getDoneQuete()) {
-							jeuPanel.afficherDialoguePNJ(veteranGuerre.getWaitDialogue(), veteranGuerre.getNomImage());
+							jeuPanel.afficherDialoguePNJ(veteranGuerre.getWaitDialogue(), veteranGuerre.getImage());
 						}
 					}
+
 
 					break;
 
 					//-------------------------------------------------------------------
 					case "Hotel" :
-					if(!capitaine.getDoneQuete() && !fille.getDoneQuete()) {
-						jeuPanel.afficherDialoguePNJ("Je n'ai rien à faire ici.....");
+					if(capitaine.getDoneQuete()) {
+						if(fille.getDoneQuete()) {
+							// On ramasse la clé et cela signifie que la bonne fin est débloquée
+						} else {
+							// On as pas accomplit la quete de fille....
+						}
 					} else {
-						Item Cle = new Item("Cle","","",null);
-						this.tableItems.put("Cle", Cle);
-						jeuPanel.afficherDialoguePNJ("Voici la clé !");
+						if(fille.getDoneQuete()) {
+							// On as pas encore accomplit la quete du capitaine...
+						} else {
+							// On as accomplit aucune des deux quetes et donc on affiche
+							// Le dialogue qui renseigne qu'aucune action ne peut être effectuées avec cette zone.
+						}
 					}
 					break;
+
 
 					//-------------------------------------------------------------------
 					case "Marina" :
@@ -249,20 +254,21 @@ public class Jeu {
 						if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
 							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
 							this.cheminFinMarina = true;
-							jeuPanel.afficherDialoguePNJ("Je peux enfin m'enfuir de l'île");
+							jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île..");
 						}
 					}
 					break;
+
 
 					//-------------------------------------------------------------------
 					// Le cas du supermarché doit être traiter pour le case des zombies...
 					case "Supermarché" :
 					if(!zombie.getInitQuete()) {
 						zombie.setInitQuete(true);
-						jeuPanel.afficherDialoguePNJ("Je ne peux rentrer dans le supermarché des zombies bloque l'entrée");
+						jeuPanel.afficherPensee("Je ne peux rentrer dans le supermarché des zombies bloque l'entrée");
 					} else {
 						if(!zombie.getDoneQuete()) {
-							jeuPanel.afficherDialoguePNJ("Les zombies ne semble pas vouloir partir... "
+							jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
 										+ "Il faut trouver un objet qui pourrait les faire partir.");
 						} 
 					}
@@ -271,10 +277,10 @@ public class Jeu {
 					// Le cas de la station essence où l'on n'as pas le bidon d'essence pour le remplir...
 					case "Station Essence" :
 					if(!pilote.getInitQuete()) {
-						jeuPanel.afficherDialoguePNJ("Je n'ai rien à faire ici..");
+						jeuPanel.afficherPensee("Je n'ai rien à faire ici..");
 					} else {
 						if(this.inventaireItems.get("Jerrican") == null && !pilote.getDoneQuete()) {
-							jeuPanel.afficherDialogue("Je dois trouver un moyen de récupérer l'essence...");
+							jeuPanel.afficherPensee("Je dois trouver un moyen de récupérer l'essence...");
 						}
 					}
 					break;
@@ -282,24 +288,27 @@ public class Jeu {
 					// -----------------------------------------------------------
 					case "Ruelle EST (Sud)" :
 					if(this.zones[9].obtientSortie("EST") == null) {
-						jeuPanel.afficherDialoguePNJ("Le chemin vers l'armurerie est bloqué par des branche..." + 
+						jeuPanel.afficherPensee("Le chemin vers l'armurerie est bloqué par des branche..." + 
 						" Une hache pourrait m'aider à libérer le chemin.");
 					}
 					break;
 
 					//------------------------------------------------------------------
+
 					// Arrivée au Bar déclenche la quete du capitaine..
 					// On réutilise le même principe que pour la fille du capitaine...
 
 					case "Bar" :
 					if(!(capitaine.getInitQuete())) {
 						capitaine.setInitQuete(true);
-						afficherDialoguePNJ(capitaine.getInitDialogue(), capitaine.getNomImage());
+
+			
+						jeuPanel.afficherDialoguePNJ(capitaine.getInitDialogue(), capitaine.getImage());
 					} else {
 						if(!capitaine.getDoneQuete()) {
-							afficherDialoguePNJ(capitaine.getWaitDialogue(), capitaine.getNomImage());	
+							jeuPanel.afficherDialoguePNJ(capitaine.getWaitDialogue(), capitaine.getImage());	
 						} else {
-							afficherDialoguePNJ(capitaine.getDoneDialogue(), capitaine.getNomImage());
+							jeuPanel.afficherDialoguePNJ(capitaine.getDoneDialogue(), capitaine.getImage());
 						}
 					}
 					break; 
@@ -308,7 +317,7 @@ public class Jeu {
 					if(this.zones[14].obtientSortie("NORD") == null) {
 						if(pilote.getDoneQuete()) {
 							this.zones[14].ajouteSortie(Sortie.NORD, this.zones[15]);
-							jeuPanel.afficherDialoguePNJ("Je peux enfin m'enfuir de l'île");
+							jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île");
 						}
 					}
 					break;
@@ -329,19 +338,18 @@ public class Jeu {
 						}
 					}
 					break;
+
 					
 					//-------------------------------------------------------------------
 					default:
 					break;
 				}
 			}
+
 			
 			
 			
-	public void afficherDialoguePNJ(String dialoguePNJ) {
-		// Méthode qui va invoquer une methode de jeuPanel pour afficher le bon dialogue...
-		jeuPanel.afficherDialogue(dialoguePNJ);
-	}
+
 
 
 	public void  utiliserItem (Item item) {
@@ -360,7 +368,7 @@ public class Jeu {
 			this.tablePNJ.get("Zombie").setDoneQuete(true);
 
 			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
-					this.tablePNJ.get("Zombie").getNomImage());
+					this.tablePNJ.get("Zombie").getImage());
 			
 			this.zones[6].ajouteItems(0, tableItems.get("Pince"));
 			this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
@@ -373,7 +381,7 @@ public class Jeu {
 
 			if(this.zones[13].obtientSortie("NORD") == null) {
 				this.zones[13].ajouteSortie(Sortie.NORD, this.zones[14]);
-				jeuPanel.afficherDialoguePNJ("La piste est de nouveau accessible...");
+				jeuPanel.afficherPensee("La piste est de nouveau accessible...");
 			}
 
 		break;
@@ -384,7 +392,7 @@ public class Jeu {
 			this.tablePNJ.get("Zombie").setDoneQuete(true);
 
 			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
-					this.tablePNJ.get("Zombie").getNomImage());
+					this.tablePNJ.get("Zombie").getImage());
 
 			this.zones[6].ajouteItems(1, tableItems.get("Pills"));
 			
@@ -403,7 +411,7 @@ public class Jeu {
 
 			this.tablePNJ.get("Capitaine").setDoneQuete(true);
 			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Capitaine").getDoneDialogue(),
-			this.tablePNJ.get("Capitaine").getNomImage());
+			this.tablePNJ.get("Capitaine").getImage());
 		break;
 		case "Portable" :
 			if(!this.inventaireItems.get("Portable").getEtatItem()) {
@@ -412,7 +420,7 @@ public class Jeu {
 
 				this.tablePNJ.get("Fille").setDoneQuete(true);
 				jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Fille").getDoneDialogue(),
-				this.tablePNJ.get("Fille").getNomImage());
+				this.tablePNJ.get("Fille").getImage());
 			}
 		break;
 		case "CouteauDeGuerre" :
@@ -422,7 +430,7 @@ public class Jeu {
 
 				this.tablePNJ.get("Veteran de guerre").setDoneQuete(true);
 				jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Veteran de guerre").getDoneDialogue(),
-				this.tablePNJ.get("Veteran de guerre").getNomImage());
+				this.tablePNJ.get("Veteran de guerre").getImage());
 				
 				this.zones[13].ajouteItems(0, tableItems.get("Parachute"));
 
@@ -434,7 +442,9 @@ public class Jeu {
 		 }	 
 	}
 	
-	public void seDeplacer(String direction) {
+	 
+	 
+	 public void seDeplacer(String direction) {
 	    	
 	        switch (direction) {
 	        
@@ -460,7 +470,12 @@ public class Jeu {
 	 
 	 
 	// remplir d'item par jb
+
 	 private void creerItem() {
+			
+			this.inventaireItems = new HashMap<String, Item>() ;
+			this.tableItems = new HashMap<String, Item>();
+
 			Item Hache = new Item("Hache","hache.png","Ceci est une hache",this.zones[9].getDescription());
 			Hache.setPosition(100, 100);
 			Hache.setSize(100, 100);
@@ -513,7 +528,10 @@ public class Jeu {
 		}
 
 
-		public void créerPNJ() {
+
+	 public void créerPNJ() {
+			this.tablePNJ = new HashMap<String, PersoNonJoueur>();
+
 			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Hey toi! Oui toi! J'ai besoin de ton aide. Mon père possède un bateau pour s'enfuire mais il doit être encore bourré au bar."
 					+ " J'ai oublier mon téléphone chez moi, je dois absolument appeler ma mère. Tu peux aller me le chercher? Ma maison se trouve près du métro en allant vers l'EST.",
 					"Alors tu as trouvé mon téléphone?",
@@ -555,5 +573,6 @@ public class Jeu {
 			Zombie.setSize(100, 100);
 			tablePNJ.put("Zombie",Zombie);
 		}
+
 
 }
