@@ -36,20 +36,25 @@ public class Zone   {
 			this.nomImage = nomImage;
 			this.sorties = new HashMap<String, Zone>();
 			this.listItemZone= new HashMap< Integer,Item>();
-			this.PNJZone = null;
+			this.PNJZone = null ; 
 		}
 		
 		public PersoNonJoueur getPNJZone() {
-			return PNJZone;
+			return (this.PNJZone )  ;
 		}
-
+				
 		public void ajouteSortie(Sortie sortie, Zone zoneVoisine) {
 			sorties.put(sortie.name(), zoneVoisine);
+		}
+		
+		public void enleveSortie(String sortie, Zone zoneVoisine) {
+			sorties.remove(sortie, zoneVoisine);
 		}
 		
 		public void ajoutePNJ(PersoNonJoueur nomPNJ) {
 			this.PNJZone = nomPNJ;
 		}
+		 
 		
 		public String getNomImage() {
 			return(this.nomImage);

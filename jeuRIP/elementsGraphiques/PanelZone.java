@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import jeuRIP.Entites.PersoNonJoueur;
 
 public class PanelZone extends JPanel {
 	JeuPanel jeuPanel ;
@@ -17,11 +20,16 @@ public class PanelZone extends JPanel {
 	private JLabel lblImgZoneNvlle= new JLabel() ;
 	
 	private int zoneW = 800 ;
-	private int zoneH = 500 ;
+	private int zoneH = 600 ;
 	
 	JLabel imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item1
 	JLabel imgItem2 = new JLabel("ITEM 2 ....");
 	JLabel imgItem3 = new JLabel("ITEM 3 ....");
+	
+	JLabel imgPNJ = new JLabel("PNJ .....");
+	int imgPNJH =100 ;
+	int imgPNJW = 100 ;
+	String nomImgPNJ ;
 	
 	public PanelZone(JeuPanel jeuPanel) {
 		super(null);
@@ -78,8 +86,12 @@ public class PanelZone extends JPanel {
 	    
 	    this.add(imgItem3);
 	    
+	    this.imgPNJ.setBounds(100 , -300 , 100 , 100 ); 
+	    this.imgPNJ.setOpaque(true);
+	    this.add(this.imgPNJ);
 	    
-	    this.panelZoneCourante.add(imgItem1);
+	    
+	    
 	    this.panelZoneCourante.add(lblImgZone);
 	    this.panelZoneNouvelle.add(lblImgZoneNvlle);
 	    
@@ -155,6 +167,61 @@ public class PanelZone extends JPanel {
 		initImgItem(2);
 	}
 	
+	public void initImgPNJ() {
+		this.imgPNJ.setBounds(100 , -300 , 100 , 100 ); 
+		this.imgPNJ.setIcon(null);
+		this.imgPNJ.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				animationPNJUp();
+			}
+		});
+	}
+	
+	public void afficherPNJ( String nomImgPNJ , int X , int Y , int W , int H) {
+		this.imgPNJH = H ;
+		this.imgPNJW = W ;
+		this.nomImgPNJ = nomImgPNJ ;
+		this.imgPNJ.setBounds(X ,Y , W , H);
+		this.setImageDeFondLbl(nomImgPNJ, imgPNJ);
+
+	}
+	
+	public void animationPNJUp() {
+		int H =  imgPNJH ; 
+		int W =  imgPNJW ; 
+		
+		new Thread (new Runnable (){
+			
+			public void run() {
+				 for (int i= H ; i<=H+60; i+=20) {
+					 for (int j= W; j<=W+60; j+=20) {
+						 imgPNJ.setSize(i, j);
+						 setImageDeFondLbl(nomImgPNJ, imgPNJ);
+						    
+							 				    					 
+						 try {
+							Thread.currentThread().sleep(0);
+							
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							System.out.println("anim PNJ marche pas");
+						}
+					 } 
+				 }	
+				//repaint();
+			    //revalidate();
+				 
+
+			}
+		}).start(); ;
+		
+		
+		
+		
+		
+	}
 	
 	
 	public void ajouterImgZoneCourante(String nomImg) {
