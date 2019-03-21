@@ -161,11 +161,13 @@ public class Jeu {
 	        else {
 	        	this.zoneCourante = nouvelle;
 				this.etatJeu(zoneCourante);
-			jeuPanel.checkSorties(this.zoneCourante); // par kh 19/03 pour dactiver btn sortie si il exist pas
+			    jeuPanel.checkSorties(this.zoneCourante); // par kh 19/03 pour dactiver btn sortie si il exist pas
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
 	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
 	        	jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
+	        	
+	        	System.out.println(" test .........: "+this.zoneCourante.listItemZone.size());
 	        }
 	}
 
@@ -226,6 +228,10 @@ public class Jeu {
 						this.zones[13].ajouteSortie(Sortie.SUD, this.zones[11]);
 					}
 
+					// si quete pilote non accepté impossible d'aller au sud
+					if ( ! pilote.getInitQuete() && this.zones[13].obtientSortie("SUD") != null) {
+						this.zones[13].enleveSortie("SUD", this.zones[11]);
+					}
 					// C'est dans cette zone que le vétéran de guerre se trouve et donne sa quete..
 
 					if(!veteranGuerre.getInitQuete()){
@@ -369,6 +375,7 @@ public class Jeu {
 			if(this.zones[9].obtientSortie("EST") == null) {
 				this.zones[9].ajouteSortie(Sortie.EST, this.zones[10]);
 				jeuPanel.afficherPensee("L'accés a l'armurie semble dégagé...");
+				jeuPanel.checkSorties(this.zoneCourante);
 			}
 		break;
 		case "Gun" :
