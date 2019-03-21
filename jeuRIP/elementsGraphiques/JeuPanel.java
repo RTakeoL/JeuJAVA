@@ -44,12 +44,12 @@ public class JeuPanel extends JPanel   {
 		this.panelMsgBox = new PanelMsgBox(this);
 		
 		//msgBox.afficherPensee("helooooooooooooooooooooooooooooooo");
-		panelMsgBox.afficherMsgPJN("heloooooooooooofldjjldflgdfljgldfljdlfgjldfjdflgdlfgjldkkkkkkkkkkkkkkk"
-				+ "khddddddddddddddddd"
-				+ "hkdlfssssssssssssssssssssssss"
-				+ "dfshkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
-				+ "dssssssssssssssssssssssssssssssssssssssh"
-				+ "jdfslsdsdhsdhfsfhsdhfhsdhlsdhldhlhshdhlhlsdhlshldhlsdlhkflsooooooooooo", "fille.png");
+//		panelMsgBox.afficherMsgPJN("heloooooooooooofldjjldflgdfljgldfljdlfgjldfjdflgdlfgjldkkkkkkkkkkkkkkk"
+//				+ "khddddddddddddddddd"
+//				+ "hkdlfssssssssssssssssssssssss"
+//				+ "dfshkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+//				+ "dssssssssssssssssssssssssssssssssssssssh"
+//				+ "jdfslsdsdhsdhfsfhsdhfhsdhlsdhldhlhshdhlhlsdhlshldhlsdlhkflsooooooooooo", "fille.png");
 		this.panelMap = new PanelMap(this);
 		// map.afficherMap();
 		 
