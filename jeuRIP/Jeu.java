@@ -18,6 +18,7 @@ public class Jeu {
 	public HashMap<String, Item> tableItems ;
 	public HashMap<String, PersoNonJoueur> tablePNJ;
 	public HashMap<String, Item> inventaireItems; // par kh 15/03
+	private MapZone mapJeu;
 
 	// Propriété cheminFin qui permets de savoir quel chemin à été pris:
 	// True => Marina
@@ -26,11 +27,27 @@ public class Jeu {
 	
 	
 	public Jeu () {
-		
-		 creerCarte();
-		 this.fenetre= null  ;
-		
+		// Création des zones et sorties....
+		 this.creerCarte();
+		 
+		 // Création des sorties
+		 this.initSortieZones();
+		 // Création de la Map une fois les zone créer
+		 this.creerMap();
+		// Création d'items pour le jeu.....
+		 this.creerItem();	
+		 // Association item <-> Zone
+		 this.associerItemZone();
+		 
+		 // Création des PNJ
+		 this.créerPNJ();
+		 
+		 // Association des PNJ <-> Zone
+		 this.associerPNJZone();
+		 
+		 this.fenetre= null;
 	}
+	
 	
 	public void setFenetre( Fenetre fen) { 
 		fenetre = fen ;
@@ -66,86 +83,75 @@ public class Jeu {
 				// Partie fin de jeu....
 				this.zones[15] = new Zone("Fin", "");// Pas besoin d'image pour la zone fin car on affiche en image soit la bonne soit la mauvaise fin
 				this.zones[16] = new Zone("Bonne fin", "ZONE16.png");
-				this.zones[17] = new Zone("Mauvaise fin", "ZONE17.png");
-
-
-
-				// Création d'items pour le jeu.....
-        this.creerItem();
-        this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
-
-        this.zones[12].ajouteItems(0, tableItems.get("Hache")); // attention changement de zone pour la hache qui est dans station essence
-        this.zones[8].ajouteItems(0, tableItems.get("Portable"));
-
-        this.zones[10].ajouteItems(0, tableItems.get("Gun"));
-				this.zones[10].ajouteItems(1, tableItems.get("Couteau de guerre")); // Le vétéran de guerre donne une quete...
-			 
-			 this.créerPNJ();
-			 this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
-      
-        // Zone Ruelle de départ
-        this.zones[0].ajouteSortie(Sortie.EST, zones[7]);
-        this.zones[0].ajouteSortie(Sortie.OUEST, zones[1]); 
-        
-        //Zone Ruelle OUEST (Sud)
-        this.zones[1].ajouteSortie(Sortie.NORD, zones[4]);
-        this.zones[1].ajouteSortie(Sortie.OUEST, zones[3]);
-        this.zones[1].ajouteSortie(Sortie.SUD, zones[2]);
-        this.zones[1].ajouteSortie(Sortie.EST, zones[0]);
-        
-          // Zone Bar
-        this.zones[2].ajouteSortie(Sortie.NORD, zones[1]);
-        
-        // Zone Hotel
-        this.zones[3].ajouteSortie(Sortie.EST, zones[1]);
-        
-        // Zone Ruelle OUEST (Nord)
-        this.zones[4].ajouteSortie(Sortie.EST, zones[6]);
-        this.zones[4].ajouteSortie(Sortie.NORD, zones[5]);
-        this.zones[4].ajouteSortie(Sortie.SUD, zones[1]);
-       
-        // Marina
-        this.zones[5].ajouteSortie(Sortie.SUD, zones[4]);
-         
-        // Zone supermarché
-        this.zones[6].ajouteSortie(Sortie.EST, zones[11]);
-        this.zones[6].ajouteSortie(Sortie.OUEST, zones[4]);
-        
-          // Zone Metro
-        this.zones[7].ajouteSortie(Sortie.OUEST, zones[0]);
-       //  this.zones[7].ajouteSortie(Sortie.EST, zones[8]);
-        this.zones[7].ajouteSortie(Sortie.SUD, zones[13]);
-        this.zones[7].ajouteSortie(Sortie.NORD, zones[9]);
-        
-        // Zone Maison
-        this.zones[8].ajouteSortie(Sortie.OUEST, zones[7]);
-        
-        // Zone Ruelle EST (Sud)
-        this.zones[9].ajouteSortie(Sortie.SUD, zones[7]);
-        this.zones[9].ajouteSortie(Sortie.NORD, zones[11]);
-        this.zones[9].ajouteSortie(Sortie.EST, zones[10]);
-       
-        // Zone Ruelle EST (Nord)
-        this.zones[11].ajouteSortie(Sortie.SUD, zones[9]);
-        this.zones[11].ajouteSortie(Sortie.EST, zones[12]);
-        this.zones[11].ajouteSortie(Sortie.OUEST, zones[6]);
-        this.zones[11].ajouteSortie(Sortie.NORD, zones[13]);
-   
-        
-        // Zone Armurerie && Station Essence
-        this.zones[10].ajouteSortie(Sortie.OUEST, zones[9]);
-        this.zones[12].ajouteSortie(Sortie.OUEST, zones[11]);
-        
-        // Zone Entrée Aéroport
-        this.zones[13].ajouteSortie(Sortie.SUD, zones[11]);
-        this.zones[13].ajouteSortie(Sortie.NORD, zones[14]);
-       
-        // Piste Aéroport
-        this.zones[14].ajouteSortie(Sortie.SUD, zones[13]);
+				this.zones[17] = new Zone("Mauvaise fin", "ZONE17.png"); 
+	  
         
         this.zoneCourante = zones[0]; 
 	}
 
+	
+	
+	private void initSortieZones() {
+	    // Zone Ruelle de départ
+        this.zones[0].ajouteSortie(Sortie.EST, this.zones[7]);
+        this.zones[0].ajouteSortie(Sortie.OUEST, this.zones[1]); 
+        
+        //Zone Ruelle OUEST (Sud)
+        this.zones[1].ajouteSortie(Sortie.NORD, this.zones[4]);
+        this.zones[1].ajouteSortie(Sortie.OUEST, this.zones[3]);
+        this.zones[1].ajouteSortie(Sortie.SUD, this.zones[2]);
+        this.zones[1].ajouteSortie(Sortie.EST, this.zones[0]);
+        
+          // Zone Bar
+        this.zones[2].ajouteSortie(Sortie.NORD, this.zones[1]);
+        
+        // Zone Hotel
+        this.zones[3].ajouteSortie(Sortie.EST, this.zones[1]);
+        
+        // Zone Ruelle OUEST (Nord)
+        this.zones[4].ajouteSortie(Sortie.EST, this.zones[6]);
+        this.zones[4].ajouteSortie(Sortie.NORD, this.zones[5]);
+        this.zones[4].ajouteSortie(Sortie.SUD, this.zones[1]);
+       
+        // Marina
+        this.zones[5].ajouteSortie(Sortie.SUD, this.zones[4]);
+         
+        // Zone supermarché
+        this.zones[6].ajouteSortie(Sortie.EST, this.zones[11]);
+        this.zones[6].ajouteSortie(Sortie.OUEST, this.zones[4]);
+        
+          // Zone Metro
+        this.zones[7].ajouteSortie(Sortie.OUEST, this.zones[0]);
+        this.zones[7].ajouteSortie(Sortie.SUD, this.zones[13]);
+        this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
+        
+        // Zone Maison
+        this.zones[8].ajouteSortie(Sortie.OUEST, this.zones[7]);
+        
+        // Zone Ruelle EST (Sud)
+        this.zones[9].ajouteSortie(Sortie.SUD, this.zones[7]);
+        this.zones[9].ajouteSortie(Sortie.NORD, this.zones[11]);
+       
+        // Zone Ruelle EST (Nord)
+        this.zones[11].ajouteSortie(Sortie.SUD, this.zones[9]);
+        this.zones[11].ajouteSortie(Sortie.EST, this.zones[12]);
+        this.zones[11].ajouteSortie(Sortie.OUEST, this.zones[6]);
+        this.zones[11].ajouteSortie(Sortie.NORD, this.zones[13]);
+   
+        
+        // Zone Armurerie && Station Essence
+        this.zones[10].ajouteSortie(Sortie.OUEST, this.zones[9]);
+        this.zones[12].ajouteSortie(Sortie.OUEST, this.zones[11]);
+        
+        // Zone Entrée Aéroport
+        this.zones[13].ajouteSortie(Sortie.SUD, this.zones[11]);
+        this.zones[13].ajouteSortie(Sortie.NORD, this.zones[14]);
+       
+        // Piste Aéroport
+        this.zones[14].ajouteSortie(Sortie.SUD, this.zones[13]);
+	}
+	
+	//----------------------------------------------------------------
 	 private void goTo(String direction) {
 	    	Zone nouvelle = zoneCourante.obtientSortie( direction);
 	    	if ( nouvelle == null ) {
@@ -154,205 +160,213 @@ public class Jeu {
 	    	}
 	        else {
 	        	this.zoneCourante = nouvelle;
-				//this.etatJeu(zoneCourante);
+				this.etatJeu(zoneCourante);
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
-	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
-	        	
-	        	
+	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());	
 	        }
 	}
 
 
-			private void etatJeu(Zone zoneCourante) {
-				PersoNonJoueur fille = this.tablePNJ.get("Fille");
-				PersoNonJoueur capitaine = this.tablePNJ.get("Capitaine");
-				PersoNonJoueur veteranGuerre = this.tablePNJ.get("Veteran de guerre");
-				PersoNonJoueur pilote = this.tablePNJ.get("Pilote");
-				PersoNonJoueur zombie = this.tablePNJ.get("Zombie");
-				
-				
-				switch(this.zoneCourante.getDescription()) {
-					//-------------------------------------------------------------------
-					case "Ruelle OUEST (Sud)" :
-					// Premier cas lorsque le Init est false
-					if(!(fille.getInitQuete())) {
-						fille.setInitQuete(true);
-						if(this.zones[7].obtientSortie("EST") == null) {
-							if(fille.getInitQuete()) {
-								this.zones[7].ajouteSortie(Sortie.EST, this.zones[8]);
-								//this.zones[7].enleveSortie("SUD", this.zones[13]);
-							}
-						}
-
-						jeuPanel.afficherDialoguePNJ(fille.getInitDialogue(),fille.getImage());
-					} else {
-						// Dans ce IF Inti True && Done False
-						if(!(fille.getDoneQuete())) {
-							jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue(),fille.getImage());
-						} else {
-							jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue(),fille.getImage());	
-
-						}
+		//----------------------------------------------------------------
+	private void etatJeu(Zone zoneCourante) {
+		PersoNonJoueur fille = this.tablePNJ.get("Fille");
+		PersoNonJoueur capitaine = this.tablePNJ.get("Capitaine");
+		PersoNonJoueur veteranGuerre = this.tablePNJ.get("Veteran de guerre");
+		PersoNonJoueur pilote = this.tablePNJ.get("Pilote");
+		PersoNonJoueur zombie = this.tablePNJ.get("Zombie");
+		
+		
+		switch(this.zoneCourante.getDescription()) {
+			//-------------------------------------------------------------------
+			case "Ruelle OUEST (Sud)" :
+			// Premier cas lorsque le Init est false
+			if(!(fille.getInitQuete())) {
+				fille.setInitQuete(true);
+				if(this.zones[7].obtientSortie("EST") == null) {
+					if(fille.getInitQuete()) {
+						this.zones[7].ajouteSortie(Sortie.EST, this.zones[8]);
+						//this.zones[7].enleveSortie("SUD", this.zones[13]);
 					}
-					
-					break;
+				}
 
-					//-------------------------------------------------------------------
-					case "Entrée Aéroport" :
-					if(this.zones[7].obtientSortie("SUD") != null) {
-						//this.zones[7].enleveSortie("SUD",this.zones[13]);
-						
-					}
-					// La première fois que l'on atteint cette zone, la sortie vers
-					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
-					if(this.zones[13].obtientSortie("NORD") == null) {
-						
-						jeuPanel.afficherPensee("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
-					}
+				jeuPanel.afficherDialoguePNJ(fille.getInitDialogue(),fille.getImage());
+			} else {
+				// Dans ce IF Inti True && Done False
+				if(!(fille.getDoneQuete())) {
+					jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue(),fille.getImage());
+				} else {
+					jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue(),fille.getImage());	
 
-					if(this.zones[13].obtientSortie("SUD") == null && pilote.getInitQuete()) {
-						this.zones[13].ajouteSortie(Sortie.SUD, this.zones[11]);
-					}
-
-					// C'est dans cette zone que le vétéran de guerre se trouve et donne sa quete..
-
-					if(!veteranGuerre.getInitQuete()){
-						veteranGuerre.setInitQuete(true);
-						jeuPanel.afficherDialoguePNJ(veteranGuerre.getInitDialogue(),veteranGuerre.getImage());
-					} else {
-						if(!veteranGuerre.getDoneQuete()) {
-							jeuPanel.afficherDialoguePNJ(veteranGuerre.getWaitDialogue(), veteranGuerre.getImage());
-						}
-					}
-
-
-					break;
-
-					//-------------------------------------------------------------------
-					case "Hotel" :
-					if(capitaine.getDoneQuete()) {
-						if(fille.getDoneQuete()) {
-							// On ramasse la clé et cela signifie que la bonne fin est débloquée
-						} else {
-							// On as pas accomplit la quete de fille....
-						}
-					} else {
-						if(fille.getDoneQuete()) {
-							// On as pas encore accomplit la quete du capitaine...
-						} else {
-							// On as accomplit aucune des deux quetes et donc on affiche
-							// Le dialogue qui renseigne qu'aucune action ne peut être effectuées avec cette zone.
-						}
-					}
-					break;
-
-
-					//-------------------------------------------------------------------
-					case "Marina" :
-					if(this.zones[5].obtientSortie("NORD") == null) {
-						if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
-							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
-							this.cheminFinMarina = true;
-							jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île..");
-						}
-					}
-					break;
-
-
-					//-------------------------------------------------------------------
-					// Le cas du supermarché doit être traiter pour le case des zombies...
-					case "Supermarché" :
-					if(!zombie.getInitQuete()) {
-						zombie.setInitQuete(true);
-						jeuPanel.afficherPensee("Je ne peux rentrer dans le supermarché des zombies bloque l'entrée");
-					} else {
-						if(!zombie.getDoneQuete()) {
-							jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
-										+ "Il faut trouver un objet qui pourrait les faire partir.");
-						} 
-					}
-					break;
-					//-------------------------------------------------------------------
-					// Le cas de la station essence où l'on n'as pas le bidon d'essence pour le remplir...
-					case "Station Essence" :
-					if(!pilote.getInitQuete()) {
-						jeuPanel.afficherPensee("Je n'ai rien à faire ici..");
-					} else {
-						if(this.inventaireItems.get("Jerrican") == null && !pilote.getDoneQuete()) {
-							jeuPanel.afficherPensee("Je dois trouver un moyen de récupérer l'essence...");
-						}
-					}
-					break;
-
-					// -----------------------------------------------------------
-					case "Ruelle EST (Sud)" :
-					if(this.zones[9].obtientSortie("EST") == null) {
-						jeuPanel.afficherPensee("Le chemin vers l'armurerie est bloqué par des branche..." + 
-						" Une hache pourrait m'aider à libérer le chemin.");
-					}
-					break;
-
-					//------------------------------------------------------------------
-
-					// Arrivée au Bar déclenche la quete du capitaine..
-					// On réutilise le même principe que pour la fille du capitaine...
-
-					case "Bar" :
-					if(!(capitaine.getInitQuete())) {
-						capitaine.setInitQuete(true);
-
+				}
+			}
 			
-						jeuPanel.afficherDialoguePNJ(capitaine.getInitDialogue(), capitaine.getImage());
-					} else {
-						if(!capitaine.getDoneQuete()) {
-							jeuPanel.afficherDialoguePNJ(capitaine.getWaitDialogue(), capitaine.getImage());	
-						} else {
-							jeuPanel.afficherDialoguePNJ(capitaine.getDoneDialogue(), capitaine.getImage());
-						}
-					}
-					break; 
-					// ----------------------------------------------
-					case "Piste Aéroport" :
-					if(this.zones[14].obtientSortie("NORD") == null) {
-						if(pilote.getDoneQuete()) {
-							this.zones[14].ajouteSortie(Sortie.NORD, this.zones[15]);
-							jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île");
-						}
-					}
-					break;
-					// ----------------------------------------------------
-					case "Fin" :
-					if(this.cheminFinMarina) {
-						if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
-								(this.tableItems.get("Cle") != null)) {
-							this.zoneCourante = this.zones[16]; // Débloque la bonne fin..
-						} else {
-							this.zoneCourante = this.zones[17]; // Débloque mauvaise fin....
-						}
-					} else {
-						if((veteranGuerre.getDoneQuete() && pilote.getDoneQuete())) {
-							this.zoneCourante = this.zones[16];
-						} else {
-							this.zoneCourante = this.zones[17];
-						}
-					}
-					break;
+			break;
 
-					
-					//-------------------------------------------------------------------
-					default:
-					break;
+			//-------------------------------------------------------------------
+			case "Entrée Aéroport" :
+			if(this.zones[7].obtientSortie("SUD") != null) {
+				//this.zones[7].enleveSortie("SUD",this.zones[13]);
+				
+			}
+			// La première fois que l'on atteint cette zone, la sortie vers
+			// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
+			if(this.zones[13].obtientSortie("NORD") == null) {
+				
+				jeuPanel.afficherPensee("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
+			}
+
+			if(this.zones[13].obtientSortie("SUD") == null && pilote.getInitQuete()) {
+				this.zones[13].ajouteSortie(Sortie.SUD, this.zones[11]);
+			}
+
+			// C'est dans cette zone que le vétéran de guerre se trouve et donne sa quete..
+
+			if(!veteranGuerre.getInitQuete()){
+				veteranGuerre.setInitQuete(true);
+				jeuPanel.afficherDialoguePNJ(veteranGuerre.getInitDialogue(),veteranGuerre.getImage());
+			} else {
+				if(!veteranGuerre.getDoneQuete()) {
+					jeuPanel.afficherDialoguePNJ(veteranGuerre.getWaitDialogue(), veteranGuerre.getImage());
 				}
 			}
 
+
+			break;
+
+			//-------------------------------------------------------------------
+			case "Hotel" :
+			if(capitaine.getDoneQuete()) {
+				if(fille.getDoneQuete()) {
+					// On ramasse la clé et cela signifie que la bonne fin est débloquée
+				} else {
+					// On as pas accomplit la quete de fille....
+				}
+			} else {
+				if(fille.getDoneQuete()) {
+					// On as pas encore accomplit la quete du capitaine...
+				} else {
+					// On as accomplit aucune des deux quetes et donc on affiche
+					// Le dialogue qui renseigne qu'aucune action ne peut être effectuées avec cette zone.
+				}
+			}
+			break;
+
+
+			//-------------------------------------------------------------------
+			case "Marina" :
+			if(this.zones[5].obtientSortie("NORD") == null) {
+				if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
+					this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
+					this.cheminFinMarina = true;
+					jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île..");
+				}
+			}
+			break;
+
+
+			//-------------------------------------------------------------------
+			// Le cas du supermarché doit être traiter pour le case des zombies...
+			case "Supermarché" :
+			if(!zombie.getInitQuete()) {
+				zombie.setInitQuete(true);
+				jeuPanel.afficherPensee("Je ne peux rentrer dans le supermarché des zombies bloque l'entrée");
+			} else {
+				if(!zombie.getDoneQuete()) {
+					jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
+								+ "Il faut trouver un objet qui pourrait les faire partir.");
+				} 
+			}
+			break;
+			//-------------------------------------------------------------------
+			// Le cas de la station essence où l'on n'as pas le bidon d'essence pour le remplir...
+			case "Station Essence" :
+			if(!pilote.getInitQuete()) {
+				jeuPanel.afficherPensee("Je n'ai rien à faire ici..");
+			} else {
+				if(this.inventaireItems.get("Jerrican") == null && !pilote.getDoneQuete()) {
+					jeuPanel.afficherPensee("Je dois trouver un moyen de récupérer l'essence...");
+				}
+			}
+			break;
+
+			// -----------------------------------------------------------
+			case "Ruelle EST (Sud)" :
+			if(this.zones[9].obtientSortie("EST") == null) {
+				jeuPanel.afficherPensee("Le chemin vers l'armurerie est bloqué par des branche..." + 
+				" Une hache pourrait m'aider à libérer le chemin.");
+			}
+			break;
+
+			//------------------------------------------------------------------
+
+			// Arrivée au Bar déclenche la quete du capitaine..
+			// On réutilise le même principe que pour la fille du capitaine...
+
+			case "Bar" :
+			if(!(capitaine.getInitQuete())) {
+				capitaine.setInitQuete(true);
+
+	
+				jeuPanel.afficherDialoguePNJ(capitaine.getInitDialogue(), capitaine.getImage());
+			} else {
+				if(!capitaine.getDoneQuete()) {
+					jeuPanel.afficherDialoguePNJ(capitaine.getWaitDialogue(), capitaine.getImage());	
+				} else {
+					jeuPanel.afficherDialoguePNJ(capitaine.getDoneDialogue(), capitaine.getImage());
+				}
+			}
+			break; 
+			// ----------------------------------------------
+			case "Piste Aéroport" :
+			if(this.zones[14].obtientSortie("NORD") == null) {
+				if(pilote.getDoneQuete()) {
+					this.zones[14].ajouteSortie(Sortie.NORD, this.zones[15]);
+					jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île");
+				}
+			}
+			break;
+			// ----------------------------------------------------
+			case "Fin" :
+			if(this.cheminFinMarina) {
+				if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
+						(this.tableItems.get("Cle") != null)) {
+					this.zoneCourante = this.zones[16]; // Débloque la bonne fin..
+				} else {
+					this.zoneCourante = this.zones[17]; // Débloque mauvaise fin....
+				}
+			} else {
+				if((veteranGuerre.getDoneQuete() && pilote.getDoneQuete())) {
+					this.zoneCourante = this.zones[16];
+				} else {
+					this.zoneCourante = this.zones[17];
+				}
+			}
+			break;
+
+			
+			//-------------------------------------------------------------------
+			default:
+			break;
+		}
+	}
+
 			
 			
-			
+
+			//----------------------------------------------------------------
+//	public void afficherMap() {
+//		String nomZoneCourante;
+//		nomZoneCourante = this.zoneCourante.getDescription();
+//		String imageMapCourante;
+//		imageMapCourante = this.mapJeu.getMap(nomZoneCourante);
+//		
+//		// Appelle de la méthode dans Panel pour afficher la map...
+//	}
 
 
 
-
+			//----------------------------------------------------------------
 	public void  utiliserItem (Item item) {
 		switch (item.getNomItem()) {
 		case "Hache":
@@ -444,7 +458,8 @@ public class Jeu {
 	}
 	
 	 
-	 
+
+	//----------------------------------------------------------------
 	 public void seDeplacer(String direction) {
 	    	
 	        switch (direction) {
@@ -468,7 +483,8 @@ public class Jeu {
 	        }
 	    }
 	 
-	 
+
+		//----------------------------------------------------------------
 	 
 	// remplir d'item par jb
 
@@ -518,8 +534,8 @@ public class Jeu {
 			tableItems.put("Portable", Portable);
 
 			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteauguerre.jpg","L'objet favoris du vétéran de guerre!",this.zones[6].getDescription());
-			Portable.setPosition(200, 100);
-			Portable.setSize(100, 100);
+			CouteauDeGuerre.setPosition(200, 100);
+			CouteauDeGuerre.setSize(100, 100);
 			tableItems.put("CouteauDeGuerre", CouteauDeGuerre);
 
 			Item JerricanPlein = new Item("Jerrican (Plein)","jerrican.png","Le jerrican est remplit d'essence..",this.zones[12].getDescription());
@@ -528,9 +544,17 @@ public class Jeu {
 			tableItems.put("Jerrican (Plein)",JerricanPlein);
 		}
 
+		//----------------------------------------------------------------
+	 private void associerItemZone() {
+		this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
+		this.zones[12].ajouteItems(0, tableItems.get("Hache")); // attention changement de zone pour la hache qui est dans station essence
+		this.zones[8].ajouteItems(0, tableItems.get("Portable"));
+		this.zones[10].ajouteItems(0, tableItems.get("Gun"));
+		this.zones[10].ajouteItems(1, tableItems.get("Couteau de guerre")); // Le vétéran de guerre donne une quete...
+	 }
 
-
-	 public void créerPNJ() {
+		//----------------------------------------------------------------
+	 private void créerPNJ() {
 			this.tablePNJ = new HashMap<String, PersoNonJoueur>();
 
 			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Hey toi! Oui toi! J'ai besoin de ton aide. Mon père possède un bateau pour s'enfuire mais il doit être encore bourré au bar."
@@ -576,4 +600,29 @@ public class Jeu {
 		}
 
 
+		//----------------------------------------------------------------
+	 
+	 private void creerMap() {
+		 int i;
+		 this.mapJeu = new MapZone();
+		 i=0;
+		 while(i<15) {
+			 this.mapJeu.setMap(this.zones[i].getDescription(), "MapZone"+i+".png");
+			 
+			 i+=1; 
+		 }
+	 }
+
+		//----------------------------------------------------------------
+	 
+	 
+	 private void associerPNJZone() {
+		 this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
+		 this.zones[2].ajoutePNJ(tablePNJ.get("Capitaine"));
+		 this.zones[13].ajoutePNJ(tablePNJ.get("VeteranGuerre"));
+		 this.zones[14].ajoutePNJ(tablePNJ.get("Pilote"));
+		 this.zones[6].ajoutePNJ(tablePNJ.get("Zombie"));
+	 }
+	 
+	 
 }

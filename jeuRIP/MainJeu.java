@@ -8,7 +8,6 @@ public class MainJeu {
 		Jeu jeu = new Jeu();
 		Fenetre fenetre = new Fenetre(jeu);
 		jeu.setFenetre( fenetre);
-		
 
 	}
 
