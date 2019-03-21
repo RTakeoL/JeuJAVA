@@ -14,3 +14,7 @@ finir les dialogues
 presentation des les dialogues
 
 faire en sorte que seulement btn_fermer pour fermer les dialogues
+
+prendre en compte que le gun a été utilisé et donc pas faire l'action de la bouteille dans supermarché
+
+fixer le bug de la pince qui ne s'utilise pas qd le parachute et au sol
