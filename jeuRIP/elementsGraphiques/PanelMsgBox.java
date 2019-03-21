@@ -8,33 +8,75 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import java.awt.Font;
 
-public class MsgBox {
+public class PanelMsgBox {
 	
 	JeuPanel jeuPanel ;
 	private JPanel msgContainer ;
 	private JLabel msgText ;
+	private JLabel penseeText ;
 	private JLabel imgPNJ ;
+	private JLabel fondBox ;
 	private JLabel btnFermer;
 	private int boxX = 0 ;
-	private int boxY = 600;
+	private int boxY = 400;
+	private int boxW = 800;
+	private int boxH = 200;
 	
 	
-	public MsgBox(JeuPanel jeuPanel) {
+	public PanelMsgBox(JeuPanel jeuPanel) {
 		this.jeuPanel = jeuPanel ;
 		this.msgContainer = new JPanel();
 		this.msgContainer.setLayout(null);
 		this.msgContainer.setOpaque(true);
-		this.msgContainer.setBounds(boxX  , boxY , 800 , 200); 
+		this.msgContainer.setBounds(boxX  , boxY ,boxW , boxH); 
 		
-		
+		this.fondBox = new JLabel();
+		this.fondBox.setBackground(Color.BLACK);
+		this.fondBox.setBounds(0  , 0,boxW , boxH);
+    	setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
+    	
+    	
+    	
 		this.imgPNJ =  new JLabel(" imgPNJ ");
 		
+		this.penseeText = new JLabel();
+		//this.msgText.setBackground(Color.GRAY);
+		this.penseeText.setOpaque(false);
+		this.penseeText.setBounds(170  , 400, 450 , 130 );
+		this.penseeText.setPreferredSize( new Dimension(400 , 130)) ;
+		penseeText.setVerticalAlignment(SwingConstants.TOP);
+		penseeText.setHorizontalAlignment(SwingConstants.CENTER);
+		penseeText.setForeground(Color.BLACK);
+		penseeText.setFont(new Font("Chiller", Font.BOLD, 20));
 		
 		
 		this.msgText = new JLabel();
-		this.msgText.setBackground(Color.GRAY);
-		this.msgText.setOpaque(true);
+		msgText.setVerticalAlignment(SwingConstants.TOP);
+		msgText.setHorizontalAlignment(SwingConstants.CENTER);
+		msgText.setForeground(Color.BLACK);
+		msgText.setFont(new Font("Chiller", Font.BOLD, 20));
+		//this.msgText.setBackground(Color.GRAY);
+		this.msgText.setOpaque(false);
+		this.msgText.setBounds(170  , 13, 450 , 130 );
+		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
+	
+		
+		/*
+		this.msgText = new JTextArea();
+		//this.msgText.setBackground(Color.GRAY);
+		this.msgText.setOpaque(false);
+		this.msgText.setBounds(170  , 13, 450 , 130 );
+		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
+		
+		
+		// Code defining text area parameters and functionality.
+		JScrollPane taScroll = new JScrollPane(msgText);
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(493, 85, 17, 48);
+		
+		*/
 		
 		this.btnFermer = new JLabel(" FERMER ");
 		this.btnFermer.setBounds(650 , 20, 80 , 40 );
@@ -47,35 +89,43 @@ public class MsgBox {
 				fermerMsgBox();
 			}
 		});
+	
+		
 		
 		this.msgContainer.add(imgPNJ);
 		this.msgContainer.add(msgText);
+		//this.msgContainer.add(scrollBar);
+		this.msgContainer.add(penseeText);
 		this.msgContainer.add(btnFermer);
+		this.msgContainer.add(this.fondBox);
 		this.jeuPanel.add(msgContainer); 
+		
+		
+		 
+		
 	}
 	
 	
 	//
 	public void afficherPensee(String texte) {
-		this.msgContainer.setLocation(800 , 150);
+		//this.msgContainer.setLocation(800 , 150);
 		this.imgPNJ.setLocation(-200 , 0);
-		this.msgText.setText(texte);
-		this.msgText.setBounds(100, 10, 400 , 130 );
-		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
-		
+		this.penseeText.setText(texte);
+		this.penseeText.setBounds(100, 15, 400 , 130 );
+		this.penseeText.setPreferredSize( new Dimension(400 , 130)) ;
+		setImageDeFondLbl ("fondPensee.png" , this.fondBox);
 		this.msgContainer.setLocation(0 , 400);
 	}
 	
 	
 	public void afficherMsgPJN(String msgText , String nomImg){
 		this.msgContainer.setLocation(800 , 150);
+		setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
 		this.msgText.setText(msgText );
-		this.msgText.setBounds(160  , 10, 450 , 130 );
-		
+		this.msgText.setBounds(170  , 13, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
-		
-		this.imgPNJ.setBounds(20 , 10, 130 , 130 );
-		this.imgPNJ.setPreferredSize( new Dimension(130, 130)) ;
+		this.imgPNJ.setBounds(33 , 23, 114 , 104 );
+		this.imgPNJ.setPreferredSize( new Dimension(114, 104)) ;
 		this.imgPNJ.setBackground(Color.BLUE);
 		this.imgPNJ.setOpaque(true);
 		setImageDeFondLbl(nomImg , imgPNJ);
@@ -156,8 +206,4 @@ public class MsgBox {
 		    ImageIcon newIcon = new ImageIcon(newImg);
 		    lbl.setIcon(newIcon);
 		}
-
-	 
-	
-
 }

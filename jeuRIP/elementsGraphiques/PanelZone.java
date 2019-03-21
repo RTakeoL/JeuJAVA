@@ -22,14 +22,14 @@ public class PanelZone extends JPanel {
 	private int zoneW = 800 ;
 	private int zoneH = 600 ;
 	
-	JLabel imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item1
-	JLabel imgItem2 = new JLabel("ITEM 2 ....");
-	JLabel imgItem3 = new JLabel("ITEM 3 ....");
+	private JLabel imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item1
+	private JLabel imgItem2 = new JLabel("ITEM 2 ....");
+	private JLabel imgItem3 = new JLabel("ITEM 3 ....");
 	
-	JLabel imgPNJ = new JLabel("PNJ .....");
-	int imgPNJH =100 ;
-	int imgPNJW = 100 ;
-	String nomImgPNJ ;
+	private JLabel imgPNJ = new JLabel("PNJ .....");
+	private int imgPNJH =100 ;
+	private int imgPNJW = 100 ;
+	private String nomImgPNJ ;
 	
 	public PanelZone(JeuPanel jeuPanel) {
 		super(null);
@@ -37,61 +37,20 @@ public class PanelZone extends JPanel {
 		setBackground(Color.LIGHT_GRAY);
 	    setBounds(0, 0, this.zoneW, this.zoneH);
 	    
-	    
-	    
 	    this.panelZoneCourante.setBounds(0, 0, this.zoneW, this.zoneH);
 	    this.panelZoneNouvelle.setBounds(0, -600, this.zoneW, this.zoneH);
 	    
 	    this.lblImgZone.setBounds(0, 0, this.zoneW, this.zoneH);
 	    this.lblImgZoneNvlle.setBounds(0, 0, this.zoneW, this.zoneH);
 	    
-	 // cadre affichage item1
-	    imgItem1.setBounds(0, -100, 100, 100);
-	    imgItem1.addMouseListener(new MouseAdapter() {
-	    	@Override
-	    	public void mouseClicked(MouseEvent arg0) {
-	    			System.out.println("item clicked  .....");
-	    		//initImgItem(0);
-	    		ramasserItem(0);
-
-	    	}
-	    });
-	    
-	    this.add(imgItem1);
-	    // cadre affichage item2
-	    imgItem2.setBounds(0, -100, 100, 100);
-	    imgItem2.addMouseListener(new MouseAdapter() {
-	    	@Override
-	    	public void mouseClicked(MouseEvent arg0) {
-	    			System.out.println("item clicked  .....");
-	    		//initImgItem(1);
-	    		ramasserItem(1);
-
-	    	}
-	    });
-	    
-	    this.add(imgItem2);
-	    
-	 // cadre affichage item3
-	    imgItem3.setBounds(0, -100, 100, 100);
-	    imgItem3.addMouseListener(new MouseAdapter() {
-	    	@Override
-	    	public void mouseClicked(MouseEvent arg0) {
-	    			System.out.println("item clicked  .....");
-	    		//initImgItem(2);
-	    		ramasserItem(2);
-
-	    	}
-	    });
-	    
-	    this.add(imgItem3);
+	 // cadre affichage items
+	    this.setItems();
 	    
 	    this.imgPNJ.setBounds(100 , -300 , 100 , 100 ); 
 	    this.imgPNJ.setOpaque(true);
 	    this.add(this.imgPNJ);
 	    
-	    
-	    
+	    // 
 	    this.panelZoneCourante.add(lblImgZone);
 	    this.panelZoneNouvelle.add(lblImgZoneNvlle);
 	    
@@ -101,9 +60,6 @@ public class PanelZone extends JPanel {
 		
 	}
 	
-	
-	
-	
 	private void setImgZone(String nomImgFond , JPanel zone ) {
 	    
 		 setImageDeFondLbl(nomImgFond, lblImgZone);
@@ -112,7 +68,50 @@ public class PanelZone extends JPanel {
 	
 	}
 	
-	
+	private void setItems() {
+		// 3 items par zone maxi 
+		imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item
+		imgItem2 = new JLabel("ITEM 2 ....");
+		imgItem3 = new JLabel("ITEM 3 ....");
+		
+		 imgItem1.setBounds(0, -100, 100, 100);
+		    imgItem1.addMouseListener(new MouseAdapter() {
+		    	@Override
+		    	public void mouseClicked(MouseEvent arg0) {
+		    			System.out.println("item clicked  .....");// pour debug
+		    		ramasserItem(0);
+
+		    	}
+		    });
+		    
+		    this.add(imgItem1);
+		    // cadre affichage item2
+		    imgItem2.setBounds(0, -100, 100, 100);
+		    imgItem2.addMouseListener(new MouseAdapter() {
+		    	@Override
+		    	public void mouseClicked(MouseEvent arg0) {
+		    			System.out.println("item clicked  ....."); // pour debug
+		    		//initImgItem(1);
+		    		ramasserItem(1);
+
+		    	}
+		    });
+		    
+		    this.add(imgItem2);
+		    
+		 // cadre affichage item3
+		    imgItem3.setBounds(0, -100, 100, 100);
+		    imgItem3.addMouseListener(new MouseAdapter() {
+		    	@Override
+		    	public void mouseClicked(MouseEvent arg0) {
+		    		System.out.println("item clicked  ....."); // pour debug
+		    		ramasserItem(2);
+		    	}
+		    });
+		    
+		    this.add(imgItem3);
+
+	}
 	
 	public void setImgItem(int index ,String imgItem , int X , int Y , int W , int H)  {
 		
@@ -138,9 +137,7 @@ public class PanelZone extends JPanel {
 	
 	private void ramasserItem(int indexItem) {
 		jeuPanel.ramasserItem(indexItem);
-		initImgItem(indexItem);
-		
-		
+		initImgItem(indexItem);		
 	}
 	
 	public void initImgItem(int index) {
@@ -159,8 +156,9 @@ public class PanelZone extends JPanel {
 		
 		//this.revalidate();
 		//this.repaint();
-
 	}
+	
+	
 	public void initAllItems() {
 		initImgItem(0);
 		initImgItem(1);
@@ -174,10 +172,12 @@ public class PanelZone extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				animationPNJUp();
+				//animationPNJUp();
 			}
 		});
 	}
+	
+	
 	
 	public void afficherPNJ( String nomImgPNJ , int X , int Y , int W , int H) {
 		this.imgPNJH = H ;
@@ -185,7 +185,6 @@ public class PanelZone extends JPanel {
 		this.nomImgPNJ = nomImgPNJ ;
 		this.imgPNJ.setBounds(X ,Y , W , H);
 		this.setImageDeFondLbl(nomImgPNJ, imgPNJ);
-
 	}
 	
 	public void animationPNJUp() {
@@ -212,15 +211,8 @@ public class PanelZone extends JPanel {
 				 }	
 				//repaint();
 			    //revalidate();
-				 
-
 			}
 		}).start(); ;
-		
-		
-		
-		
-		
 	}
 	
 	
@@ -235,14 +227,6 @@ public class PanelZone extends JPanel {
 		this.repaint();
 	}
 	
-	
-		 private void updatePanelZone() {
-			 
-			 System.out.println("updatePanelZone");
-			 this.repaint();
-			 this.revalidate();
-
-		};
 		
 		
 	public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
