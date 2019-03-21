@@ -56,6 +56,7 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
+		jeuPanel.checkSorties(this.zoneCourante);
 		//afficherItemZC(zoneCourante); // affichage item 1
 	}
 	private void creerCarte() {
@@ -159,6 +160,7 @@ public class Jeu {
 	        else {
 	        	this.zoneCourante = nouvelle;
 				this.etatJeu(zoneCourante);
+			jeuPanel.checkSorties(this.zoneCourante); // par kh 19/03 pour dactiver btn sortie si il exist pas
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
 	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
