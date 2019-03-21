@@ -18,6 +18,7 @@ public class Jeu {
 	public HashMap<String, Item> tableItems ;
 	public HashMap<String, PersoNonJoueur> tablePNJ;
 	public HashMap<String, Item> inventaireItems; // par kh 15/03
+	private MapZone mapJeu;
 
 	// Propriété cheminFin qui permets de savoir quel chemin à été pris:
 	// True => Marina
@@ -26,10 +27,25 @@ public class Jeu {
 	
 	
 	public Jeu () {
-		
-		 creerCarte();
-		 this.fenetre= null  ;
-		
+		// Création des zones et sorties....
+				 this.creerCarte();
+				 
+				 // Création des sorties
+				 this.initSortieZones();
+				 // Création de la Map une fois les zone créer
+				 this.creerMap();
+				// Création d'items pour le jeu.....
+				 this.creerItem();	
+				 // Association item <-> Zone
+				 this.associerItemZone();
+				 
+				 // Création des PNJ
+				 this.creerPNJ();
+				 
+				 // Association des PNJ <-> Zone
+				 this.associerPNJZone();
+				 
+				 this.fenetre= null;
 	}
 	
 	public void setFenetre( Fenetre fen) { 
@@ -58,39 +74,20 @@ public class Jeu {
         this.zones[8] = new Zone("Maison", "ZONE8.png");
         this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
         this.zones[10] = new Zone("Armurerie", "ZONE10.png");
-         this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
+        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
         this.zones[12] = new Zone("Station Essence", "ZONE12.png");
         this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
         this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
 			 
-				// Partie fin de jeu....
-				this.zones[15] = new Zone("Fin", "");// Pas besoin d'image pour la zone fin car on affiche en image soit la bonne soit la mauvaise fin
-				this.zones[16] = new Zone("Bonne fin", "ZONE16.png");
-				this.zones[17] = new Zone("Mauvaise fin", "ZONE17.png");
+		// Partie fin de jeu....
+		this.zones[15] = new Zone("Fin", "");// Pas besoin d'image pour la zone fin car on affiche en image soit la bonne soit la mauvaise fin
+		this.zones[16] = new Zone("Bonne fin", "ZONE16.png");
+		this.zones[17] = new Zone("Mauvaise fin", "ZONE17.png");
 
-
-
-		// Création d'items pour le jeu.....
-        this.creerItem();
-        this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
-
-        
-        this.zones[8].ajouteItems(0, tableItems.get("Portable"));
-
-        this.zones[10].ajouteItems(0, tableItems.get("Gun"));
-		this.zones[10].ajouteItems(1, tableItems.get("CouteauDeGuerre")); // Le vétéran de guerre donne une quete...
-		
-		this.zones[12].ajouteItems(0, tableItems.get("Hache"));	 
-			
-		// Création des pnj et affectation zones
-		this.creerPNJ();
-		this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
-		this.zones[2].ajoutePNJ(tablePNJ.get("Capitaine"));
-		this.zones[13].ajoutePNJ(tablePNJ.get("VeterantGuerre"));
-		this.zones[14].ajoutePNJ(tablePNJ.get("Pilote"));
-		this.zones[6].ajoutePNJ(tablePNJ.get("Zombie"));
-      
-        // Zone Ruelle de départ
+		this.zoneCourante = zones[0]; 
+	}
+	private void initSortieZones() {
+		// Zone Ruelle de départ
         this.zones[0].ajouteSortie(Sortie.EST, zones[7]);
         this.zones[0].ajouteSortie(Sortie.OUEST, zones[1]); 
         
@@ -149,9 +146,9 @@ public class Jeu {
        
         // Piste Aéroport
         this.zones[14].ajouteSortie(Sortie.SUD, zones[13]);
-        
-        this.zoneCourante = zones[0]; 
+        	
 	}
+	
 
 	 private void goTo(String direction) {
 	    	Zone nouvelle = zoneCourante.obtientSortie( direction);
@@ -165,8 +162,7 @@ public class Jeu {
 	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
 	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
-	        	
-	        	
+	        	jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
 	        }
 	}
 
@@ -204,6 +200,11 @@ public class Jeu {
 						}
 					}
 					break;
+					case "Métro" :
+						if(this.zones[7].obtientSortie("SUD") != null) {
+							jeuPanel.afficherPensee("**Dernier train vers l'aéroport ! Départ iminant !**");
+						}
+						break;
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
@@ -317,6 +318,7 @@ public class Jeu {
 					if(!pilote.getInitQuete()) {
 						pilote.setInitQuete(true);
 						jeuPanel.afficherDialoguePNJ(pilote.getInitDialogue(),pilote.getImage());	
+						this.zones[13].enleveSortie("NORD", zones[14]);
 					}
 					else {
 						if(!pilote.getDoneQuete()) {
@@ -410,7 +412,7 @@ public class Jeu {
 			this.inventaireItems.get("Jerrican").setEtatItem(true);
 			this.inventaireItems.remove("Jerrican");
 
-			this.zones[12].ajouteItems(1, tableItems.get("Jerrican (Plein)"));
+			this.zones[12].ajouteItems(0, tableItems.get("Jerrican (Plein)"));
 			jeuPanel.afficherItemZC(this.zoneCourante);
 		break;
 		case "Pills" :
@@ -532,19 +534,25 @@ public class Jeu {
 			tableItems.put("Portable", Portable);
 
 			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.jpg","L'objet favoris du vétéran de guerre!",this.zones[13].getDescription());
-			Portable.setPosition(200, 100);
-			Portable.setSize(100, 100);
+			CouteauDeGuerre.setPosition(200, 100);
+			CouteauDeGuerre.setSize(100, 100);
 			tableItems.put("CouteauDeGuerre", CouteauDeGuerre);
 
 			Item JerricanPlein = new Item("Jerrican (Plein)","jerrican.png","Le jerrican est remplit d'essence..",this.zones[14].getDescription());
-			Pills.setPosition(200, 100);
-			Pills.setSize(100, 100);
+			JerricanPlein.setPosition(200, 100);
+			JerricanPlein.setSize(100, 100);
 			tableItems.put("Jerrican (Plein)",JerricanPlein);
 		}
 
+	 private void associerItemZone() {
+     	this.zones[2].ajouteItems(0, tableItems.get("Bouteille"));
+     	this.zones[8].ajouteItems(0, tableItems.get("Portable"));
+     	this.zones[10].ajouteItems(0, tableItems.get("Gun"));
+		this.zones[10].ajouteItems(1, tableItems.get("CouteauDeGuerre")); // Le vétéran de guerre donne une quete...
+		this.zones[12].ajouteItems(0, tableItems.get("Hache"));	 
+	 }		
 
-
-	 public void creerPNJ() {
+	 private void creerPNJ() {
 			this.tablePNJ = new HashMap<String, PersoNonJoueur>();
 
 			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Hey toi! Oui toi! J'ai besoin de ton aide. Mon père possède un bateau pour s'enfuire mais il doit être encore bourré au bar."
@@ -565,8 +573,8 @@ public class Jeu {
 			tablePNJ.put("Capitaine",Capitaine);
 			
 			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "veterant.jpg", "Hey vous! Par ici!", 
-					"", 
-					"Soldat l'ennemie a franchie nos frontière! Nous allons devoir frapper par les airs. Prenez ce parachute et embarquez dans le cargo C201-13 avec votre escoude. Exécution soldat!",
+					"Mon couteau", 
+					"Merci",
 					"Un étrange personnage qui semble avoir des séquels de la guerre.");
 			VeteranGuerre.setPosition(100, 300);
 			VeteranGuerre.setSize(100, 100);
@@ -590,5 +598,22 @@ public class Jeu {
 			tablePNJ.put("Zombie",Zombie);
 		}
 
+	 private void creerMap() {
+		 int i;
+		 this.mapJeu = new MapZone();
+		 i=0;
+		 while(i<15) {
+			 this.mapJeu.setMap(this.zones[i].getDescription(), "MapZone"+i+".png");
+			 
+			 i+=1; 
+		 }
+	 }
 
+	 private void associerPNJZone() {
+		 this.zones[1].ajoutePNJ(tablePNJ.get("Fille"));
+			this.zones[2].ajoutePNJ(tablePNJ.get("Capitaine"));
+			this.zones[13].ajoutePNJ(tablePNJ.get("Veteran de guerre"));
+			this.zones[14].ajoutePNJ(tablePNJ.get("Pilote"));
+			this.zones[6].ajoutePNJ(tablePNJ.get("Zombie"));
+	 }
 }
