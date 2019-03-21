@@ -14,7 +14,7 @@ public class PanelMsgBox {
 	
 	JeuPanel jeuPanel ;
 	private JPanel msgContainer ;
-	private JLabel msgText ;
+	private JTextArea msgText ;
 	private JLabel penseeText ;
 	private JLabel imgPNJ ;
 	private JLabel fondBox ;
@@ -51,26 +51,32 @@ public class PanelMsgBox {
 		penseeText.setForeground(Color.BLACK);
 		penseeText.setFont(new Font("Chiller", Font.BOLD, 20));
 		
-		
+		/*
 		this.msgText = new JLabel();
 		msgText.setVerticalAlignment(SwingConstants.TOP);
 		msgText.setHorizontalAlignment(SwingConstants.CENTER);
 		msgText.setForeground(Color.BLACK);
 		msgText.setFont(new Font("Chiller", Font.BOLD, 20));
 		//this.msgText.setBackground(Color.GRAY);
+		
 		this.msgText.setOpaque(false);
 		this.msgText.setBounds(170  , 400, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
-	
+			*/
 		
-		/*
+		
 		this.msgText = new JTextArea();
-		//this.msgText.setBackground(Color.GRAY);
+		msgText.setLineWrap(true);
+		msgText.setEditable(false);
 		this.msgText.setOpaque(false);
+		//msgText.setVerticalAlignment(SwingConstants.TOP);
+		//msgText.setHorizontalAlignment(SwingConstants.CENTER);
+		this.msgText.setForeground(Color.BLACK);
+		this.msgText.setFont(new Font("Chiller", Font.BOLD, 20));
 		this.msgText.setBounds(170  , 13, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
 		
-		
+		/*
 		// Code defining text area parameters and functionality.
 		JScrollPane taScroll = new JScrollPane(msgText);
 		JScrollBar scrollBar = new JScrollBar();
@@ -109,12 +115,12 @@ public class PanelMsgBox {
 	//
 	public void afficherPensee(String texte) {
 		//this.msgContainer.setLocation(800 , 150);
-		this.msgText.setLocation(170, 400);
+		//this.msgText.setLocation(170, 400);
 		
 		this.imgPNJ.setLocation(-200 , 0);
-		this.penseeText.setText(texte);
-		this.penseeText.setBounds(100, 15, 400 , 130 );
-		this.penseeText.setPreferredSize( new Dimension(400 , 130)) ;
+		this.msgText.setText(texte);
+		this.msgText.setBounds(100, 15, 400 , 130 );
+		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
 		setImageDeFondLbl ("fondPensee.png" , this.fondBox);
 		this.msgContainer.setLocation(0 , 400);
 	}
@@ -122,7 +128,7 @@ public class PanelMsgBox {
 	
 	public void afficherMsgPJN(String msgText , String nomImg){
 		this.msgContainer.setLocation(800 , 150);
-		this.penseeText.setLocation(100, 400);
+		//this.penseeText.setLocation(100, 400);
 		
 		setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
 		this.msgText.setText(msgText );
