@@ -1,3 +1,7 @@
+jb 21/03
++ refonte des switch zone et item dans jeu.java
++ story de gauche fini
+---------------------------------------------------------------------------
 Roland 20/03 
 + Harmonisation des noms de méthode dans la classe Jeu
    - Nom de la méthode getNomImage -> getImage
