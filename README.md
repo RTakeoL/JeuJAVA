@@ -1,6 +1,7 @@
 jb 21/03
 + refonte des switch zone et item dans jeu.java
 + story de gauche fini
++ story de droite fini mais pas dialogue (+ bug de la pince en meme temps que le veteran)
 ---------------------------------------------------------------------------
 Roland 20/03 
 + Harmonisation des noms de méthode dans la classe Jeu
