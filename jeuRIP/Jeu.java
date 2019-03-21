@@ -57,6 +57,7 @@ public class Jeu {
 		this.jeuPanel = panel;
 		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
 		jeuPanel.checkSorties(this.zoneCourante);
+		jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
 		//afficherItemZC(zoneCourante); // affichage item 1
 	}
 	private void creerCarte() {
