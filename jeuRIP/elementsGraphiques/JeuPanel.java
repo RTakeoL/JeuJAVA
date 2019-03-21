@@ -161,9 +161,14 @@ public class JeuPanel extends JPanel   {
 		}	
 	}
 	
-	// afficher msg PNJ
-	public void afficherDialoguePNJ(String msg , String nomImg) {	
-		this.panelMsgBox.afficherMsgPJN(msg, nomImg);
+	// afficher msg 
+	public void afficherDialoguePNJ(String msg , String nomImg) {
+	 	
+		this.msgBox.afficherMsgPJN(msg, nomImg);
+		
+
+
+
 	}
 
 	// afficher pensée joueur
