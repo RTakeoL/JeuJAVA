@@ -20,7 +20,7 @@ public class PanelMsgBox {
 	private JLabel fondBox ;
 	private JLabel btnFermer;
 	private int boxX = 0 ;
-	private int boxY = 400;
+	private int boxY = 600;
 	private int boxW = 800;
 	private int boxH = 200;
 	
@@ -44,7 +44,7 @@ public class PanelMsgBox {
 		this.penseeText = new JLabel();
 		//this.msgText.setBackground(Color.GRAY);
 		this.penseeText.setOpaque(false);
-		this.penseeText.setBounds(170  , 400, 450 , 130 );
+		this.penseeText.setBounds(100  , 400, 450 , 130 );
 		this.penseeText.setPreferredSize( new Dimension(400 , 130)) ;
 		penseeText.setVerticalAlignment(SwingConstants.TOP);
 		penseeText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -59,7 +59,7 @@ public class PanelMsgBox {
 		msgText.setFont(new Font("Chiller", Font.BOLD, 20));
 		//this.msgText.setBackground(Color.GRAY);
 		this.msgText.setOpaque(false);
-		this.msgText.setBounds(170  , 13, 450 , 130 );
+		this.msgText.setBounds(170  , 400, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
 	
 		
@@ -109,6 +109,8 @@ public class PanelMsgBox {
 	//
 	public void afficherPensee(String texte) {
 		//this.msgContainer.setLocation(800 , 150);
+		this.msgText.setLocation(170, 400);
+		
 		this.imgPNJ.setLocation(-200 , 0);
 		this.penseeText.setText(texte);
 		this.penseeText.setBounds(100, 15, 400 , 130 );
@@ -120,10 +122,13 @@ public class PanelMsgBox {
 	
 	public void afficherMsgPJN(String msgText , String nomImg){
 		this.msgContainer.setLocation(800 , 150);
+		this.penseeText.setLocation(100, 400);
+		
 		setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
 		this.msgText.setText(msgText );
 		this.msgText.setBounds(170  , 13, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
+		
 		this.imgPNJ.setBounds(33 , 23, 114 , 104 );
 		this.imgPNJ.setPreferredSize( new Dimension(114, 104)) ;
 		this.imgPNJ.setBackground(Color.BLUE);
