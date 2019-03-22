@@ -1,3 +1,7 @@
+Pour Khamis:
+code pour changer la font :  Font font = Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf"));
+ return font.deriveFont(12f);
+
 Roland 21/03
 + Ajout de la Map
 
