@@ -196,7 +196,8 @@ public class Jeu {
 							this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
 						}
 						jeuPanel.afficherDialoguePNJ(fille.getInitDialogue(),fille.getImage());
-					} else {
+					} /*
+					else {
 						// Dans ce IF Inti True && Done False
 						if(!fille.getDoneQuete()) {
 							jeuPanel.afficherDialoguePNJ(fille.getWaitDialogue(),fille.getImage());
@@ -204,6 +205,7 @@ public class Jeu {
 							//jeuPanel.afficherDialoguePNJ(fille.getDoneDialogue(),fille.getImage());	que quand on donne le portable
 						}
 					}
+					*/
 					break;
 					case "Métro" :
 						if(this.zones[7].obtientSortie("SUD") != null) {
@@ -213,13 +215,14 @@ public class Jeu {
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
-					if(this.zones[7].obtientSortie("NORD") == null) {
+						if(this.zones[7].obtientSortie("NORD") == null) {
 							this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
 						}
+						
 					if(this.zones[7].obtientSortie("SUD") != null) {
 					this.zones[7].enleveSortie("SUD",this.zones[13]);
-						
 					}
+					
 					// La première fois que l'on atteint cette zone, la sortie vers
 					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
 					if(this.zones[13].obtientSortie("NORD") == null) {
@@ -240,11 +243,15 @@ public class Jeu {
 					if(!veteranGuerre.getInitQuete()){
 						veteranGuerre.setInitQuete(true);
 						jeuPanel.afficherDialoguePNJ(veteranGuerre.getInitDialogue(),veteranGuerre.getImage());
-					} else {
+					} 
+					/*
+					  else {
+					 
 						if(!veteranGuerre.getDoneQuete()) {
 							jeuPanel.afficherDialoguePNJ(veteranGuerre.getWaitDialogue(), veteranGuerre.getImage());
 						}
 					}
+					*/
 
 
 					break;
@@ -317,13 +324,15 @@ public class Jeu {
 
 			
 						jeuPanel.afficherDialoguePNJ(capitaine.getInitDialogue(), capitaine.getImage());
-					} else {
+					} 
+					/* else {
 						if(!capitaine.getDoneQuete()) {
 							jeuPanel.afficherDialoguePNJ(capitaine.getWaitDialogue(), capitaine.getImage());	
 						} else {
 							//jeuPanel.afficherDialoguePNJ(capitaine.getDoneDialogue(), capitaine.getImage());
 						}
 					}
+					*/
 					break; 
 					// ----------------------------------------------
 					case "Piste Aéroport" :
@@ -332,11 +341,12 @@ public class Jeu {
 						jeuPanel.afficherDialoguePNJ(pilote.getInitDialogue(),pilote.getImage());	
 						this.zones[13].enleveSortie("NORD", zones[14]);
 					}
-					else {
+					/* else {
 						if(!pilote.getDoneQuete()) {
 							jeuPanel.afficherDialoguePNJ(pilote.getWaitDialogue(),pilote.getImage());	
 						}
 					}
+					*/
 					break;
 					// ----------------------------------------------------
 					case "Fin" :
