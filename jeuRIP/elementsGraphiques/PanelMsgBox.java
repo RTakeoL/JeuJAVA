@@ -8,14 +8,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
+
+import jeuRIP.Utils.ImgFond;
+
 import java.awt.Font;
 
 public class PanelMsgBox {
 	
-	JeuPanel jeuPanel ;
+	private JeuPanel jeuPanel ;
 	private JPanel msgContainer ;
 	private JTextArea msgText ;
-	private JLabel penseeText ;
+	
 	private JLabel imgPNJ ;
 	private JLabel fondBox ;
 	private JLabel btnFermer;
@@ -37,52 +40,17 @@ public class PanelMsgBox {
 		this.fondBox.setBounds(0  , 0,boxW , boxH);
     	setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
     	
-    	
-    	
 		this.imgPNJ =  new JLabel(" imgPNJ ");
 		
-		this.penseeText = new JLabel();
-		//this.msgText.setBackground(Color.GRAY);
-		this.penseeText.setOpaque(false);
-		this.penseeText.setBounds(100  , 400, 450 , 130 );
-		this.penseeText.setPreferredSize( new Dimension(400 , 130)) ;
-		penseeText.setVerticalAlignment(SwingConstants.TOP);
-		penseeText.setHorizontalAlignment(SwingConstants.CENTER);
-		penseeText.setForeground(Color.BLACK);
-		penseeText.setFont(new Font("Chiller", Font.BOLD, 20));
-		
-		/*
-		this.msgText = new JLabel();
-		msgText.setVerticalAlignment(SwingConstants.TOP);
-		msgText.setHorizontalAlignment(SwingConstants.CENTER);
-		msgText.setForeground(Color.BLACK);
-		msgText.setFont(new Font("Chiller", Font.BOLD, 20));
-		//this.msgText.setBackground(Color.GRAY);
-		
-		this.msgText.setOpaque(false);
-		this.msgText.setBounds(170  , 400, 450 , 130 );
-		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
-			*/
-		
-		
 		this.msgText = new JTextArea();
-		msgText.setLineWrap(true);
-		msgText.setEditable(false);
+		this.msgText.setWrapStyleWord(true);
+		this.msgText.setLineWrap(true);
+		this.msgText.setEditable(false);
 		this.msgText.setOpaque(false);
-		//msgText.setVerticalAlignment(SwingConstants.TOP);
-		//msgText.setHorizontalAlignment(SwingConstants.CENTER);
 		this.msgText.setForeground(Color.BLACK);
-		this.msgText.setFont(new Font("Chiller", Font.BOLD, 20));
+		this.msgText.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 21));
 		this.msgText.setBounds(170  , 13, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
-		
-		/*
-		// Code defining text area parameters and functionality.
-		JScrollPane taScroll = new JScrollPane(msgText);
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(493, 85, 17, 48);
-		
-		*/
 		
 		this.btnFermer = new JLabel(" FERMER ");
 		this.btnFermer.setBounds(650 , 20, 80 , 40 );
@@ -96,18 +64,11 @@ public class PanelMsgBox {
 			}
 		});
 	
-		
-		
 		this.msgContainer.add(imgPNJ);
 		this.msgContainer.add(msgText);
-		//this.msgContainer.add(scrollBar);
-		this.msgContainer.add(penseeText);
 		this.msgContainer.add(btnFermer);
 		this.msgContainer.add(this.fondBox);
 		this.jeuPanel.add(msgContainer); 
-		
-		
-		 
 		
 	}
 	
@@ -119,21 +80,21 @@ public class PanelMsgBox {
 		
 		this.imgPNJ.setLocation(-200 , 0);
 		this.msgText.setText(texte);
-		this.msgText.setBounds(100, 15, 400 , 130 );
-		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
+		this.msgText.setBounds(100, 15, 450 , 130 );
+		this.msgText.setPreferredSize( new Dimension(450 , 130)) ;
 		setImageDeFondLbl ("fondPensee.png" , this.fondBox);
 		this.msgContainer.setLocation(0 , 400);
 	}
 	
 	
-	public void afficherMsgPJN(String msgText , String nomImg){
+	public void afficherMsgPNJ(String msgText , String nomImg){
 		this.msgContainer.setLocation(800 , 150);
 		//this.penseeText.setLocation(100, 400);
 		
 		setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
 		this.msgText.setText(msgText );
 		this.msgText.setBounds(170  , 13, 450 , 130 );
-		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
+		this.msgText.setPreferredSize( new Dimension(450 , 130)) ;
 		
 		this.imgPNJ.setBounds(33 , 23, 114 , 104 );
 		this.imgPNJ.setPreferredSize( new Dimension(114, 104)) ;
@@ -209,12 +170,7 @@ public class PanelMsgBox {
 	
 	
 	 public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
-			lbl.setIcon(null);
-			ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
-		    Image img = icon.getImage();
-		    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
-		    ImageIcon newIcon = new ImageIcon(newImg);
-		    lbl.setIcon(newIcon);
-		}
+
+		  ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
+	}
 }
