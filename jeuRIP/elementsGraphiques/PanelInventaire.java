@@ -15,8 +15,7 @@ import jeuRIP.Utils.ImageDeFond;
 
 
 public class PanelInventaire extends JPanel {
-		 JeuPanel jeuPanel ;
-		ImageDeFond imgLoader = new ImageDeFond();
+		JeuPanel jeuPanel ;
 		private int posInventX= -400;
 		private int posInventY= 50;
 		private int invetW= 350;
@@ -28,8 +27,10 @@ public class PanelInventaire extends JPanel {
 		private JLabel itemDescript ;
 		private JLabel btnUtiliserItem ;
 		private boolean btnUtiliserActif = false ;
-		public HashMap<Integer, Item> itemsInventaire;
-		public Item itemSelected  = null ;
+		private HashMap<Integer, Item> itemsInventaire; 
+		private Item itemSelected  = null ;
+		
+		private Thread thread ;
 		
 	    public PanelInventaire( JeuPanel jeuPanel) {
 	    	super(null);
@@ -46,6 +47,9 @@ public class PanelInventaire extends JPanel {
 		    		@Override
 			    	public void mouseClicked(MouseEvent arg0) {
 			   			utiliserItem(itemSelected);
+			   			activerBtnUtiliser(false);
+			   			indexSelectedIcon = 0 ;
+			   			
 			    	}	
 			    });
 	        
@@ -78,48 +82,49 @@ public class PanelInventaire extends JPanel {
 	    	add(fond);
 	    }
 	    
-	    // check si inventaire est visible
-	    private boolean estVisible () {
-	    	return (posInventX >= 0);
-	    }
+	    
 	    
 	    
 	    public void cacherInventaire() {
-	    	//posInventX = -400 ;
-			this.setLocation(-400, posInventY);
+			this.setLocation(-400, posInventY);		
 			this.inventAffiche = false ;
-    		System.out.println("inventaire invisible");
     		
-    		this.repaint();
-    		this.revalidate();
 	    }
-	    
+	  	    
 	    public void afficherInventaire() {
-	    	//posInventX= 0 ;
+	    	int x = this.getX();
 			System.out.println("inventaire visible");
-			new Thread (new Runnable (){
+			thread = new Thread (new Runnable (){
 				public void run() {
-					 for (int i=posInventX ; i<=0 ; i++) {
+					
+					 for (int i=x ; i<=0 ; i++) {
     					 setLocation(i, posInventY);				    					 
     					 try {
+    						 
 							Thread.currentThread().sleep(3);
 							
 						} catch (InterruptedException e) {
+							
 							e.printStackTrace();
+							Thread.currentThread().interrupt();
 							System.out.println("marche pas");
+							break ;
 						} 
     				 }	
+					 
 					 repaint();
 			    	revalidate();
 				}
-			}).start(); ;
+			});
+			thread.start(); ;
 			
 			this.inventAffiche =true ;
 	    }
 	    // Afficher OU Cacher l'INVENTAIRE
 	    public void togglePanelInventaire () {
-	    	
-	    	if ( this.inventAffiche ) {
+    		
+    		if ( this.inventAffiche ) {
+	    		
 	    		this.cacherInventaire();			
     		}else {
     			this.afficherInventaire();	    				    		
@@ -156,18 +161,11 @@ public class PanelInventaire extends JPanel {
 			if (item != null && this.btnUtiliserActif ) {
 			 supprimerItem(item) ;
 			 this.jeuPanel.utiliserItem(item);
-			 this.activerBtnUtiliser(false);
+			
 			 
 	    	}
 		}
 		
-		
-	    
-	    /*
-	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			imgLoader.setImageDeFondLbl(nomFichier, lbl);
-		}
-*/
 		
 	    
 	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
@@ -214,25 +212,34 @@ public class PanelInventaire extends JPanel {
 		}
 		
 		// ajout event click sur item 
-		public void addEvent(int index) {
 		
+		private int indexSelectedIcon = 0 ;
+		public void addEvent(int index) {
+			
 			 itemsIcons.get(index).addMouseListener(new MouseAdapter() {
 		    		
 				 	@Override
 				 	public void mouseEntered(MouseEvent e) {
-				 		selectedCase(index);
+				 		if(index != indexSelectedIcon){
+				 			itemsIcons.get(index).setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true)) ;
+			 			}
+				 	}
+				 	@Override
+				 	public void mouseExited(MouseEvent e) {
+				 		
+				 		if(index != indexSelectedIcon){
+				 			itemsIcons.get(index).setBorder(null) ;
+			 			}
+				 		
 				 	}
 				 	@Override
 			    	public void mouseClicked(MouseEvent arg0) {
-			    		getItemDescript(index);
+				 		indexSelectedIcon = index ;
+			    		setItemDescript(index);
 			    		itemSelected = itemsInventaire.get(index);
 			    		selectedCase(index);
-			    		if (  itemSelected != null) {
-				    		if (jeuPanel.checkItemWithZone(itemSelected)) {
+			    		if (  itemSelected != null && jeuPanel.checkItemWithZone(itemSelected)) {
 				    			activerBtnUtiliser(true);
-				    		}else {
-				    			activerBtnUtiliser(false);
-				    		}
 			    		}else {
 				    			activerBtnUtiliser(false);
 				    	}
@@ -246,12 +253,12 @@ public class PanelInventaire extends JPanel {
 				itemsIcons.get(i).setBorder(null);
 			}
 			if(index !=0) {
-				itemsIcons.get(index).setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true)) ;
+				itemsIcons.get(index).setBorder(new LineBorder(Color.GREEN, 2, true)) ;
 				
 			}
 		}
 		
-		private void getItemDescript(int indexItem) {
+		private void setItemDescript(int indexItem) {
 			
 			String descript = "vide ..." ; 
 			if(itemsInventaire.get(indexItem) != null) {
@@ -270,9 +277,11 @@ public class PanelInventaire extends JPanel {
 			if(etatBtn) {
 				this.btnUtiliserItem.setBackground(Color.DARK_GRAY);  // btn UTILISER activé
 				this.btnUtiliserItem.setForeground(Color.LIGHT_GRAY);
-				this.btnUtiliserItem.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true)) ;
+				this.btnUtiliserItem.setBorder(new LineBorder(Color.GREEN, 2, true)) ;
 			}else {
 				this.btnUtiliserItem.setBackground(Color.DARK_GRAY); // btn UTILISER désactivé
+				this.btnUtiliserItem.setForeground(Color.GRAY);
+				this.btnUtiliserItem.setBorder(null) ;
 				
 				
 			}
