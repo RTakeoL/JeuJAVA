@@ -51,7 +51,7 @@ public class JeuPanel extends JPanel   {
 //				+ "dssssssssssssssssssssssssssssssssssssssh"
 //				+ "jdfslsdsdhsdhfsfhsdhfhsdhlsdhldhlhshdhlhlsdhlshldhlsdlhkflsooooooooooo", "fille.png");
 		this.panelMap = new PanelMap(this);
-		// map.afficherMap();
+		
 		 
 		this.panelInventaire = new PanelInventaire(this);
 		
@@ -197,16 +197,25 @@ public class JeuPanel extends JPanel   {
 
 			initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
 			if(zc.listItemZone.size() > 0) {
-				for(int i=0 ; i<zc.listItemZone.size() ; i++){
+				
+				System.out.println(zc.listItemZone.size() +" 8888888888888");
+				for(int i=0 ; i<3 ; i++){
 					// récuperer l'item avec l'index depuis la liste items zone courante
-					Item item = zc.getItem(i);
-					String imgItem = item.getImage();
-					int X = item.getItemX();
-					int Y = item.getItemY();
-					int W = item.getItemPxW();
-					int H = item.getItemPxH();
-					// afficher item dans l'emplacement prévu au PanelZone
-					afficherItem(i, imgItem, X, Y, W, H);	
+					Item item ;
+					
+					if (zc.listItemZone.containsKey(i)) {
+						System.out.println("test khamis");
+						item = zc.getItem(i);
+						String imgItem = item.getImage();
+						int X = item.getItemX();
+						int Y = item.getItemY();
+						int W = item.getItemPxW();
+						int H = item.getItemPxH();
+						// afficher item dans l'emplacement prévu au PanelZone
+						afficherItem(i, imgItem, X, Y, W, H);
+						
+					
+					}
 				}	
 			}	
 		}
