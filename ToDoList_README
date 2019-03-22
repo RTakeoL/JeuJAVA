@@ -2,18 +2,16 @@ A FAIRE DANS LE JEU !!!!!!!!!
 
 # => tache en cours
 
-#Trouver image pour les pnj
+# Trouver image pour les pnj
 Trouver image Zone
 
 faire les images des zone de fin (ne plus avoir de menu dessus)
+Faire l'intro
 
 finir les dialogues
+presentation des dialogues
 
 # faire systeme de compteur de tour -> Roland
-
-presentation des les dialogues
-
-faire en sorte que seulement btn_fermer pour fermer les dialogues
 
 prendre en compte que le gun a été utilisé et donc pas faire l'action de la bouteille dans supermarché
 
