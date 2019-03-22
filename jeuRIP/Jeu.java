@@ -374,13 +374,9 @@ public class Jeu {
 			}
 
 			
-			
-			
 
-
-
-
-	public void  utiliserItem (Item item) {
+	public boolean  utiliserItem (Item item) {
+		boolean utilisé = true;
 		switch (item.getNomItem()) {
 		case "Hache":
 			this.inventaireItems.get("Hache").setEtatItem(true);
@@ -392,7 +388,8 @@ public class Jeu {
 			}
 		break;
 		case "Gun" :
-			this.inventaireItems.get("Gun").setEtatItem(true);
+			if(true) {
+				this.inventaireItems.get("Gun").setEtatItem(true);
 			this.inventaireItems.remove("Gun");
 
 			this.tablePNJ.get("Zombie").setDoneQuete(true);
@@ -405,6 +402,9 @@ public class Jeu {
 			this.zones[6].ajouteItems(1, tableItems.get("Pills"));
 
 			jeuPanel.afficherItemZC(this.zoneCourante);
+			}
+			utilisé = false;
+			
 		break;
 		case "Pince" :
 			this.inventaireItems.get("Pince").setEtatItem(true);
@@ -413,6 +413,7 @@ public class Jeu {
 			if(this.zones[13].obtientSortie("NORD") == null) {
 				this.zones[13].ajouteSortie(Sortie.NORD, this.zones[14]);
 				jeuPanel.afficherPensee("La piste est de nouveau accessible...");
+				jeuPanel.checkSorties(this.zoneCourante);
 			}
 
 		break;
@@ -482,7 +483,8 @@ public class Jeu {
 		break;
 		default: 
 		break;
-		 }	 
+		 }	
+		return utilisé;
 	}
 	
 	 
