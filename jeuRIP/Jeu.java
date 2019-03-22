@@ -213,8 +213,11 @@ public class Jeu {
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
+					if(this.zones[7].obtientSortie("NORD") == null) {
+							this.zones[7].ajouteSortie(Sortie.NORD, this.zones[9]);
+						}
 					if(this.zones[7].obtientSortie("SUD") != null) {
-						this.zones[7].enleveSortie("SUD",this.zones[13]);
+					this.zones[7].enleveSortie("SUD",this.zones[13]);
 						
 					}
 					// La première fois que l'on atteint cette zone, la sortie vers
