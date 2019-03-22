@@ -1,0 +1,24 @@
+A FAIRE DANS LE JEU !!!!!!!!!
+
+# => tache en cours
+
+# Trouver image pour les pnj
+Trouver image Zone
+
+faire les images des zone de fin (ne plus avoir de menu dessus)
+Faire l'intro
+
+finir les dialogues et les descriptions
+presentation des dialogues
+
+Refaire le switch du supermarché  ++ prendre en compte que le gun a été utilisé et donc pas faire l'action de la bouteille dans supermarché
+(static hashmap)
+
+# faire systeme de compteur de tour -> Roland
+  compter la limite
+
+fermer inventaire qd on utilise item
+
+mettre icone metro sur la minimap
+
+afficher descriptionzone qd on arrive dedans

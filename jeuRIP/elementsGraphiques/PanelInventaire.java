@@ -1,13 +1,14 @@
 package jeuRIP.elementsGraphiques;
 
 
-
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
-
 import jeuRIP.Entites.Item;
 import jeuRIP.Utils.ImageDeFond;
 
@@ -15,102 +16,118 @@ import jeuRIP.Utils.ImageDeFond;
 
 public class PanelInventaire extends JPanel {
 		JeuPanel jeuPanel ;
-		ImageDeFond imgLoader = new ImageDeFond();
-		private int posInventX= -320;
+		private int posInventX= -400;
 		private int posInventY= 50;
+		private int invetW= 350;
+		private int inventH= 300;
+		private boolean inventAffiche = false ;
 		private HashMap<Integer, JLabel> itemsIcons; // liste des cases affichage items inventaire
-		private HashMap<Integer, Boolean> itemsStats; // etat des cases VIDE ou OCCUPEE
 		private int iconX = 22 ; // position 1ere icon item dans panel Inventaire
 		
 		private JLabel itemDescript ;
 		private JLabel btnUtiliserItem ;
 		private boolean btnUtiliserActif = false ;
-		public HashMap<Integer, Item> itemsInventaire;
-		public Item itemSelected  = null ;
+		private HashMap<Integer, Item> itemsInventaire; 
+		private Item itemSelected  = null ;
+		
+		private Thread thread ;
 		
 	    public PanelInventaire( JeuPanel jeuPanel) {
 	    	super(null);
 	    	this.jeuPanel = jeuPanel ; 	  	
-	    	//setOpaque(false);
-		    setBounds(-320, 50, 350, 300);
+	    	
+		    setBounds(posInventX, posInventY, invetW, inventH);
 	    	setLayout(null);
 	    	
 	    	initItemIcons(); // creer les 5 cases vides pour les items
 	    	
-	    	btnUtiliserItem = new JLabel(" UTILISER ");
+	    	btnUtiliserItem = new JLabel("    UTILISER ");
+	    	
 	        btnUtiliserItem.addMouseListener(new MouseAdapter() {
 		    		@Override
 			    	public void mouseClicked(MouseEvent arg0) {
 			   			utiliserItem(itemSelected);
+			   			activerBtnUtiliser(false);
+			   			indexSelectedIcon = 0 ;
+			   			
 			    	}	
 			    });
-	    	btnUtiliserItem.setBackground(Color.LIGHT_GRAY);
+	        
+	    	btnUtiliserItem.setBackground(Color.DARK_GRAY);
 	    	btnUtiliserItem.setOpaque(true);
 	    	btnUtiliserItem.setBounds(130, 100, 80, 40);
-	    	
+	    	//btnUtiliserItem.setForeground(Color.LIGHT_GRAY);
 	    	
 	    	this.add(btnUtiliserItem);
 	    	
 	    	itemDescript = new JLabel();
-	    	itemDescript.setOpaque(true);
-	    	itemDescript.setBackground(Color.LIGHT_GRAY);
+	    	itemDescript.setOpaque(false);
+	    	//itemDescript.setBackground(Color.DARK_GRAY);
 	       	itemDescript.setBounds(59, 179, 230, 99);
+	       	itemDescript.setForeground(Color.LIGHT_GRAY);
 	    	this.add(itemDescript);
 	    	
 	    	
 	    	
 	    	JLabel discription = new JLabel("Discription :");
 	    	discription.setBounds(22, 151, 104, 19);
+	    	discription.setForeground(Color.LIGHT_GRAY);
 	       	this.add(discription);
 	    	
 	    	JLabel fond = new JLabel();
-	    	//fond.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/fondInvent.png")));
+	    	
+	    	//fond.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/inventaireBG.png")));
 	    	fond.setBounds(0, 0, 350, 300);
+	    	setImageDeFondLbl ("inventaireBG.png" , fond);
 	    	add(fond);
 	    }
 	    
-	    // check si inventaire est visible
-	    private boolean estVisible () {
-	    	return (posInventX >= 0);
-	    }
+	    
 	    
 	    
 	    public void cacherInventaire() {
-	    	posInventX = -320 ;
-			setLocation(posInventX, 50);
-    		System.out.println("inventaire invisible");
-    		this.repaint();
-    		this.revalidate();
+			this.setLocation(-400, posInventY);		
+			this.inventAffiche = false ;
+    		
 	    }
-	    
+	  	    
 	    public void afficherInventaire() {
-	    	posInventX = 0 ;
+	    	int x = this.getX();
 			System.out.println("inventaire visible");
-			new Thread (new Runnable (){
+			thread = new Thread (new Runnable (){
 				public void run() {
-					 for (int i=-300 ; i<=0 ; i++) {
-    					 setLocation(i, 50);				    					 
+					
+					 for (int i=x ; i<=0 ; i++) {
+    					 setLocation(i, posInventY);				    					 
     					 try {
+    						 
 							Thread.currentThread().sleep(3);
 							
 						} catch (InterruptedException e) {
+							
 							e.printStackTrace();
+							Thread.currentThread().interrupt();
 							System.out.println("marche pas");
+							break ;
 						} 
     				 }	
+					 
 					 repaint();
 			    	revalidate();
 				}
-			}).start(); ;  			
+			});
+			thread.start(); ;
+			
+			this.inventAffiche =true ;
 	    }
 	    // Afficher OU Cacher l'INVENTAIRE
 	    public void togglePanelInventaire () {
-	    	
-	    	if ( !this.estVisible() ) {
-    				this.afficherInventaire();	    		
+    		
+    		if ( this.inventAffiche ) {
+	    		
+	    		this.cacherInventaire();			
     		}else {
-    			this.cacherInventaire();
-    				    		
+    			this.afficherInventaire();	    				    		
     		}	
 	    }
 	   
@@ -129,7 +146,6 @@ public class PanelInventaire extends JPanel {
 	    
 	    // vider la case item 
 	    private void supprimerItem(Item itemUsed) {
-	    	
 	    	for (int i = 1 ; i <6 ; i++) {
 	    		if(itemUsed.getNomItem()== this.itemsInventaire.get(i).getNomItem()) {
 		    		itemsIcons.get(i).setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
@@ -139,21 +155,17 @@ public class PanelInventaire extends JPanel {
 	    	}
 		
 		}
+	    
+	    // méthode invoquée au click sur btn UTILISER 
 	    public void utiliserItem(Item item) {
 			if (item != null && this.btnUtiliserActif ) {
 			 supprimerItem(item) ;
-			 jeuPanel.utiliserItem(item);
+			 this.jeuPanel.utiliserItem(item);
+			
 			 
 	    	}
 		}
 		
-		
-	    
-	    /*
-	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			imgLoader.setImageDeFondLbl(nomFichier, lbl);
-		}
-*/
 		
 	    
 	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
@@ -177,7 +189,7 @@ public class PanelInventaire extends JPanel {
 			for (int i = 1 ; i<6 ; i++) {
 				
 				JLabel itemIcon = new JLabel("obj");
-		    	itemIcon.setLocation(iconX, 29);
+		    	itemIcon.setLocation(iconX, 35);
 		    	itemIcon.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 		    	itemIcon.setSize(new Dimension(50, 50));
 		    	itemIcon.setPreferredSize(new Dimension(50, 50));
@@ -199,20 +211,35 @@ public class PanelInventaire extends JPanel {
 
 		}
 		
-		// ajout event click sur item pour 
-		public void addEvent(int index) {
+		// ajout event click sur item 
 		
+		private int indexSelectedIcon = 0 ;
+		public void addEvent(int index) {
+			
 			 itemsIcons.get(index).addMouseListener(new MouseAdapter() {
-		    		@Override
+		    		
+				 	@Override
+				 	public void mouseEntered(MouseEvent e) {
+				 		if(index != indexSelectedIcon){
+				 			itemsIcons.get(index).setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true)) ;
+			 			}
+				 	}
+				 	@Override
+				 	public void mouseExited(MouseEvent e) {
+				 		
+				 		if(index != indexSelectedIcon){
+				 			itemsIcons.get(index).setBorder(null) ;
+			 			}
+				 		
+				 	}
+				 	@Override
 			    	public void mouseClicked(MouseEvent arg0) {
-			    		getItemDescript(index);
+				 		indexSelectedIcon = index ;
+			    		setItemDescript(index);
 			    		itemSelected = itemsInventaire.get(index);
-			    		if (  itemSelected != null) {
-				    		if (jeuPanel.checkItemWithZone(itemSelected)) {
+			    		selectedCase(index);
+			    		if (  itemSelected != null && jeuPanel.checkItemWithZone(itemSelected)) {
 				    			activerBtnUtiliser(true);
-				    		}else {
-				    			activerBtnUtiliser(false);
-				    		}
 			    		}else {
 				    			activerBtnUtiliser(false);
 				    	}
@@ -221,7 +248,17 @@ public class PanelInventaire extends JPanel {
 		 
 		}
 		
-		private void getItemDescript(int indexItem) {
+		private void selectedCase(int index ) {
+			for(int i=1 ; i<=5 ; i++) {
+				itemsIcons.get(i).setBorder(null);
+			}
+			if(index !=0) {
+				itemsIcons.get(index).setBorder(new LineBorder(Color.GREEN, 2, true)) ;
+				
+			}
+		}
+		
+		private void setItemDescript(int indexItem) {
 			
 			String descript = "vide ..." ; 
 			if(itemsInventaire.get(indexItem) != null) {
@@ -234,16 +271,19 @@ public class PanelInventaire extends JPanel {
 		
 		
 		
-		public void activerBtnUtiliser(boolean etat) {
+		public void activerBtnUtiliser(boolean etatBtn) {
 			
-			this.btnUtiliserActif = etat ;
-			if(etat) {
-				this.btnUtiliserItem.setBackground(Color.BLUE);
+			this.btnUtiliserActif = etatBtn ;
+			if(etatBtn) {
+				this.btnUtiliserItem.setBackground(Color.DARK_GRAY);  // btn UTILISER activé
+				this.btnUtiliserItem.setForeground(Color.LIGHT_GRAY);
+				this.btnUtiliserItem.setBorder(new LineBorder(Color.GREEN, 2, true)) ;
 			}else {
-				this.btnUtiliserItem.setBackground(Color.LIGHT_GRAY);
+				this.btnUtiliserItem.setBackground(Color.DARK_GRAY); // btn UTILISER désactivé
+				this.btnUtiliserItem.setForeground(Color.GRAY);
+				this.btnUtiliserItem.setBorder(null) ;
+				
+				
 			}
 		}
-		
-		
-
 }

@@ -1,3 +1,20 @@
+Pour Khamis:
+code pour changer la font :  Font font = Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf"));
+ return font.deriveFont(12f);
+
+Roland 21/03
++ Ajout de la Map
+
+jb 21/03
++ refonte des switch zone et item dans jeu.java
++ story de gauche fini
++ story de droite fini mais pas dialogue (+ bug de la pince en meme temps que le veteran)
+---------------------------------------------------------------------------
+Roland 20/03 
++ Harmonisation des noms de méthode dans la classe Jeu
+   - Nom de la méthode getNomImage -> getImage
+   - Nom des méthodes afficherDialoguePNJ -> jeuPanel.afficherPensee / jeuPanel.afficherDialoguePNJ
+
 Roland 19/03
 + Modif de la classe jeu pour finir les switches des zones et objets.
    - Les items sont crées lors de l'utilisation de d'autres items ou lors de l'arrivée du joueur dans certaines zones
