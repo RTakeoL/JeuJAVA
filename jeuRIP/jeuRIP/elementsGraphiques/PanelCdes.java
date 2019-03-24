@@ -1,10 +1,10 @@
 package jeuRIP.elementsGraphiques;
 import jeuRIP.Fenetre;
-import jeuRIP.Utils.ImgFond;
 
 import java.awt.* ; 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 public class PanelCdes extends JPanel {
 	
 	
-	private JeuPanel jeuPanel ;
+	JeuPanel jeuPanel ;
 	private JLabel btnInventaire ;
 	private JLabel btnQuiter ;
 	private JLabel btnMap ;
@@ -30,11 +30,12 @@ public class PanelCdes extends JPanel {
 		setBackground(Color.BLACK);
 	    setBounds(0, 520, 800, 100);
 	    
-	    this.setBtnInventaire(); // creation btn inventaire
+	    this.setBtnInventaire();
 	    //this.setBtnQuiter();
-	    this.setBtnMap(); // creation btn map
+	    this.setBtnMap();
 	    this.setBtnSortie (jeuPanel) ;
-	
+	   
+	   
 	}
 	
 	public void cacherBtnSortie( String sortie) {
@@ -68,58 +69,38 @@ public class PanelCdes extends JPanel {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
 	    		System.out.println("NORD CLICKED...");// debug
-	    		NORD.setBorder(new LineBorder(Color.GREEN, 3, true)) ;
-	    		jeuPanel.changerZone("NORD"); 	    		
-	    	}
-	    	@Override
-	    	public void mouseExited(MouseEvent arg0) {
-	    		NORD.setBorder(null) ;
-	    	}
-	    	@Override
-	    	public void mouseEntered(MouseEvent e) {
-	    		NORD.setBorder(new LineBorder(Color.GREEN, 3, true)) ;
-	    	}
+	    		jeuPanel.seDeplacer("NORD"); 
+	    		
+	    	}	
 	    });
 	    jeuPanel.add(NORD );
 	    
 	    EST.setBackground(Color.WHITE);
-	    EST.setBounds(750, 200, 40 ,70);
+	    EST.setBounds(760, 200, 40 ,70);
 	    this.setImageDeFondLbl("flecheE.png", EST);
 	    EST.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
 	    		System.out.println("EST CLICKED...");// debug
 	    		 String dir = "EST" ;
-	    		 jeuPanel.changerZone(dir); 	    		
-	    	}
-	    	@Override
-	    	public void mouseExited(MouseEvent arg0) {
-	    		EST.setBorder(null) ;
-	    	}
-	    	@Override
-	    	public void mouseEntered(MouseEvent e) {
-	    		EST.setBorder(new LineBorder(Color.GREEN, 3, true)) ;
-	    	}	    	
+	    		 jeuPanel.seDeplacer(dir); 
+	    		
+	    	}	
 	    });
 	    
 	    jeuPanel.add(EST );
-	    	    
+	    
+	    
 	    OUEST.setBackground(Color.WHITE);
-	    OUEST.setBounds(20, 200, 40 ,70);
+	    OUEST.setBounds(58, 200, 40 ,70);
 	    this.setImageDeFondLbl("flecheO.png", OUEST);
 	    OUEST.addMouseListener(new MouseAdapter() {
 	    	@Override
-	    	public void mouseClicked(MouseEvent arg0) {	    		
+	    	public void mouseClicked(MouseEvent arg0) {
+	    		
 	    		System.out.println("OUEST CLICKED...");// debug
-	    		jeuPanel.changerZone("OUEST"); 	    		
-	    	}	    	
-	    	@Override
-	    	public void mouseExited(MouseEvent arg0) {
-	    		OUEST.setBorder(null) ;
-	    	}
-	    	@Override
-	    	public void mouseEntered(MouseEvent e) {
-	    		OUEST.setBorder(new LineBorder(Color.GREEN, 3, true)) ;
+	    		jeuPanel.seDeplacer("OUEST"); 
+	    		
 	    	}
 	    });
 	    jeuPanel.add(OUEST);
@@ -132,43 +113,39 @@ public class PanelCdes extends JPanel {
 	    	public void mouseClicked(MouseEvent arg0) {
 	    		
 	    		System.out.println("sud CLICKED..."); // debug
-	    		jeuPanel.changerZone("SUD");
-	    	}
-	    	
-	    	@Override
-	    	public void mouseExited(MouseEvent arg0) {
-	    		SUD.setBorder(null) ;
-	    	}
-	    	@Override
-	    	public void mouseEntered(MouseEvent e) {
-	    		SUD.setBorder(new LineBorder(Color.GREEN, 2, true)) ;
+	    		jeuPanel.seDeplacer("SUD");
+
 	    	}
 	    });
-	    jeuPanel.add(SUD); 	
+	   
+	    jeuPanel.add(SUD);
+	    	
 	}
 		
 		
-	// creation btn Inventaire	
+		
 	public void setBtnInventaire () {
 		
 		 this.btnInventaire = new JLabel("INVENTAIRE  clickez ici");
 		 this.btnInventaire.addMouseListener(new MouseAdapter() {
 		    	@Override
 		    	public void mouseClicked(MouseEvent arg0) {
-		    		btnInventaire.setBorder(new LineBorder(Color.GREEN, 4, true));
+		    		btnInventaire.setBorder(new LineBorder(Color.GREEN, 2, true));
 		    		jeuPanel.toggleIneventaire();
+
 		    	}
 		    	@Override
 		    	public void mouseEntered(MouseEvent e) {
-		    		btnInventaire.setBorder(new LineBorder(Color.GREEN, 4, true));
+		    		btnInventaire.setBorder(new LineBorder(Color.GREEN, 2, true));
 		    	}
 		    	@Override
 		    	public void mouseExited(MouseEvent e) {
-		    		btnInventaire.setBorder(new LineBorder(Color.LIGHT_GRAY, 3, true));
+		    		btnInventaire.setBorder(null);
 		    	}
 		    });
+		    
+		    this.btnInventaire.setBackground(Color.WHITE);
 		   
-		    this.btnInventaire.setBorder(new LineBorder(Color.LIGHT_GRAY, 3, true));
 		    this.btnInventaire.setBounds(0, 0, 114, 45);
 		    this.setImageDeFondLbl("btnInvent.png", this.btnInventaire);
 		    this.jeuPanel.add(btnInventaire);
@@ -179,24 +156,26 @@ public class PanelCdes extends JPanel {
 		this.btnMap.setLocation(680, 0);
 		this.btnMap.setSize(120, 45);;
 		this.btnMap.setOpaque(true);
-		this.btnMap.setBorder(new LineBorder(Color.LIGHT_GRAY, 3, true));
 		this.setImageDeFondLbl("btnMap.png", this.btnMap);
 		
 		this.btnMap.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
-	    		btnMap.setBorder(new LineBorder(Color.GREEN, 4, true));
+	    		btnMap.setBorder(new LineBorder(Color.GREEN, 2, true));
 	    		jeuPanel.toggleMap();
+
 	    	}
 	    	@Override
 	    	public void mouseEntered(MouseEvent e) {
-	    		btnMap.setBorder(new LineBorder(Color.GREEN, 4, true));
+	    		btnMap.setBorder(new LineBorder(Color.GREEN, 2, true));
 	    	}
 	    	@Override
 	    	public void mouseExited(MouseEvent e) {
-	    		btnMap.setBorder(new LineBorder(Color.LIGHT_GRAY, 3, true));
+	    		btnMap.setBorder(null);
 	    	}
 	    });
+		
+		
 		
 	    this.jeuPanel.add(btnMap);
 	}
@@ -207,7 +186,10 @@ public class PanelCdes extends JPanel {
 			this.btnQuiter.setSize(120, 45);;
 			this.btnQuiter.setOpaque(true);
 			
-			this.btnQuiter.addMouseListener(new MouseAdapter() {					
+			 this.btnQuiter.addMouseListener(new MouseAdapter() {
+					
+					
+					
 					@Override
 					public void mouseExited(MouseEvent e) {
 						// TODO Auto-generated method stub
@@ -218,11 +200,13 @@ public class PanelCdes extends JPanel {
 					public void mouseEntered(MouseEvent e) {
 						
 						btnQuiter.setBorder(new LineBorder(Color.GREEN, 2, true));
-					}					
+					}
+					
 					@Override
 					public void mouseClicked(MouseEvent e) {
 					    Fenetre.window.setVisible(false);
-					    Fenetre.window.dispose();						
+					    Fenetre.window.dispose();
+						
 					}
 				});
 			 setImageDeFondLbl("btnQuiter.png", this.btnQuiter);
@@ -233,7 +217,13 @@ public class PanelCdes extends JPanel {
 		
 		
 		 public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			 ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
-		}
+				//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
+				lbl.setIcon(null);
+				ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
+			    Image img = icon.getImage();
+			    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
+			    ImageIcon newIcon = new ImageIcon(newImg);
+			    lbl.setIcon(newIcon);
+			}
 
 }

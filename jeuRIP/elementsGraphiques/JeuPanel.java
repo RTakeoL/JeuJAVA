@@ -3,12 +3,8 @@ package jeuRIP.elementsGraphiques;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
-import jeuRIP.Fenetre;
 import jeuRIP.Jeu;
 import jeuRIP.Entites.Item;
 import jeuRIP.Entites.PersoNonJoueur;
@@ -17,42 +13,28 @@ import jeuRIP.Entites.Zone;
 
 public class JeuPanel extends JPanel   {
 	
-	Jeu jeu ;
+	private Jeu jeu ;
+	private final int nbItemxMax = 20 ;  //  nombre items maxi pour controler l'affichage des items dans la zone (utilisé dans JeuPanel)
+	private PanelInventaire panelInventaire  ; 	// cadre affichage inventaire
+	private PanelZone panelZone ; // cadre affichage zone	
+	private PanelCdes  panelCdes;  // cadre affichage btns commandes
+	private PanelMap panelMap; // cadre affichage MAP
+	private  PanelMsgBox panelMsgBox ; // cadre affichage message
 
-	private PanelInventaire panelInventaire  ; 
-	
-	private PanelZone panelZone ; // panel affichage zone
-	
-	private PanelCdes  panelCdes;
-	
-	private PanelMap panelMap;
-	
-	// cadre affichage message 
-	private  PanelMsgBox panelMsgBox ;
-	
-	
 	// Constructeur permet de creer un PANEL MASTER qui va contenir 
 	//PANEL ZONE +  Panel Inventaire
 	public JeuPanel(Jeu jeu) { 
 		super(null);
-		setBounds(0, 0, 800, 600);
+		this.setBounds(0, 0, 800, 600);
 		
 		this.jeu = jeu ;
-		
-		//this.setBtnQuiter();
-		
 		this.panelMsgBox = new PanelMsgBox(this);
-
-		this.panelMap = new PanelMap(this);
-		 
-		this.panelInventaire = new PanelInventaire(this);
-		
+		this.panelMap = new PanelMap(this);		 
+		this.panelInventaire = new PanelInventaire(this);		
 		this.add(panelInventaire);
-		this.panelCdes = new PanelCdes(this);
-		
+		this.panelCdes = new PanelCdes(this);		
 		this.panelZone = new PanelZone(this);
-		this.panelZone.addMouseListener(new MouseAdapter() {
-			
+		this.panelZone.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				panelInventaire.cacherInventaire();
@@ -64,19 +46,37 @@ public class JeuPanel extends JPanel   {
 	    	
 	}
 	
-	
-	public void setImageMap(String nomImgMap) {
-		this.panelMap.setImageMap(nomImgMap) ;
-	}
-	
 	private void updateJeu() {
-		//this.removeAll();
-		
 		this.repaint();
 		this.revalidate();
 
 	}
 	
+	 public void changerZone(String dir) {
+	        
+	        this.jeu.seDeplacer( dir);	
+	        //this.initAffichageZC(this.jeu.zoneCourante);
+	        this.panelInventaire.cacherInventaire();
+	        this.panelMap.cacherMap();
+	        
+	 }
+	 
+	 
+	 public  void initAffichageZC(Zone zc) {
+		this.checkSorties(zc); // par kh 19/03 pour dactiver btn sortie si il exist pas
+     	this.afficherImgZone(zc.getNomImage());
+     	this.afficherItemZC(zc); // affichage items
+    	this.afficherPNJ(zc.getPNJZone());
+     	this.setImageMap(this.jeu.getMapJeu().getMap(zc.getDescription()));
+     	this.afficherDescriptionZone(zc.getDescription());
+
+	}
+	 
+	 public void afficherImgZone(String nomImg) {			
+			this.panelZone.ajouterImgZoneCourante(nomImg);	
+			this.updateJeu();	
+	}
+	 // pour activer ou desactiver btn SORTIES
 	public void  checkSorties (Zone zc) {
 		if (zc.obtientSortie("NORD") != null) { this.panelCdes.afficherBtnSortie("NORD");}
 			else { this.panelCdes.cacherBtnSortie("NORD");}
@@ -91,57 +91,84 @@ public class JeuPanel extends JPanel   {
 		else { this.panelCdes.cacherBtnSortie("OUEST");}
 	}
 		
-	public void afficherImgZone(String nomImg) {
+	
+	
+	// affiche discription zone 
+		public void afficherDescriptionZone (String descript) {
+			this.panelZone.afficherDescript( descript);
+		}
+		// pour initialiser image map 
+		public void setImageMap(String nomImgMap) {
+			this.panelMap.setImageMap(nomImgMap) ;
+		}
 			
-			this.panelZone.ajouterImgZoneCourante(nomImg);	
-			updateJeu();	
-	}
+		
+		// pour afficher un item dans la zone 
+		 public void afficherItemZC(Zone zc) {
+			 this.panelZone.initAllImgsItems(this.nbItemxMax);
+			 if(zc.listItemZone.size() > 0) {
+				
+				for(int i=0 ; i<this.nbItemxMax ; i++){
+					// récuperer l'item avec l'index depuis la liste items zone courante
+					Item item ;
+					if (zc.listItemZone.containsKey(i)) {
+						System.out.println("test khamis");
+						item = zc.getItem(i);
+						String imgItem = item.getImage();
+						int X = item.getItemX();
+						int Y = item.getItemY();
+						int W = item.getItemPxW();
+						int H = item.getItemPxH();
+						// afficher item dans l'emplacement prévu au PanelZone
+						this.panelZone.ajouterImgItem(i, imgItem, X, Y, W, H);					
+					}
+				}	
+			}	
+		}
 	
-	/// affichage item dans la zone
-	public void afficherItem(int indexItem , String nomImgItem , int X , int Y , int W , int H) {
-		this.panelZone.setImgItem(indexItem,nomImgItem, X, Y, W, H);
-	}
-	
-	
-	///// ramasser Item  de la zone  le 15/03
-		public void ramasserItem(int indexItem) {	
+		// pour verifier si on peut utiliser item  dans la bonne zone
+		public boolean checkItemWithZone(Item item) {
+			 return ( this.jeu.zoneCourante.getDescription() == item.getZoneUtilise() ) ;
+		}
+		 
+		 
+	   // ramasser Item  de la zone  le 15/03
+		public void ramasserItem(int indexItem) {			
 			Item item = this.jeu.zoneCourante.getItem(indexItem); // recuperer item de la zone
+			if (this.jeu.inventaireItems.size() < 5)	{				
+				this.jeu.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
+				this.jeu.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire				
+				this.panelZone.supprimerImgItem(indexItem); // supprimer img item de le panel zone
+				this.panelInventaire.ajouterItem(item); // afficher item dans inventaire panel
+				  
+			}else {
+				this.afficherPensee("   Vous ne pouvez pas ramasser plus de 5 objets");
+			}
 			
-			this.jeu.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
-			this.jeu.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire
-			this.ajouterItemInventaire(item); // afficher item dans inventaire panel
 			System.out.println(item.getNomItem()); // pr debug
 			System.out.println("----nb items inventaire :"+this.jeu.inventaireItems.size()); // pr debug
-		}
-		
+		}		   
 	
-	// ajouter item à l'inventaire 
-	public  void ajouterItemInventaire(Item item) {
-		this.panelInventaire.ajouterItem(item);
-	}
-	
-	/// initialiser (cacher) tous les objets dans la zone
-	public void initAllItems() {
-		this.panelZone.initAllItems();
-	}
-	
-	// pour verifier si on peut utiliser item  dans la bonne zone
-	public boolean checkItemWithZone(Item item) {
-		//return (this.jeu.zoneCourante.getDescription() == "Ruelle de Départ" && item.getNomItem() == "Jerrican") ;
-		 return ( this.jeu.zoneCourante.getDescription() == item.getZoneUtilise() ) ;
-
-	}
-	
+	// utiliser objet  ( applée au click sur btn utiliser dans panel INVENTAIRE ) 
 	public boolean utiliserItem(Item item) {
 		return ( jeu.utiliserItem(item) );
 
 	}
 	
-//	public void jeterItem(Item item) {
-//		this.jeu.zoneCourante.ajouteItems(4,  item);
-//		this.afficherItemZC(this.jeu.zoneCourante);
-//
-//	}
+	// jeter objet  ( applée au click sur btn JETER dans panel INVENTAIRE ) 
+	public void jeterItem(Item item) {
+		
+		this.jeu.inventaireItems.remove(item.getNomItem()) ; // supprimer de l'inventaire item dans liste inventaire
+		int index = 0 ;
+		while (this.jeu.zoneCourante.listItemZone.containsKey(index)) {
+				 index ++ ;	
+		}
+		this.jeu.zoneCourante.ajouteItems(index ,  item);
+		
+    	this.afficherItemZC(jeu.zoneCourante); 
+		
+
+	}
 	
 	// afficher PNJ 
 	public void afficherPNJ(PersoNonJoueur PNJ) {
@@ -153,8 +180,7 @@ public class JeuPanel extends JPanel   {
 			int Y = PNJ.getPNJY();
 			int W = PNJ.getPNJPxW();
 			int H = PNJ.getPNJPxH();
-			this.panelZone.afficherPNJ(imgPNJ, X, Y, W, H);
-			
+			this.panelZone.afficherPNJ(imgPNJ, X, Y, W, H);			
 		}	
 	}
 	
@@ -184,47 +210,24 @@ public class JeuPanel extends JPanel   {
 	 }
 	
 	 
-	 public void seDeplacer(String dir) {
-	        
-	        jeu.seDeplacer( dir);
-	 }
-	 
-	 
-	// pour afficher un item dans la zone 
-	 public void afficherItemZC(Zone zc) {
+	
+	 //pour  controler affichage inventaire
+	public void toggleIneventaire() {
+			this.panelInventaire.togglePanelInventaire();
 
-			initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
-			if(zc.listItemZone.size() > 0) {
-				for(int i=0 ; i<3 ; i++){
-					// récuperer l'item avec l'index depuis la liste items zone courante
-					Item item ;
-					if (zc.listItemZone.containsKey(i)) {
-						System.out.println("test khamis");
-						item = zc.getItem(i);
-						String imgItem = item.getImage();
-						int X = item.getItemX();
-						int Y = item.getItemY();
-						int W = item.getItemPxW();
-						int H = item.getItemPxH();
-						// afficher item dans l'emplacement prévu au PanelZone
-						afficherItem(i, imgItem, X, Y, W, H);
-						
-					
-					}
-				}	
-			}	
 		}
-	  
-	 
-	 
-	 public void toggleIneventaire() {
-		this.panelInventaire.togglePanelInventaire();
+	public void cacherIneventaire() {
+			this.panelInventaire.cacherInventaire();
 
 	}
 	 
-	 public void toggleMap() {
+	public void toggleMap() {
 		 this.panelMap.toggleMap();
-	 }
-	 
+	}
+
+	
+	
+	
+	
 	
 }

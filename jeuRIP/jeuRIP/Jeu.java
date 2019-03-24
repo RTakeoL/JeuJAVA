@@ -10,14 +10,14 @@ import jeuRIP.Entites.*;
 
 public class Jeu {
 	
-	private Fenetre fenetre  ; 
-	private JeuPanel jeuPanel ;
 	
-	private Zone[] zones;
+	public Zone zoneCourante;
+	Zone[] zones;
+	Fenetre fenetre  ; 
+	JeuPanel jeuPanel ;
 	public HashMap<String, Item> tableItems ;
 	public HashMap<String, PersoNonJoueur> tablePNJ;
 	public HashMap<String, Item> inventaireItems; // par kh 15/03
-	public Zone zoneCourante;
 	private MapZone mapJeu;
 
 	// Propriété cheminFin qui permets de savoir quel chemin à été pris:
@@ -50,18 +50,16 @@ public class Jeu {
 	}
 	
 	public void setFenetre( Fenetre fen) { 
-		this.fenetre = fen ;
-		this.setPanel(fenetre.getPanel());
+		fenetre = fen ;
+		setPanel(fenetre.getPanel());
 	}
 	
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
-		
-		this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
-//		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-//		jeuPanel.checkSorties(this.zoneCourante);
-//		jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
-//		//afficherItemZC(zoneCourante); // affichage item 1
+		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
+		jeuPanel.checkSorties(this.zoneCourante);
+		jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
+		//afficherItemZC(zoneCourante); // affichage item 1
 	}
 	private void creerCarte() {
         this.zones = new Zone[18];
@@ -165,13 +163,11 @@ public class Jeu {
 	      this.zoneCourante = nouvelle;
 				this.etatJeu(zoneCourante);
 				Jeu.nombreTour +=1;
-//			    jeuPanel.checkSorties(this.zoneCourante); // par kh 19/03 pour dactiver btn sortie si il exist pas
-//	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-//	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
-//	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
-//	        	jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
-				
-				 this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
+			    jeuPanel.checkSorties(this.zoneCourante); // par kh 19/03 pour dactiver btn sortie si il exist pas
+	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
+	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
+	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
+	        	jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
 	        	
 	        	System.out.println(" test .........: "+this.zoneCourante.listItemZone.size());
 	        }
@@ -648,9 +644,4 @@ public class Jeu {
 			this.zones[14].ajoutePNJ(tablePNJ.get("Pilote"));
 			this.zones[6].ajoutePNJ(tablePNJ.get("Zombie"));
 	 }
-	 
-	 public MapZone getMapJeu() {
-		return (this.mapJeu);
-	}
-	 
 }
