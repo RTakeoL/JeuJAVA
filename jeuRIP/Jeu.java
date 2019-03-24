@@ -63,20 +63,20 @@ public class Jeu {
 	private void creerCarte() {
         this.zones = new Zone[18];
         // partie de gauche (marina)
-        this.zones[0] = new Zone("Ruelle de Départ", "ZONE0.png" );
-        this.zones[1] = new Zone("Ruelle OUEST (Sud)", "ZONE1.png");
-        this.zones[2] = new Zone("Bar", "ZONE2.png");
-        this.zones[3] = new Zone("Hotel", "ZONE3.png");
-        this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE4.png");
-        this.zones[5] = new Zone("Marina", "ZONE5.png");
-        this.zones[6] = new Zone("Supermarché", "ZONE6.png");
+        this.zones[0] = new Zone("Ruelle de Départ", "ZONE0.gif" );
+        this.zones[1] = new Zone("Ruelle OUEST (Sud)", "ZONE1.gif");
+        this.zones[2] = new Zone("Bar", "ZONE2.gif");
+        this.zones[3] = new Zone("Hotel", "ZONE3.jpg");
+        this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE4.gif");
+        this.zones[5] = new Zone("Marina", "ZONE5.gif");
+        this.zones[6] = new Zone("Supermarché", "ZONE6.jpg");
         
         //partie de droite (aéroport)
-        this.zones[7] = new Zone("Métro", "ZONE7.png" );
-        this.zones[8] = new Zone("Maison", "ZONE8.png");
-        this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
+        this.zones[7] = new Zone("Métro", "ZONE7.gif" );
+        this.zones[8] = new Zone("Maison", "ZONE8.gif");
+        this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.gif" ); 
         this.zones[10] = new Zone("Armurerie", "ZONE10.png");
-        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
+        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.gif" );
         this.zones[12] = new Zone("Station Essence", "ZONE12.png");
         this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
         this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
@@ -589,7 +589,7 @@ public class Jeu {
 			Fille.setSize(100, 100);
 			tablePNJ.put("Fille",Fille);
 			
-			PersoNonJoueur Capitaine = new PersoNonJoueur("Capitaine", "capitaine.jpg", "Attention..*ich* ! Capitaine à..*ich* babord !",
+			PersoNonJoueur Capitaine = new PersoNonJoueur("Capitaine", "capitaine.png", "Attention..*ich* ! Capitaine à..*ich* babord !",
 					"Zzzzzzzzzz !", "Oh ma tête ! Que ce passe-t-il ici? Je dois retrouver ma fille. "
 							+ "J'ai laisser mes clés de bateau dans ma chambre d'hotel, prends les et rejoins moi a la Marina, c'est la chambre n°14",
 					"Capitaine d'un bateau qui semble avoir un penchant pour l'alcool.");
@@ -597,7 +597,7 @@ public class Jeu {
 			Capitaine.setSize(100, 100);
 			tablePNJ.put("Capitaine",Capitaine);
 			
-			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "veterant.jpg", "Hey vous! Par ici!", 
+			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "soldat.png", "Hey vous! Par ici!", 
 					"Mon couteau", 
 					"Merci",
 					"Un étrange personnage qui semble avoir des séquels de la guerre.");
@@ -605,7 +605,7 @@ public class Jeu {
 			VeteranGuerre.setSize(100, 100);
 			tablePNJ.put("Veteran de guerre",VeteranGuerre);
 			
-			PersoNonJoueur Pilote = new PersoNonJoueur("Pilote", "pilote.jpg", "Tous les avions sont partis, il ne reste que ce tas de féraille. Il est a court d'essence."
+			PersoNonJoueur Pilote = new PersoNonJoueur("Pilote", "pilote.png", "Tous les avions sont partis, il ne reste que ce tas de féraille. Il est a court d'essence."
 					+ " Ramenez nous de quoi faire le plein et on décolera d'ici avant qe les zombies nous attrapent", 
 					"On est a court d'essence", 
 					"On peut décoller de cette île",
