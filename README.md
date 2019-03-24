@@ -1,10 +1,11 @@
 
-Khamis 24/03 
+Khamis 24/03
+
      ATTENTION : 
            Pb des GIF , j'arrive à les afficher mais il reste au premier plan au lieu au fond de l'ecran.
            pour le regler,   j'ai besoins de changer pas mal de la structure de code ....!
            on aura pas assez de temps pour le faire , je propose d'utiliser des simples images...!!!
-      
+ modif :      
 + ajout JETER item dans inventaire  : fichier panelInventaire + JeuPanel + panelZone
 + ajout affichage description zone
 + amelioré code panelZone affichage items (nbItems Max  :Constant déclaré dans JeuPanel , java ); pour permettre d'ajouter plusieurs items dans meme zone ) : panelZone / JeuPanel
