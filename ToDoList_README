@@ -8,16 +8,17 @@ Trouver image Zone
 faire les images des zone de fin (ne plus avoir de menu dessus)
 Faire l'intro
 
-enlever waitDialogue du switch -> jb
-finir les dialogues
+finir les dialogues et les descriptions
 presentation des dialogues
 
 Refaire le switch du supermarché  ++ prendre en compte que le gun a été utilisé et donc pas faire l'action de la bouteille dans supermarché
-(static hashmap)
-
+_____>>>> roland fait TOUT * I hear CHEH in my oreillette*
 
 # faire systeme de compteur de tour -> Roland
+  compter la limite
 
+fermer inventaire qd on utilise item
 
+mettre icone metro sur la minimap
 
-fixer le bug de la pince qui ne s'utilise pas qd le parachute et au sol
+afficher descriptionzone qd on arrive dedans

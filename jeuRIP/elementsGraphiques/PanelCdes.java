@@ -68,7 +68,7 @@ public class PanelCdes extends JPanel {
 	    NORD.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
-	    		System.out.println("NORD CLICKED...");
+	    		System.out.println("NORD CLICKED...");// debug
 	    		jeuPanel.seDeplacer("NORD"); 
 	    		
 	    	}	
@@ -81,7 +81,7 @@ public class PanelCdes extends JPanel {
 	    EST.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
-	    		System.out.println("EST CLICKED...");
+	    		System.out.println("EST CLICKED...");// debug
 	    		 String dir = "EST" ;
 	    		 jeuPanel.seDeplacer(dir); 
 	    		
@@ -98,7 +98,7 @@ public class PanelCdes extends JPanel {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
 	    		
-	    		System.out.println("OUEST CLICKED...");
+	    		System.out.println("OUEST CLICKED...");// debug
 	    		jeuPanel.seDeplacer("OUEST"); 
 	    		
 	    	}
@@ -112,10 +112,9 @@ public class PanelCdes extends JPanel {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
 	    		
-	    		System.out.println("sud CLICKED...");
+	    		System.out.println("sud CLICKED..."); // debug
 	    		jeuPanel.seDeplacer("SUD");
-	    		
-	    		
+
 	    	}
 	    });
 	   
