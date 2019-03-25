@@ -165,7 +165,8 @@ public class JeuPanel extends JPanel   {
 		}
 		this.jeu.zoneCourante.ajouteItems(index ,  item);
 		
-    	this.afficherItemZC(jeu.zoneCourante); 
+    		//this.afficherItemZC(jeu.zoneCourante); 
+		this.initAffichageZC(this.jeu.zoneCourante);
 		
 
 	}
