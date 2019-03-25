@@ -66,20 +66,20 @@ public class Jeu {
 	private void creerCarte() {
         this.zones = new Zone[18];
         // partie de gauche (marina)
-        this.zones[0] = new Zone("Ruelle de Départ", "ZONE0.gif" );
-        this.zones[1] = new Zone("Ruelle OUEST (Sud)", "ZONE1.gif");
-        this.zones[2] = new Zone("Bar", "ZONE2.gif");
+        this.zones[0] = new Zone("Ruelle de Départ", "ZONE0.png" );
+        this.zones[1] = new Zone("Ruelle OUEST (Sud)", "ZONE1.png");
+        this.zones[2] = new Zone("Bar", "ZONE2.png");
         this.zones[3] = new Zone("Hotel", "ZONE3.jpg");
-        this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE4.gif");
-        this.zones[5] = new Zone("Marina", "ZONE5.gif");
-        this.zones[6] = new Zone("Supermarché", "ZONE6.jpg");
+        this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE4.png");
+        this.zones[5] = new Zone("Marina", "ZONE5.png");
+        this.zones[6] = new Zone("Supermarché", "ZONE6.jpeg");
         
         //partie de droite (aéroport)
-        this.zones[7] = new Zone("Métro", "ZONE7.gif" );
-        this.zones[8] = new Zone("Maison", "ZONE8.gif");
-        this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.gif" ); 
+        this.zones[7] = new Zone("Métro", "ZONE7.png" );
+        this.zones[8] = new Zone("Maison", "ZONE8.png");
+        this.zones[9] = new Zone("Ruelle EST (Sud)", "ZONE9.png" ); 
         this.zones[10] = new Zone("Armurerie", "ZONE10.png");
-        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.gif" );
+        this.zones[11] = new Zone("Ruelle EST (Nord)", "ZONE11.png" );
         this.zones[12] = new Zone("Station Essence", "ZONE12.png");
         this.zones[13] = new Zone("Entrée Aéroport", "ZONE13.png");
         this.zones[14] = new Zone("Piste Aéroport", "ZONE14.png");
