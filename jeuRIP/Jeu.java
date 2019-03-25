@@ -292,43 +292,43 @@ public class Jeu {
 					//-------------------------------------------------------------------
 					// Le cas du supermarché doit être traiter pour le case des zombies...
 					case "Supermarché" :
-					int indexItemZone;
-					if(this.zones[6].getPNJZone() == null && this.tableItems.get("Bouteille")!=null) { // Cas ou la bouteille est utilisé
-						if(this.tableItems.get("Bouteille").getEtatItem() && !this.tableItems.get("Gun").getEtatItem()) {
-							this.zones[6].ajoutePNJ(this.tablePNJ.get("Zombie"));
-							jeuPanel.afficherPNJ(this.tablePNJ.get("Zombie"));
+						int indexItemZone;
+						if(this.zones[6].getPNJZone() == null && this.tableItems.get("Bouteille")!=null) { // Cas ou la bouteille est utilisé
+							if(this.tableItems.get("Bouteille").getEtatItem() && !this.tableItems.get("Gun").getEtatItem()) {
+								this.zones[6].ajoutePNJ(this.tablePNJ.get("Zombie"));
+								jeuPanel.afficherPNJ(this.tablePNJ.get("Zombie"));
+							}
 						}
-					}
-					
-					
-					
-					indexItemZone=0;
-					if(this.zones[6].getPNJZone() != null) { // Si des zombies sont présent dans la zone..
 						
-						// regarder si des items sont liés à la zone, dans le cas oui, il faut les cacher....
-						if(!this.zones[6].listItemZone.isEmpty()) { 
-							while(!this.zones[6].listItemZone.isEmpty()) {
-								if(this.zones[6].listItemZone.get(indexItemZone) != null) {
-									this.zones[6].listItemZone.remove(indexItemZone);
+						
+						
+						indexItemZone=0;
+						if(this.zones[6].getPNJZone() != null) { // Si des zombies sont présent dans la zone..
+							
+							// regarder si des items sont liés à la zone, dans le cas oui, il faut les cacher....
+							if(!this.zones[6].listItemZone.isEmpty()) { 
+								while(!this.zones[6].listItemZone.isEmpty()) {
+									if(this.zones[6].listItemZone.get(indexItemZone) != null) {
+										this.zones[6].listItemZone.remove(indexItemZone);
+									}
+									indexItemZone+=1;
 								}
-								indexItemZone+=1;
 							}
-						}
-						
-						jeuPanel.afficherItemZC(this.zoneCourante);
-						
-						// Initialiser les dialogues...
-						if(!zombie.getInitQuete()) {
-							zombie.setInitQuete(true);
-							jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
-						} else {
-							if(!zombie.getDoneQuete()) {
-								jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
-											+ "Il faut trouver un objet qui pourrait les faire partir.");
+							
+							jeuPanel.afficherItemZC(this.zoneCourante);
+							
+							// Initialiser les dialogues...
+							if(!zombie.getInitQuete()) {
+								zombie.setInitQuete(true);
+								jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
+							} else {
+								if(!zombie.getDoneQuete()) {
+									jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
+												+ "Il faut trouver un objet qui pourrait les faire partir.");
+								}
 							}
+						
 						}
-					
-					}
 					break;
 					//-------------------------------------------------------------------
 					// Le cas de la station essence où l'on n'as pas le bidon d'essence pour le remplir...
@@ -422,40 +422,40 @@ public class Jeu {
 		break;
 		case "Gun" :
 			if(this.zones[6].getPNJZone() != null) {
-			this.inventaireItems.get("Gun").setEtatItem(true);
-			this.inventaireItems.remove("Gun");
+				this.inventaireItems.get("Gun").setEtatItem(true);
+				this.inventaireItems.remove("Gun");
 
-			// Une loop if qui va permettre de nullifier l'utilisation de la bouteille....
-			if(this.inventaireItems.get("Bouteille") != null) {
-				this.inventaireItems.remove("Bouteille");
-				this.inventaireItems.get("Bouteille").setEtatItem(true);
-			} else {
-				if(this.zones[2].getItem(0) != null) {
-					this.zones[2].enleveItem(0);
+				// Une loop if qui va permettre de nullifier l'utilisation de la bouteille....
+				if(this.inventaireItems.get("Bouteille") != null) {
+					this.inventaireItems.remove("Bouteille");
+					this.inventaireItems.get("Bouteille").setEtatItem(true);
+				} else {
+					if(this.zones[2].getItem(0) != null) {
+						this.zones[2].enleveItem(0);
+					}
 				}
-			}
-			this.tablePNJ.get("Zombie").setDoneQuete(true);
-			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
-					this.tablePNJ.get("Zombie").getImage());
-			
-			
-					if(this.inventaireItems.get("Pills") == null && !this.tableItems.get("Pills").getEtatItem()) {
-						this.zones[6].ajouteItems(1, tableItems.get("Pills"));
-					}
-					if(this.inventaireItems.get("Pince") == null && !this.tableItems.get("Pince").getEtatItem()) {
-						this.zones[6].ajouteItems(0, tableItems.get("Pince"));
-					}
-					if(this.inventaireItems.get("Jerrican") == null && !this.tableItems.get("Jerrican").getEtatItem()) {
-						this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
-					}
-					
+				this.tablePNJ.get("Zombie").setDoneQuete(true);
+				jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
+						this.tablePNJ.get("Zombie").getImage());
+				
+				
+						if(this.inventaireItems.get("Pills") == null && !this.tableItems.get("Pills").getEtatItem()) {
+							this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+						}
+						if(this.inventaireItems.get("Pince") == null && !this.tableItems.get("Pince").getEtatItem()) {
+							this.zones[6].ajouteItems(0, tableItems.get("Pince"));
+						}
+						if(this.inventaireItems.get("Jerrican") == null && !this.tableItems.get("Jerrican").getEtatItem()) {
+							this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
+						}
+						
 
-			this.zones[6].setPNJZone(null);
-			jeuPanel.afficherPNJ(null);
-			jeuPanel.afficherItemZC(this.zoneCourante);
-			} else {
-				utilisé = false;
-			}
+				this.zones[6].setPNJZone(null);
+				jeuPanel.afficherPNJ(null);
+				jeuPanel.afficherItemZC(this.zoneCourante);
+				} else {
+					utilisé = false;
+				}
 		break;
 		case "Pince" :
 			this.inventaireItems.get("Pince").setEtatItem(true);
@@ -492,7 +492,7 @@ public class Jeu {
 		case "Jerrican" :
 			this.inventaireItems.get("Jerrican").setEtatItem(true);
 			this.inventaireItems.remove("Jerrican");
-			this.zones[12].ajouteItems(0, tableItems.get("Jerrican (Plein)"));
+			this.zones[12].ajouteItems(1, tableItems.get("Jerrican (Plein)"));
 			jeuPanel.afficherItemZC(this.zoneCourante);
 		break;
 		case "Pills" :
@@ -583,12 +583,12 @@ public class Jeu {
 			tableItems.put("Bouteille", Bouteille);
 			
 			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",this.zones[12].getDescription());
-			Jerrican.setPosition(300, 100);
+			Jerrican.setPosition(550, 475);
 			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
 			
 			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",this.zones[15].getDescription());
-			Parachute.setPosition(100, 100);
+			Parachute.setPosition(100, 400);
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
@@ -608,7 +608,7 @@ public class Jeu {
 			tableItems.put("CouteauDeGuerre", CouteauDeGuerre);
 
 			Item JerricanPlein = new Item("Jerrican (Plein)","jerrican.png","Le jerrican est remplit d'essence..",this.zones[14].getDescription());
-			JerricanPlein.setPosition(200, 100);
+			JerricanPlein.setPosition(400, 450);
 			JerricanPlein.setSize(100, 100);
 			tableItems.put("Jerrican (Plein)",JerricanPlein);
 		}
