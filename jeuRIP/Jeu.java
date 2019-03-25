@@ -592,7 +592,7 @@ public class Jeu {
 					"Alors tu as trouvé mon téléphone?",
 					"Oh merci à toi! Les clé du bateau de mon père sont dans sa chambre d'hotel, c'est la chambre n°14. Je te retrouve à la Marina",
 					"fille en detresse qui se dit etre la fille du capitaine.");
-			Fille.setPosition(100, 300);
+			Fille.setPosition(250, 450);
 			Fille.setSize(100, 100);
 			tablePNJ.put("Fille",Fille);
 			
@@ -600,8 +600,8 @@ public class Jeu {
 					"Zzzzzzzzzz !", "Oh ma tête ! Que ce passe-t-il ici? Je dois retrouver ma fille. "
 							+ "J'ai laisser mes clés de bateau dans ma chambre d'hotel, prends les et rejoins moi a la Marina, c'est la chambre n°14",
 					"Capitaine d'un bateau qui semble avoir un penchant pour l'alcool.");
-			Capitaine.setPosition(100, 300);
-			Capitaine.setSize(100, 100);
+			Capitaine.setPosition(450, 275);
+			Capitaine.setSize(300, 300);
 			tablePNJ.put("Capitaine",Capitaine);
 			
 			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "soldat.png", "Hey vous! Par ici!", 
@@ -609,7 +609,7 @@ public class Jeu {
 					"Merci",
 					"Un étrange personnage qui semble avoir des séquels de la guerre.");
 			VeteranGuerre.setPosition(100, 300);
-			VeteranGuerre.setSize(100, 100);
+			VeteranGuerre.setSize(450, 450);
 			tablePNJ.put("Veteran de guerre",VeteranGuerre);
 			
 			PersoNonJoueur Pilote = new PersoNonJoueur("Pilote", "pilote.png", "Tous les avions sont partis, il ne reste que ce tas de féraille. Il est a court d'essence."
@@ -617,8 +617,8 @@ public class Jeu {
 					"On est a court d'essence", 
 					"On peut décoller de cette île",
 					"Pilote d'avion qui peut m'aider à quitter cette île.");
-			Pilote.setPosition(100, 300);
-			Pilote.setSize(100, 100);
+			Pilote.setPosition(575, 350);
+			Pilote.setSize(250, 250);
 			tablePNJ.put("Pilote",Pilote);
 			
 			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombie.jpg", "",
