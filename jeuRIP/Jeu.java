@@ -72,7 +72,7 @@ public class Jeu {
         this.zones[3] = new Zone("Hotel", "ZONE3.jpg");
         this.zones[4] = new Zone("Ruelle OUEST (Nord)", "ZONE4.png");
         this.zones[5] = new Zone("Marina", "ZONE5.png");
-        this.zones[6] = new Zone("Supermarché", "ZONE6.jpeg");
+        this.zones[6] = new Zone("Supermarché", "ZONE6.jpg");
         
         //partie de droite (aéroport)
         this.zones[7] = new Zone("Métro", "ZONE7.png" );
