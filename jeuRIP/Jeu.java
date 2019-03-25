@@ -525,13 +525,14 @@ public class Jeu {
 			this.inventaireItems = new HashMap<String, Item>() ;
 			this.tableItems = new HashMap<String, Item>();
 
+			
 			Item Hache = new Item("Hache","hache.png","Ceci est une hache",this.zones[9].getDescription());
-			Hache.setPosition(100, 100);
+			Hache.setPosition(80, 450);
 			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
 			
 			Item Gun = new Item("Gun","gun.png","Ceci est un gun",this.zones[6].getDescription());
-			Gun.setPosition(100, 100);
+			Gun.setPosition(20, 450);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
 			
@@ -540,9 +541,9 @@ public class Jeu {
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
 			
-			Item Bouteille = new Item("Bouteille","bouteille.jpg","Ceci est une bouteille",this.zones[6].getDescription());
-			Bouteille.setPosition(100, 100);
-			Bouteille.setSize(100, 100);
+			Item Bouteille = new Item("Bouteille","bouteille.png","Ceci est une bouteille",this.zones[6].getDescription());
+			Bouteille.setPosition(175, 296);
+			Bouteille.setSize(65, 35);
 			tableItems.put("Bouteille", Bouteille);
 			
 			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",this.zones[12].getDescription());
@@ -560,13 +561,13 @@ public class Jeu {
 			Pills.setSize(100, 100);
 			tableItems.put("Pills",Pills);
 			
-			Item Portable = new Item("Portable","portable.jpg","Ceci est un portable",this.zones[1].getDescription());
-			Portable.setPosition(100, 100);
-			Portable.setSize(100, 100);
+			Item Portable = new Item("Portable","portable.png","Ceci est un portable",this.zones[1].getDescription());
+			Portable.setPosition(650, 350);
+			Portable.setSize(20, 10);
 			tableItems.put("Portable", Portable);
 
-			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.jpg","L'objet favoris du vétéran de guerre!",this.zones[13].getDescription());
-			CouteauDeGuerre.setPosition(200, 100);
+			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.png","L'objet favoris du vétéran de guerre!",this.zones[13].getDescription());
+			CouteauDeGuerre.setPosition(700, 450);
 			CouteauDeGuerre.setSize(100, 100);
 			tableItems.put("CouteauDeGuerre", CouteauDeGuerre);
 
@@ -584,6 +585,7 @@ public class Jeu {
 		this.zones[12].ajouteItems(0, tableItems.get("Hache"));	 
 	 }		
 
+	
 	 private void creerPNJ() {
 			this.tablePNJ = new HashMap<String, PersoNonJoueur>();
 
