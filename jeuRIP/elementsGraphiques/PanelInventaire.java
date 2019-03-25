@@ -50,7 +50,7 @@ public class PanelInventaire extends JPanel {
 			    	public void mouseClicked(MouseEvent arg0) {
 			   			utiliserItem(itemSelected);
 			   			activerBtnUtiliser(false);
-			   			activerBtnJeter(false);
+			   			activerBtnJeter(false);			   			
 			   			indexSelectedIcon = 0 ;
 			   			cacherInventaire();			   			
 			    	}	
@@ -162,32 +162,33 @@ public class PanelInventaire extends JPanel {
     }
 	    
 	    // vider la case item 
-	    private void supprimerItem(Item itemUsed) {
+	    private void supprimerItem(Item itemSelected) {
 	    	for (int i = 1 ; i <6 ; i++) {
-	    		if(itemUsed.getNomItem()== this.itemsInventaire.get(i).getNomItem()) {
+	    		if(this.itemsInventaire.get(i) != null &&   itemSelected.getNomItem()== this.itemsInventaire.get(i).getNomItem()) {
 		    		itemsIcons.get(i).setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
 		    		this.itemsInventaire.replace(i, null);
 		    		break ;
 		    	}
 	    	}
+	    	this.itemSelected=null ;
 		
 		}
 	  
 	    // méthode invoquée au click sur btn UTILISER 
-	    private void utiliserItem(Item item) {
-			if (item != null && this.btnUtiliserActif ) {
-				 if( this.jeuPanel.utiliserItem(item)) {
-					 supprimerItem(item) ;
+	    private void utiliserItem(Item itemSelected) {
+			if (itemSelected != null && this.btnUtiliserActif ) {
+				 if( this.jeuPanel.utiliserItem(itemSelected)) {
+					 supprimerItem(itemSelected) ;
 				 } 
 	    	}
 		}
 		
 	 // méthode invoquée au click sur btn JETER
-	    private void jeterItem(Item item) {
-			if (item != null && this.btnJeterActif ) {
+	    private void jeterItem(Item itemSelected) {
+			if (itemSelected != null && this.btnJeterActif ) {
 			  
-			   this.jeuPanel.jeterItem(item);
-			   supprimerItem(item) ;
+			   this.jeuPanel.jeterItem(itemSelected);
+			   supprimerItem(itemSelected) ;
 			 
 	    	}
 		}
