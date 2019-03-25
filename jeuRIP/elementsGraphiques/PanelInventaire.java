@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import jeuRIP.Entites.Item;
-import jeuRIP.Utils.ImageDeFond;
+import jeuRIP.Utils.ImgFond;
 
 
 
@@ -30,6 +30,9 @@ public class PanelInventaire extends JPanel {
 		private HashMap<Integer, Item> itemsInventaire; 
 		private Item itemSelected  = null ;
 		
+		private JLabel btnJeterItem ;
+		private boolean btnJeterActif = false ;
+		
 		private Thread thread ;
 		
 	    public PanelInventaire( JeuPanel jeuPanel) {
@@ -41,9 +44,9 @@ public class PanelInventaire extends JPanel {
 	    	
 	    	initItemIcons(); // creer les 5 cases vides pour les items
 	    	
-	    	btnUtiliserItem = new JLabel("    UTILISER ");
+	    	this.btnUtiliserItem = new JLabel("    UTILISER ");
 	    	
-	        btnUtiliserItem.addMouseListener(new MouseAdapter() {
+	        this.btnUtiliserItem.addMouseListener(new MouseAdapter() {
 		    		@Override
 			    	public void mouseClicked(MouseEvent arg0) {
 			   			utiliserItem(itemSelected);
@@ -53,10 +56,26 @@ public class PanelInventaire extends JPanel {
 			    	}	
 			    });
 	        
-	    	btnUtiliserItem.setBackground(Color.DARK_GRAY);
-	    	btnUtiliserItem.setOpaque(true);
-	    	btnUtiliserItem.setBounds(130, 100, 80, 40);
+	    	this.btnUtiliserItem.setBackground(Color.DARK_GRAY);
+	    	this.btnUtiliserItem.setOpaque(true);
+	    	this.btnUtiliserItem.setBounds(130, 100, 80, 40);
 	    	//btnUtiliserItem.setForeground(Color.LIGHT_GRAY);
+	    	
+//	    	this.btnJeterItem = new JLabel("   JETER ");
+//	    	this.btnJeterItem.setBackground(Color.DARK_GRAY);
+//	    	this.btnJeterItem.setOpaque(true);
+//	    	this.btnJeterItem.setBounds(20, 100, 80, 40);
+//	    	this.btnJeterItem.addMouseListener(new MouseAdapter() {
+//	    		@Override
+//		    	public void mouseClicked(MouseEvent arg0) {
+//		   			//jeterItem(itemSelected);
+//		   			//activerBtnJeter(false);
+//		   			//indexSelectedIcon = 0 ;
+//		   			
+//		    	}	
+//		    });
+//	    	
+//	    	this.add(btnJeterItem);
 	    	
 	    	this.add(btnUtiliserItem);
 	    	
@@ -145,37 +164,45 @@ public class PanelInventaire extends JPanel {
     }
 	    
 	    // vider la case item 
-	    private void supprimerItem(Item itemUsed) {
+	    protected void supprimerItem(Item itemUsed) {
 	    	for (int i = 1 ; i <6 ; i++) {
-	    		if(itemUsed.getNomItem()== this.itemsInventaire.get(i).getNomItem()) {
-		    		itemsIcons.get(i).setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
-		    		this.itemsInventaire.replace(i, null);
-		    		break ;
-		    	}
+	    		if(this.itemsInventaire.get(i) != null) {
+		    		if(itemUsed.getNomItem()== this.itemsInventaire.get(i).getNomItem()) {
+			    		itemsIcons.get(i).setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/caseVideInvent.png")));
+			    		this.itemsInventaire.replace(i, null);
+			    	}	
+	    		}
 	    	}
 		
 		}
+	    
+	    
+	    
 	    
 	    // méthode invoquée au click sur btn UTILISER 
 	    public void utiliserItem(Item item) {
 			if (item != null && this.btnUtiliserActif ) {
-			 supprimerItem(item) ;
-			 this.jeuPanel.utiliserItem(item);
-			
-			 
+				 if( this.jeuPanel.utiliserItem(item)) {
+					 supprimerItem(item) ;
+				 } 
 	    	}
 		}
 		
+	 // méthode invoquée au click sur btn UTILISER 
+//	    public void jeterItem(Item item) {
+//			if (item != null && this.btnJeterActif ) {
+//			  supprimerItem(item) ;
+//			  this.jeuPanel.jeterItem(item);
+//			
+//			 
+//	    	}
+//		}
 		
 	    
 	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
-			lbl.setIcon(null);
-			ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
-		    Image img = icon.getImage();
-		    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
-		    ImageIcon newIcon = new ImageIcon(newImg);
-		    lbl.setIcon(newIcon);
+
+	    	ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
+	    	
 		}
 
 	   
@@ -214,6 +241,7 @@ public class PanelInventaire extends JPanel {
 		// ajout event click sur item 
 		
 		private int indexSelectedIcon = 0 ;
+		
 		public void addEvent(int index) {
 			
 			 itemsIcons.get(index).addMouseListener(new MouseAdapter() {
@@ -238,10 +266,19 @@ public class PanelInventaire extends JPanel {
 			    		setItemDescript(index);
 			    		itemSelected = itemsInventaire.get(index);
 			    		selectedCase(index);
-			    		if (  itemSelected != null && jeuPanel.checkItemWithZone(itemSelected)) {
-				    			activerBtnUtiliser(true);
+			    		if (  itemSelected != null ) {
+			    				
+			    				if(jeuPanel.checkItemWithZone(itemSelected)) {
+			    					activerBtnUtiliser(true);
+			    				}else {
+			    					activerBtnUtiliser(false);
+			    				}
+			    				//activerBtnJeter(true);
+				    			
 			    		}else {
 				    			activerBtnUtiliser(false);
+				    			//activerBtnJeter(false);
+				    			
 				    	}
 		    		}
 			    });
@@ -286,4 +323,20 @@ public class PanelInventaire extends JPanel {
 				
 			}
 		}
+		
+//		public void activerBtnJeter(boolean etatBtn) {
+//			
+//			this.btnJeterActif = etatBtn ;
+//			if(etatBtn) {
+//				this.btnJeterItem.setBackground(Color.DARK_GRAY);  // btn UTILISER activé
+//				this.btnJeterItem.setForeground(Color.LIGHT_GRAY);
+//				this.btnJeterItem.setBorder(new LineBorder(Color.RED, 2, true)) ;
+//			}else {
+//				this.btnJeterItem.setBackground(Color.DARK_GRAY); // btn UTILISER désactivé
+//				this.btnJeterItem.setForeground(Color.GRAY);
+//				this.btnJeterItem.setBorder(null) ;
+//				
+//				
+//			}
+//		}
 }

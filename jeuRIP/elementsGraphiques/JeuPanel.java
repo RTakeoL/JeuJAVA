@@ -42,19 +42,10 @@ public class JeuPanel extends JPanel   {
 		//this.setBtnQuiter();
 		
 		this.panelMsgBox = new PanelMsgBox(this);
-		
-		//msgBox.afficherPensee("helooooooooooooooooooooooooooooooo");
-//		panelMsgBox.afficherMsgPJN("heloooooooooooofldjjldflgdfljgldfljdlfgjldfjdflgdlfgjldkkkkkkkkkkkkkkk"
-//				+ "khddddddddddddddddd"
-//				+ "hkdlfssssssssssssssssssssssss"
-//				+ "dfshkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
-//				+ "dssssssssssssssssssssssssssssssssssssssh"
-//				+ "jdfslsdsdhsdhfsfhsdhfhsdhlsdhldhlhshdhlhlsdhlshldhlsdlhkflsooooooooooo", "fille.png");
+
 		this.panelMap = new PanelMap(this);
-		
 		 
 		this.panelInventaire = new PanelInventaire(this);
-		
 		
 		this.add(panelInventaire);
 		this.panelCdes = new PanelCdes(this);
@@ -141,10 +132,16 @@ public class JeuPanel extends JPanel   {
 
 	}
 	
-	public void utiliserItem(Item item) {
-		jeu.utiliserItem(item);
+	public boolean utiliserItem(Item item) {
+		return ( jeu.utiliserItem(item) );
 
 	}
+	
+//	public void jeterItem(Item item) {
+//		this.jeu.zoneCourante.ajouteItems(4,  item);
+//		this.afficherItemZC(this.jeu.zoneCourante);
+//
+//	}
 	
 	// afficher PNJ 
 	public void afficherPNJ(PersoNonJoueur PNJ) {
@@ -161,22 +158,32 @@ public class JeuPanel extends JPanel   {
 		}	
 	}
 	
-	// afficher msg 
+	
+	// Supprimer graphiquement un objet de l'inventaire...
+	public void supprimerItem(Item itemUsed) {
+		panelInventaire.supprimerItem(itemUsed);
+	}
+	
+	// afficher msg PNJ 
 	public void afficherDialoguePNJ(String msg , String nomImg) {
 	 	
-		this.panelMsgBox.afficherMsgPJN(msg, nomImg);
+		this.panelMsgBox.afficherMsgPNJ(msg, nomImg);
+	}
+	
+	// afficher dialogue PNJ WAIT  => pour le click dans PanelZone : 
+	public void afficherDialoguePNJWait () {
+		if(this.jeu.zoneCourante.getPNJZone() != null) {
+		String msg =this.jeu.zoneCourante.getPNJZone().getWaitDialogue();
+		String nomImg = this.jeu.zoneCourante.getPNJZone().getImage() ;
 		
-
-
-
+		 this.afficherDialoguePNJ(msg , nomImg);
+		}
 	}
 
 	// afficher pensée joueur
 	public void afficherPensee(String texte ) {
-	 	
 		this.panelMsgBox.afficherPensee(texte);
 	}
-
 	
 	 public void afficher(String s) {
 	        System.out.println("---- "+ s);
@@ -188,21 +195,15 @@ public class JeuPanel extends JPanel   {
 	        jeu.seDeplacer( dir);
 	 }
 	 
-	
-	
-	 
 	 
 	// pour afficher un item dans la zone 
 	 public void afficherItemZC(Zone zc) {
 
 			initAllItems(); // initialiser les cadres affichage pour les nvx items (sinon les items persistent)
 			if(zc.listItemZone.size() > 0) {
-				
-				System.out.println(zc.listItemZone.size() +" 8888888888888");
 				for(int i=0 ; i<3 ; i++){
 					// récuperer l'item avec l'index depuis la liste items zone courante
 					Item item ;
-					
 					if (zc.listItemZone.containsKey(i)) {
 						System.out.println("test khamis");
 						item = zc.getItem(i);
@@ -221,7 +222,6 @@ public class JeuPanel extends JPanel   {
 		}
 	  
 	 
-	
 	 
 	 public void toggleIneventaire() {
 		this.panelInventaire.togglePanelInventaire();
@@ -231,18 +231,6 @@ public class JeuPanel extends JPanel   {
 	 public void toggleMap() {
 		 this.panelMap.toggleMap();
 	 }
-	 
-	 public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
-			lbl.setIcon(null);
-			ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
-		    Image img = icon.getImage();
-		    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
-		    ImageIcon newIcon = new ImageIcon(newImg);
-		    lbl.setIcon(newIcon);
-		}
-
-
 	 
 	
 }

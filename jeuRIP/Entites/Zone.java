@@ -88,7 +88,13 @@ public class Zone   {
 			return(this.listItemZone.get(indexItem));
 		}
 		
+		public void enleveItem(int index) {
+			this.listItemZone.remove(index);
+		}
 		
+		public void setPNJZone(PersoNonJoueur nouvPNJ) {
+			this.PNJZone = nouvPNJ;
+		}
 		
 		public String getDescription() {
 			return(this.description);

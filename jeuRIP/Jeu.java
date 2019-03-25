@@ -1,6 +1,6 @@
 package jeuRIP;
 
-import jeuRIP.elementsGraphiques.JeuPanel;
+import jeuRIP.elementsGraphiques.*;
 
 
 
@@ -12,14 +12,13 @@ public class Jeu {
 	
 	
 	public Zone zoneCourante;
-	Zone[] zones;
-	Fenetre fenetre  ; 
-	JeuPanel jeuPanel ;
+	public Zone[] zones;
+	public Fenetre fenetre  ; 
+	public JeuPanel jeuPanel ;
 	public HashMap<String, Item> tableItems ;
 	public HashMap<String, PersoNonJoueur> tablePNJ;
 	public HashMap<String, Item> inventaireItems; // par kh 15/03
 	private MapZone mapJeu;
-
 	// Propriété cheminFin qui permets de savoir quel chemin à été pris:
 	// True => Marina
 	// False => Aéroport
@@ -164,8 +163,8 @@ public class Jeu {
 				this.etatJeu(zoneCourante);
 				Jeu.nombreTour +=1;
 			    jeuPanel.checkSorties(this.zoneCourante); // par kh 19/03 pour dactiver btn sortie si il exist pas
-	        	jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
+	        	jeuPanel.afficherImgZone(this.zoneCourante.getNomImage());
+	        	jeuPanel.afficherItemZC(this.zoneCourante); // affichage items
 	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
 	        	jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
 	        	
@@ -288,23 +287,44 @@ public class Jeu {
 					//-------------------------------------------------------------------
 					// Le cas du supermarché doit être traiter pour le case des zombies...
 					case "Supermarché" :
-					
+					int indexItemZone;
 					if(this.zones[6].getPNJZone() == null && this.tableItems.get("Bouteille")!=null) { // Cas ou la bouteille est utilisé
 						if(this.tableItems.get("Bouteille").getEtatItem() && !this.tableItems.get("Gun").getEtatItem()) {
+							this.zones[6].ajoutePNJ(this.tablePNJ.get("Zombie"));
 							jeuPanel.afficherPNJ(this.tablePNJ.get("Zombie"));
 						}
 					}
 					
 					
-					if(!zombie.getInitQuete()) {
-						zombie.setInitQuete(true);
-						jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
-					} else {
-						if(!zombie.getDoneQuete()) {
-							jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
-										+ "Il faut trouver un objet qui pourrait les faire partir.");
+					
+					indexItemZone=0;
+					if(this.zones[6].getPNJZone() != null) { // Si des zombies sont présent dans la zone..
+						
+						// regarder si des items sont liés à la zone, dans le cas oui, il faut les cacher....
+						if(!this.zones[6].listItemZone.isEmpty()) { 
+							while(!this.zones[6].listItemZone.isEmpty()) {
+								if(this.zones[6].listItemZone.get(indexItemZone) != null) {
+									this.zones[6].listItemZone.remove(indexItemZone);
+								}
+								indexItemZone+=1;
+							}
 						}
+						
+						jeuPanel.afficherItemZC(this.zoneCourante);
+						
+						// Initialiser les dialogues...
+						if(!zombie.getInitQuete()) {
+							zombie.setInitQuete(true);
+							jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
+						} else {
+							if(!zombie.getDoneQuete()) {
+								jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
+											+ "Il faut trouver un objet qui pourrait les faire partir.");
+							}
+						}
+					
 					}
+					
 					break;
 					//-------------------------------------------------------------------
 					// Le cas de la station essence où l'on n'as pas le bidon d'essence pour le remplir...
@@ -403,8 +423,8 @@ public class Jeu {
 
 			// Une loop if qui va permettre de nullifier l'utilisation de la bouteille....
 			if(this.inventaireItems.get("Bouteille") != null) {
-				this.inventaireItems.remove("Bouteille");
 				this.inventaireItems.get("Bouteille").setEtatItem(true);
+				jeuPanel.supprimerItem(this.tableItems.get("Bouteille"));
 			} else {
 				if(this.zones[2].getItem(0) != null) {
 					this.zones[2].enleveItem(0);
@@ -413,10 +433,19 @@ public class Jeu {
 			this.tablePNJ.get("Zombie").setDoneQuete(true);
 			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
 					this.tablePNJ.get("Zombie").getImage());
-			this.zones[6].ajouteItems(0, tableItems.get("Pince"));
-			this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
-			this.zones[6].ajouteItems(1, tableItems.get("Pills"));
-
+			
+			
+			if(this.inventaireItems.get("Pills") == null && !this.tableItems.get("Pills").getEtatItem()) {
+				this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+			}
+			if(this.inventaireItems.get("Pince") == null && !this.tableItems.get("Pince").getEtatItem()) {
+				this.zones[6].ajouteItems(0, tableItems.get("Pince"));
+			}
+			if(this.inventaireItems.get("Jerrican") == null && !this.tableItems.get("Jerrican").getEtatItem()) {
+				this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
+			}
+			
+			
 			this.zones[6].setPNJZone(null);
 			jeuPanel.afficherPNJ(null);
 			jeuPanel.afficherItemZC(this.zoneCourante);
@@ -442,9 +471,15 @@ public class Jeu {
 			if(this.zones[6].getPNJZone() != null) {
 				this.zones[6].setPNJZone(null);
 			jeuPanel.afficherPensee("Les zombies sont parties.. seulement pour un certains temps.....");
-			this.zones[6].ajouteItems(0, tableItems.get("Pince"));
-			this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
-			this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+			if(this.inventaireItems.get("Pills") == null && !this.tableItems.get("Pills").getEtatItem()) {
+				this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+			}
+			if(this.inventaireItems.get("Pince") == null && !this.tableItems.get("Pince").getEtatItem()) {
+				this.zones[6].ajouteItems(0, tableItems.get("Pince"));
+			}
+			if(this.inventaireItems.get("Jerrican") == null && !this.tableItems.get("Jerrican").getEtatItem()) {
+				this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
+			}
 			jeuPanel.afficherPNJ(null);
 			jeuPanel.afficherItemZC(this.zoneCourante);
 			}

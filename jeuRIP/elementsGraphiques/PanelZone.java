@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jeuRIP.Entites.PersoNonJoueur;
+import jeuRIP.Utils.ImgFond;
 
 public class PanelZone extends JPanel {
 	JeuPanel jeuPanel ;
@@ -22,9 +23,10 @@ public class PanelZone extends JPanel {
 	private int zoneW = 800 ;
 	private int zoneH = 600 ;
 	
-	private JLabel imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item1
-	private JLabel imgItem2 = new JLabel("ITEM 2 ....");
-	private JLabel imgItem3 = new JLabel("ITEM 3 ....");
+	private JLabel imgItem1 ;// pour affichage item1
+	private JLabel imgItem2;
+	private JLabel imgItem3;
+	private JLabel imgItem4;
 	
 	private JLabel imgPNJ = new JLabel("PNJ .....");
 	private int imgPNJH =100 ;
@@ -70,12 +72,13 @@ public class PanelZone extends JPanel {
 	
 	private void setItems() {
 		// 3 items par zone maxi 
-		imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item
-		imgItem2 = new JLabel("ITEM 2 ....");
-		imgItem3 = new JLabel("ITEM 3 ....");
+		this.imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item
+		this.imgItem2 = new JLabel("ITEM 2 ....");
+		this.imgItem3 = new JLabel("ITEM 3 ....");
+		this.imgItem4 = new JLabel("ITEM 4 ....");
 		
-		 imgItem1.setBounds(0, -100, 100, 100);
-		    imgItem1.addMouseListener(new MouseAdapter() {
+		this.imgItem1.setBounds(0, -100, 100, 100);
+		this.imgItem1.addMouseListener(new MouseAdapter() {
 		    	@Override
 		    	public void mouseClicked(MouseEvent arg0) {
 		    			System.out.println("item clicked  .....");// pour debug
@@ -84,10 +87,10 @@ public class PanelZone extends JPanel {
 		    	}
 		    });
 		    
-		    this.add(imgItem1);
+		    this.add(this.imgItem1);
 		    // cadre affichage item2
-		    imgItem2.setBounds(0, -100, 100, 100);
-		    imgItem2.addMouseListener(new MouseAdapter() {
+		    this.imgItem2.setBounds(0, -100, 100, 100);
+		    this.imgItem2.addMouseListener(new MouseAdapter() {
 		    	@Override
 		    	public void mouseClicked(MouseEvent arg0) {
 		    			System.out.println("item clicked  ....."); // pour debug
@@ -97,11 +100,11 @@ public class PanelZone extends JPanel {
 		    	}
 		    });
 		    
-		    this.add(imgItem2);
+		    this.add(this.imgItem2);
 		    
 		 // cadre affichage item3
-		    imgItem3.setBounds(0, -100, 100, 100);
-		    imgItem3.addMouseListener(new MouseAdapter() {
+		    this.imgItem3.setBounds(0, -100, 100, 100);
+		    this.imgItem3.addMouseListener(new MouseAdapter() {
 		    	@Override
 		    	public void mouseClicked(MouseEvent arg0) {
 		    		System.out.println("item clicked  ....."); // pour debug
@@ -109,7 +112,9 @@ public class PanelZone extends JPanel {
 		    	}
 		    });
 		    
-		    this.add(imgItem3);
+		    this.add(this.imgItem3);
+		    
+		   
 
 	}
 	
@@ -118,17 +123,17 @@ public class PanelZone extends JPanel {
 		if(index ==0) {
 			initImgItem(0);
 			this.imgItem1.setBounds(X ,Y , W , H);
-			this.setImageDeFondLbl(imgItem, imgItem1);
+			this.setImageDeFondLbl(imgItem, this.imgItem1);
 		}
 		if(index ==1) {
 			initImgItem(1);
 			this.imgItem2.setBounds(X ,Y , W , H);
-			this.setImageDeFondLbl(imgItem, imgItem2);
+			this.setImageDeFondLbl(imgItem, this.imgItem2);
 		}
 		if(index ==2) {
 			initImgItem(2);
 			this.imgItem3.setBounds(X ,Y , W , H);
-			this.setImageDeFondLbl(imgItem, imgItem3);
+			this.setImageDeFondLbl(imgItem, this.imgItem3);
 		}
 		//this.revalidate();
 		//this.repaint();
@@ -136,13 +141,13 @@ public class PanelZone extends JPanel {
 	
 	
 	private void ramasserItem(int indexItem) {
-		jeuPanel.ramasserItem(indexItem);
+		this.jeuPanel.ramasserItem(indexItem);
 		initImgItem(indexItem);		
 	}
 	
 	public void initImgItem(int index) {
 		if(index == 0) {
-			imgItem1.setBounds(0, -100, 100, 100);
+			this.imgItem1.setBounds(0, -100, 100, 100);
 			this.imgItem1.setIcon(null);
 		}
 		if(index == 1) {
@@ -150,7 +155,7 @@ public class PanelZone extends JPanel {
 			this.imgItem2.setIcon(null);
 		}
 		if(index == 2) {
-			imgItem3.setBounds(50, -100, 100, 100);
+			this.imgItem3.setBounds(50, -100, 100, 100);
 			this.imgItem3.setIcon(null);
 		}
 		
@@ -173,6 +178,7 @@ public class PanelZone extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//animationPNJUp();
+				jeuPanel.afficherDialoguePNJWait ();
 			}
 		});
 	}
@@ -219,7 +225,7 @@ public class PanelZone extends JPanel {
 	public void ajouterImgZoneCourante(String nomImg) {
 		//this.removeAll();
 		this.setImgZone(nomImg, panelZoneCourante);
-		panelZoneCourante.setLocation(0, 0);
+		this.panelZoneCourante.setLocation(0, 0);
 		//this.add(panelZoneCourante );
 		//this.add(panelZoneNouvelle );
 		
@@ -231,12 +237,14 @@ public class PanelZone extends JPanel {
 		
 	public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
 		//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
-		lbl.setIcon(null);
-		ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
-	    Image img = icon.getImage();
-	    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
-	    ImageIcon newIcon = new ImageIcon(newImg);
-	    lbl.setIcon(newIcon);
+//		lbl.setIcon(null);
+//		ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
+//	    Image img = icon.getImage();
+//	    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
+//	    ImageIcon newIcon = new ImageIcon(newImg);
+//	    lbl.setIcon(newIcon);
+	    
+	    ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
 	}
 
 	
