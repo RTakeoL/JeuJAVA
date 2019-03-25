@@ -50,6 +50,7 @@ public class PanelInventaire extends JPanel {
 			    	public void mouseClicked(MouseEvent arg0) {
 			   			utiliserItem(itemSelected);
 			   			activerBtnUtiliser(false);
+			   			activerBtnJeter(false);
 			   			indexSelectedIcon = 0 ;
 			   			cacherInventaire();			   			
 			    	}	
@@ -67,6 +68,7 @@ public class PanelInventaire extends JPanel {
 	    		@Override
 		    	public void mouseClicked(MouseEvent arg0) {
 		   			jeterItem(itemSelected);
+		   			activerBtnUtiliser(false);
 		   			activerBtnJeter(false);
 		   			indexSelectedIcon = 0 ;
 		   			cacherInventaire();
