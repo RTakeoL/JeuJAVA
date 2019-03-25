@@ -66,18 +66,18 @@ public class PanelZone extends JPanel {
 		this.imgPNJ.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//animationPNJUp();
-				imgPNJ.setBorder(new LineBorder(Color.GREEN, 3, true));
+				//imgPNJ.setBorder(new LineBorder(Color.GREEN, 3, true));
 				jeuPanel.afficherDialoguePNJWait ();	
 			}
-			@Override
-	    	public void mouseEntered(MouseEvent e) {
-	    		imgPNJ.setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true));
-	    	}
-	    	@Override
-	    	public void mouseExited(MouseEvent e) {
-	    		imgPNJ.setBorder(null);
-	    	}	
+//			@Override
+//	    	public void mouseEntered(MouseEvent e) {
+//	    		imgPNJ.setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true));
+//	    	}
+//	    	@Override
+//	    	public void mouseExited(MouseEvent e) {
+//	    		imgPNJ.setBorder(null);
+//	    		
+//	    	}	
 		});		
 		this.add(this.imgPNJ);
 	}
