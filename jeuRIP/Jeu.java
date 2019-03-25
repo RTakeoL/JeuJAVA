@@ -350,8 +350,6 @@ public class Jeu {
 					case "Bar" :
 					if(!(capitaine.getInitQuete())) {
 						capitaine.setInitQuete(true);
-
-			
 						jeuPanel.afficherDialoguePNJ(capitaine.getInitDialogue(), capitaine.getImage());
 					} 
 					/* else {
@@ -421,15 +419,18 @@ public class Jeu {
 			this.inventaireItems.get("Gun").setEtatItem(true);
 			this.inventaireItems.remove("Gun");
 
-			// Une loop if qui va permettre de nullifier l'utilisation de la bouteille....
-			if(this.inventaireItems.get("Bouteille") != null) {
-				this.inventaireItems.get("Bouteille").setEtatItem(true);
-				jeuPanel.supprimerItem(this.tableItems.get("Bouteille"));
-			} else {
-				if(this.zones[2].getItem(0) != null) {
-					this.zones[2].enleveItem(0);
-				}
-			}
+			// Une loop if qui va permettre de nullifier l'utilisation de la bouteille et / ou de la jeter....
+	//			if(this.inventaireItems.get("Bouteille") != null) {
+	//				this.inventaireItems.get("Bouteille").setEtatItem(true);
+	//				jeuPanel.supprimerItem(this.tableItems.get("Bouteille"));
+	//			} else {
+	//				if(this.zones[2].getItem(0) != null) {
+	//					this.zones[2].enleveItem(0);
+	//				}
+	//			}
+			
+			
+			
 			this.tablePNJ.get("Zombie").setDoneQuete(true);
 			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
 					this.tablePNJ.get("Zombie").getImage());
@@ -635,9 +636,10 @@ public class Jeu {
 			Capitaine.setSize(100, 100);
 			tablePNJ.put("Capitaine",Capitaine);
 			
-			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "veterant.jpg", "Hey vous! Par ici!", 
-					"Mon couteau", 
-					"Merci",
+			PersoNonJoueur VeteranGuerre = new PersoNonJoueur("Veteran de guerre", "veterant.jpg", "Hey vous! Par ici! Je cherche mon couteau de guerre favoris... Perdu dans cette île de malheure !"
+					+ " je crois l'avoir laissé proche de l'armurerie.....", 
+					"Si seulement j'avais mon couteau sur moi.....", 
+					"Merci de l'aide.. voici un parachute pour toi, cela pourrait-être utile....",
 					"Un étrange personnage qui semble avoir des séquels de la guerre.");
 			VeteranGuerre.setPosition(100, 300);
 			VeteranGuerre.setSize(100, 100);
@@ -652,7 +654,7 @@ public class Jeu {
 			Pilote.setSize(100, 100);
 			tablePNJ.put("Pilote",Pilote);
 			
-			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombie.jpg", "",
+			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombie.jpg", "Oh non, zombie est déjà dans le supermarché. Je ne peux pas y entrer...",
 					"", 
 					"",
 					"");
