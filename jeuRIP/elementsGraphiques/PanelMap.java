@@ -1,21 +1,18 @@
 package jeuRIP.elementsGraphiques;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*; 
+import jeuRIP.Utils.ImgFond;
 
 public class PanelMap {
 	
-	JeuPanel jeuPanel ;
+	private JeuPanel jeuPanel ;
 	private JPanel MapContainer ;
 	private JLabel fond ;
 	private JLabel imgMap ;
-	int mapW = 350 ;
-	int mapH = 300 ;
-	int mapX = 800 ; 
-	int mapY = 50 ;
+	private int mapW = 350 ;
+	private int mapH = 300 ;
+	private int mapX = 800 ; 
+	private int mapY = 50 ;
 	private boolean mapAffiche = false ;
 	public PanelMap(JeuPanel jeuPanel) {
 		
@@ -77,13 +74,7 @@ public class PanelMap {
     	setImageDeFondLbl (imgMap , fond);
 	}
 	
-	 public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-			//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
-			lbl.setIcon(null);
-			ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
-		    Image img = icon.getImage();
-		    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
-		    ImageIcon newIcon = new ImageIcon(newImg);
-		    lbl.setIcon(newIcon);
-		}
+	 private void setImageDeFondLbl (String nomFichier, JLabel lbl) {
+		 ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
+	}
 }

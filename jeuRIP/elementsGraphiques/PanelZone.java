@@ -1,34 +1,31 @@
 package jeuRIP.elementsGraphiques;
 
-import java.awt.Color;
-import java.awt.Image;
+import java.awt.*;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
-import jeuRIP.Entites.PersoNonJoueur;
 import jeuRIP.Utils.ImgFond;
 
 public class PanelZone extends JPanel {
-	JeuPanel jeuPanel ;
-	public JPanel panelZoneCourante= new JPanel (null);
-	public JPanel panelZoneNouvelle= new JPanel (null);
-	private JLabel lblImgZone= new JLabel() ;
-	private JLabel lblImgZoneNvlle= new JLabel() ;
-	
+	private JeuPanel jeuPanel ;
+	private JPanel panelZoneCourante; // cadre affichage zone
+	private JLabel lblImgZone ; // image de fond de zone 
 	private int zoneW = 800 ;
 	private int zoneH = 600 ;
 	
-	private JLabel imgItem1 ;// pour affichage item1
-	private JLabel imgItem2;
-	private JLabel imgItem3;
-	private JLabel imgItem4;
+	private HashMap <Integer , JLabel> listeItemsZone ;	
 	
-	private JLabel imgPNJ = new JLabel("PNJ .....");
+	private JLabel fondZoneDescipt;
+	private JTextArea zoneDescipt;
+	private int descX = 600 ; 
+	private int descY = 100 ;
+	
+	private JLabel imgPNJ ;
 	private int imgPNJH =100 ;
 	private int imgPNJW = 100 ;
 	private String nomImgPNJ ;
@@ -36,219 +33,173 @@ public class PanelZone extends JPanel {
 	public PanelZone(JeuPanel jeuPanel) {
 		super(null);
 		this.jeuPanel = jeuPanel ;
-		setBackground(Color.LIGHT_GRAY);
-	    setBounds(0, 0, this.zoneW, this.zoneH);
-	    
+		this.panelZoneCourante= new JPanel (null);
+		this.lblImgZone= new JLabel() ;
+		this.setBackground(Color.LIGHT_GRAY);
+	    this.setBounds(0, 0, this.zoneW, this.zoneH);
+	    this.setZoneDescript() ;
 	    this.panelZoneCourante.setBounds(0, 0, this.zoneW, this.zoneH);
-	    this.panelZoneNouvelle.setBounds(0, -600, this.zoneW, this.zoneH);
-	    
-	    this.lblImgZone.setBounds(0, 0, this.zoneW, this.zoneH);
-	    this.lblImgZoneNvlle.setBounds(0, 0, this.zoneW, this.zoneH);
-	    
-	 // cadre affichage items
-	    this.setItems();
-	    
-	    this.imgPNJ.setBounds(100 , -300 , 100 , 100 ); 
-	    this.imgPNJ.setOpaque(true);
-	    this.add(this.imgPNJ);
-	    
-	    // 
-	    this.panelZoneCourante.add(lblImgZone);
-	    this.panelZoneNouvelle.add(lblImgZoneNvlle);
-	    
+	    this.lblImgZone.setBounds(0, 0, this.zoneW, this.zoneH);	    
+	  
+	    this.listeItemsZone = new HashMap<Integer, JLabel>() ;	    
+	    this.setImgPNJ();// creation de zone d'affichage PNJ 
+	    this.panelZoneCourante.add(lblImgZone); 
 		this.add(this.panelZoneCourante);
-		this.add(this.panelZoneNouvelle);
-		
-		
-	}
-	
-	private void setImgZone(String nomImgFond , JPanel zone ) {
-	    
-		 setImageDeFondLbl(nomImgFond, lblImgZone);
-		 lblImgZone.setLocation(0, 0);
-		 //zone.add(lblImgZone);
 	
 	}
-	
-	private void setItems() {
-		// 3 items par zone maxi 
-		this.imgItem1 = new JLabel("ITEM 1 ....");// pour affichage item
-		this.imgItem2 = new JLabel("ITEM 2 ....");
-		this.imgItem3 = new JLabel("ITEM 3 ....");
-		this.imgItem4 = new JLabel("ITEM 4 ....");
-		
-		this.imgItem1.setBounds(0, -100, 100, 100);
-		this.imgItem1.addMouseListener(new MouseAdapter() {
-		    	@Override
-		    	public void mouseClicked(MouseEvent arg0) {
-		    			System.out.println("item clicked  .....");// pour debug
-		    		ramasserItem(0);
 
-		    	}
-		    });
-		    
-		    this.add(this.imgItem1);
-		    // cadre affichage item2
-		    this.imgItem2.setBounds(0, -100, 100, 100);
-		    this.imgItem2.addMouseListener(new MouseAdapter() {
-		    	@Override
-		    	public void mouseClicked(MouseEvent arg0) {
-		    			System.out.println("item clicked  ....."); // pour debug
-		    		//initImgItem(1);
-		    		ramasserItem(1);
-
-		    	}
-		    });
-		    
-		    this.add(this.imgItem2);
-		    
-		 // cadre affichage item3
-		    this.imgItem3.setBounds(0, -100, 100, 100);
-		    this.imgItem3.addMouseListener(new MouseAdapter() {
-		    	@Override
-		    	public void mouseClicked(MouseEvent arg0) {
-		    		System.out.println("item clicked  ....."); // pour debug
-		    		ramasserItem(2);
-		    	}
-		    });
-		    
-		    this.add(this.imgItem3);
-		    
-		   
-
-	}
 	
-	public void setImgItem(int index ,String imgItem , int X , int Y , int W , int H)  {
-		
-		if(index ==0) {
-			initImgItem(0);
-			this.imgItem1.setBounds(X ,Y , W , H);
-			this.setImageDeFondLbl(imgItem, this.imgItem1);
-		}
-		if(index ==1) {
-			initImgItem(1);
-			this.imgItem2.setBounds(X ,Y , W , H);
-			this.setImageDeFondLbl(imgItem, this.imgItem2);
-		}
-		if(index ==2) {
-			initImgItem(2);
-			this.imgItem3.setBounds(X ,Y , W , H);
-			this.setImageDeFondLbl(imgItem, this.imgItem3);
-		}
-		//this.revalidate();
-		//this.repaint();
-	}
-	
-	
-	private void ramasserItem(int indexItem) {
-		this.jeuPanel.ramasserItem(indexItem);
-		initImgItem(indexItem);		
-	}
-	
-	public void initImgItem(int index) {
-		if(index == 0) {
-			this.imgItem1.setBounds(0, -100, 100, 100);
-			this.imgItem1.setIcon(null);
-		}
-		if(index == 1) {
-			imgItem2.setBounds(0, -100, 100, 100);
-			this.imgItem2.setIcon(null);
-		}
-		if(index == 2) {
-			this.imgItem3.setBounds(50, -100, 100, 100);
-			this.imgItem3.setIcon(null);
-		}
-		
-		//this.revalidate();
-		//this.repaint();
-	}
-	
-	
-	public void initAllItems() {
-		initImgItem(0);
-		initImgItem(1);
-		initImgItem(2);
-	}
-	
-	public void initImgPNJ() {
-		this.imgPNJ.setBounds(100 , -300 , 100 , 100 ); 
-		this.imgPNJ.setIcon(null);
-		this.imgPNJ.addMouseListener(new MouseAdapter() {
+	// pour changer image zc
+	public void ajouterImgZoneCourante(String nomImg) {
 			
+		 	this.setImageDeFondLbl(nomImg, this.lblImgZone);
+			this.panelZoneCourante.setLocation(0, 0);
+			this.revalidate();
+			this.repaint();
+	}
+	
+	
+	// creation de zone d'affichage PNJ 
+	private void setImgPNJ() {
+		this.imgPNJ = new JLabel("PNJ .....");   
+		this.imgPNJ.setOpaque(false);
+		this.imgPNJ.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//animationPNJUp();
-				jeuPanel.afficherDialoguePNJWait ();
+				//imgPNJ.setBorder(new LineBorder(Color.GREEN, 3, true));
+				jeuPanel.afficherDialoguePNJWait ();	
 			}
-		});
+//			@Override
+//	    	public void mouseEntered(MouseEvent e) {
+//	    		imgPNJ.setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true));
+//	    	}
+//	    	@Override
+//	    	public void mouseExited(MouseEvent e) {
+//	    		imgPNJ.setBorder(null);
+//	    		
+//	    	}	
+		});		
+		this.add(this.imgPNJ);
 	}
 	
 	
+	// pour initialiser img PNJ 
+	public void initImgPNJ() {
+		this.imgPNJ.setBounds(100 , -300 , 100 , 100 ); 
+		this.imgPNJ.setIcon(null);	
+	}
 	
+	// pour aficher image PNJ
 	public void afficherPNJ( String nomImgPNJ , int X , int Y , int W , int H) {
+		
 		this.imgPNJH = H ;
 		this.imgPNJW = W ;
 		this.nomImgPNJ = nomImgPNJ ;
 		this.imgPNJ.setBounds(X ,Y , W , H);
 		this.setImageDeFondLbl(nomImgPNJ, imgPNJ);
-	}
-	
-	public void animationPNJUp() {
-		int H =  imgPNJH ; 
-		int W =  imgPNJW ; 
 		
-		new Thread (new Runnable (){
+	}
+		
+	// pour afficher image item
+	 public void ajouterImgItem(int index ,String imgItem , int X , int Y , int W , int H) {
 			
-			public void run() {
-				 for (int i= H ; i<=H+60; i+=20) {
-					 for (int j= W; j<=W+60; j+=20) {
-						 imgPNJ.setSize(i, j);
-						 setImageDeFondLbl(nomImgPNJ, imgPNJ);
-						    
-							 				    					 
-						 try {
-							Thread.currentThread().sleep(0);
+	   		JLabel imgItemlbl = new JLabel("ITEM ....") ;	  
+			this.listeItemsZone.put(index, imgItemlbl);
+			imgItemlbl.setBounds(X ,Y , W , H);
+			this.setImageDeFondLbl(imgItem, imgItemlbl);			
+			imgItemlbl.addMouseListener(new MouseAdapter() {
+		    	@Override
+		    	public void mouseClicked(MouseEvent arg0) {
+		    			System.out.println("item clicked  .....");// pour debug
+		    		imgItemlbl.setBorder(new LineBorder(Color.GREEN, 4, true));	
+		    		jeuPanel.ramasserItem(index);		    		 
+		    	}		    	
+		    	@Override
+		    	public void mouseEntered(MouseEvent e) {
+		    		imgItemlbl.setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true));
+		    	}
+		    	@Override
+		    	public void mouseExited(MouseEvent e) {
+		    		imgItemlbl.setBorder(null);
+		    	}
+			});
+		    
+		    this.add(imgItemlbl , 1);
+	 }
+	 
+	 public void supprimerImgItem (int index) {
+		   if (this.listeItemsZone.containsKey(index)) {
+			   this.listeItemsZone.get(index).setLocation(-300 , -300);
+			   this.listeItemsZone.remove(index);
+		   }
+		 
+	   }  
+	   
+	   
+	   public void initAllImgsItems(int nbItem) {
+		   if(! this.listeItemsZone.isEmpty()) {			   
+			   for(int i=0 ; i <=nbItem ; i++) {
+				   if (this.listeItemsZone.containsKey(i)) {
+					   this.listeItemsZone.get(i).setLocation(-300 , -300);
+					   this.listeItemsZone.remove(i);
+				   }
+			   }
+		   }			
+		}	 
+	
+	
+
+	// pour affichage descritption zone
+	 private void setZoneDescript() {
+		   this.fondZoneDescipt = new JLabel();
+		   this.fondZoneDescipt.setBounds(descX , descY , 220 , 70 ); 
+		   this.fondZoneDescipt.setOpaque(true);
+		   setImageDeFondLbl ("fondPensee.png" , this.fondZoneDescipt);
+		   
+		   
+		   this.zoneDescipt = new JTextArea() ;
+		   
+		   this.zoneDescipt.setWrapStyleWord(true);
+		   this.zoneDescipt.setLineWrap(true);
+		   this.zoneDescipt.setEditable(false);
+		   this.zoneDescipt.setOpaque(false);
+		   this.zoneDescipt.setForeground(Color.BLACK);
+		   this.zoneDescipt.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 20));
+		   this.zoneDescipt.setBounds(descX+30 , descY+10, 150 , 60 );
+		   this.zoneDescipt.setPreferredSize( new Dimension(150 , 60)) ;
+		   this.add(this.zoneDescipt);
+		   this.add(this.fondZoneDescipt);
+		   
+	   }
+	   
+	   public  void afficherDescript(String texte) {
+		    this.zoneDescipt.setText(texte);
+			Thread thread = new Thread (new Runnable (){
+				public void run() {
+					fondZoneDescipt.setLocation(descX, descY);	
+					 zoneDescipt.setLocation(descX+30, descY+10);
+					 	try {
+							 
+							Thread.currentThread().sleep(1400);
 							
 						} catch (InterruptedException e) {
+							
 							e.printStackTrace();
-							System.out.println("anim PNJ marche pas");
-						}
-					 } 
-				 }	
-				//repaint();
-			    //revalidate();
-			}
-		}).start(); ;
-	}
-	
-	
-	public void ajouterImgZoneCourante(String nomImg) {
-		//this.removeAll();
-		this.setImgZone(nomImg, panelZoneCourante);
-		this.panelZoneCourante.setLocation(0, 0);
-		//this.add(panelZoneCourante );
-		//this.add(panelZoneNouvelle );
-		
-		this.revalidate();
-		this.repaint();
-	}
-	
-		
-		
+							Thread.currentThread().interrupt();
+						} 
+					 fondZoneDescipt.setLocation(descX, -110);	
+					 zoneDescipt.setLocation(descX+30, -110);
+				}
+			});
+			thread.start(); ;
+	   }
+	   
+
+	// pour fixer l'image de fond d'un LABEL
 	public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
-		//System.out.println(this.getClass().getResource("/images/"+ nomFichier)); // debug
-//		lbl.setIcon(null);
-//		ImageIcon icon = new ImageIcon( this.getClass().getResource("/images/"+ nomFichier));
-//	    Image img = icon.getImage();
-//	    Image newImg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
-//	    ImageIcon newIcon = new ImageIcon(newImg);
-//	    lbl.setIcon(newIcon);
 	    
 	    ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
-	}
-
-	
-
+	}  
 	
 	
 

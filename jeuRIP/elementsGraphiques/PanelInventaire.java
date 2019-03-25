@@ -15,7 +15,7 @@ import jeuRIP.Utils.ImgFond;
 
 
 public class PanelInventaire extends JPanel {
-		JeuPanel jeuPanel ;
+		private JeuPanel jeuPanel ;
 		private int posInventX= -400;
 		private int posInventY= 50;
 		private int invetW= 350;
@@ -24,7 +24,7 @@ public class PanelInventaire extends JPanel {
 		private HashMap<Integer, JLabel> itemsIcons; // liste des cases affichage items inventaire
 		private int iconX = 22 ; // position 1ere icon item dans panel Inventaire
 		
-		private JLabel itemDescript ;
+		private JTextArea itemDescript ;
 		private JLabel btnUtiliserItem ;
 		private boolean btnUtiliserActif = false ;
 		private HashMap<Integer, Item> itemsInventaire; 
@@ -43,7 +43,6 @@ public class PanelInventaire extends JPanel {
 	    	setLayout(null);
 	    	
 	    	initItemIcons(); // creer les 5 cases vides pour les items
-	    	
 	    	this.btnUtiliserItem = new JLabel("    UTILISER ");
 	    	
 	        this.btnUtiliserItem.addMouseListener(new MouseAdapter() {
@@ -51,42 +50,41 @@ public class PanelInventaire extends JPanel {
 			    	public void mouseClicked(MouseEvent arg0) {
 			   			utiliserItem(itemSelected);
 			   			activerBtnUtiliser(false);
+			   			activerBtnJeter(false);
 			   			indexSelectedIcon = 0 ;
-			   			
+			   			cacherInventaire();			   			
 			    	}	
-			    });
-	        
+			    });	        
 	    	this.btnUtiliserItem.setBackground(Color.DARK_GRAY);
 	    	this.btnUtiliserItem.setOpaque(true);
-	    	this.btnUtiliserItem.setBounds(130, 100, 80, 40);
+	    	this.btnUtiliserItem.setBounds(210, 100, 80, 40);
 	    	//btnUtiliserItem.setForeground(Color.LIGHT_GRAY);
 	    	
-//	    	this.btnJeterItem = new JLabel("   JETER ");
-//	    	this.btnJeterItem.setBackground(Color.DARK_GRAY);
-//	    	this.btnJeterItem.setOpaque(true);
-//	    	this.btnJeterItem.setBounds(20, 100, 80, 40);
-//	    	this.btnJeterItem.addMouseListener(new MouseAdapter() {
-//	    		@Override
-//		    	public void mouseClicked(MouseEvent arg0) {
-//		   			//jeterItem(itemSelected);
-//		   			//activerBtnJeter(false);
-//		   			//indexSelectedIcon = 0 ;
-//		   			
-//		    	}	
-//		    });
-//	    	
-//	    	this.add(btnJeterItem);
+	    	this.btnJeterItem = new JLabel("   JETER ");
+	    	this.btnJeterItem.setBackground(Color.DARK_GRAY);
+	    	this.btnJeterItem.setOpaque(true);
+	    	this.btnJeterItem.setBounds(100, 100, 80, 40);
+	    	this.btnJeterItem.addMouseListener(new MouseAdapter() {
+	    		@Override
+		    	public void mouseClicked(MouseEvent arg0) {
+		   			jeterItem(itemSelected);
+		   			activerBtnUtiliser(false);
+		   			activerBtnJeter(false);
+		   			indexSelectedIcon = 0 ;
+		   			cacherInventaire();
+		    	}	
+		    });
+	    	
+	    	this.add(btnJeterItem);
 	    	
 	    	this.add(btnUtiliserItem);
 	    	
-	    	itemDescript = new JLabel();
+	    	itemDescript = new JTextArea();
 	    	itemDescript.setOpaque(false);
 	    	//itemDescript.setBackground(Color.DARK_GRAY);
 	       	itemDescript.setBounds(59, 179, 230, 99);
 	       	itemDescript.setForeground(Color.LIGHT_GRAY);
 	    	this.add(itemDescript);
-	    	
-	    	
 	    	
 	    	JLabel discription = new JLabel("Discription :");
 	    	discription.setBounds(22, 151, 104, 19);
@@ -94,15 +92,16 @@ public class PanelInventaire extends JPanel {
 	       	this.add(discription);
 	    	
 	    	JLabel fond = new JLabel();
-	    	
-	    	//fond.setIcon(new ImageIcon(PanelInventaire.class.getResource("/images/inventaireBG.png")));
 	    	fond.setBounds(0, 0, 350, 300);
 	    	setImageDeFondLbl ("inventaireBG.png" , fond);
+	    	fond.addMouseListener(new MouseAdapter() {
+	    		@Override
+	    		public void mouseEntered(MouseEvent e) {
+	    			afficherInventaire();
+	    		}
+		    });
 	    	add(fond);
-	    }
-	    
-	    
-	    
+	    }    
 	    
 	    public void cacherInventaire() {
 			this.setLocation(-400, posInventY);		
@@ -129,8 +128,7 @@ public class PanelInventaire extends JPanel {
 							System.out.println("marche pas");
 							break ;
 						} 
-    				 }	
-					 
+    				 }						 
 					 repaint();
 			    	revalidate();
 				}
@@ -174,12 +172,9 @@ public class PanelInventaire extends JPanel {
 	    	}
 		
 		}
-	    
-	    
-	    
-	    
+	  
 	    // méthode invoquée au click sur btn UTILISER 
-	    public void utiliserItem(Item item) {
+	    private void utiliserItem(Item item) {
 			if (item != null && this.btnUtiliserActif ) {
 				 if( this.jeuPanel.utiliserItem(item)) {
 					 supprimerItem(item) ;
@@ -187,24 +182,22 @@ public class PanelInventaire extends JPanel {
 	    	}
 		}
 		
-	 // méthode invoquée au click sur btn UTILISER 
-//	    public void jeterItem(Item item) {
-//			if (item != null && this.btnJeterActif ) {
-//			  supprimerItem(item) ;
-//			  this.jeuPanel.jeterItem(item);
-//			
-//			 
-//	    	}
-//		}
-		
-	    
-	    public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
+	 // méthode invoquée au click sur btn JETER
+	    private void jeterItem(Item item) {
+			if (item != null && this.btnJeterActif ) {
+			  
+			   this.jeuPanel.jeterItem(item);
+			   supprimerItem(item) ;
+			 
+	    	}
+		}
+			    
+	    private void setImageDeFondLbl (String nomFichier, JLabel lbl) {
 
 	    	ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
 	    	
 		}
-
-	   
+	    
 	    // creer 5 cases vides pour items + et les ajouter au panel inventaire
 		private void initItemIcons() {
 			// creation de 5 cases vides
@@ -232,16 +225,10 @@ public class PanelInventaire extends JPanel {
 			}			
 		}
 		
-		private boolean estCaseItemVide(int index) {
-			return(itemsInventaire.get(index)== null);
-
-		}
 		
 		// ajout event click sur item 
-		
 		private int indexSelectedIcon = 0 ;
-		
-		public void addEvent(int index) {
+		private void addEvent(int index) {
 			
 			 itemsIcons.get(index).addMouseListener(new MouseAdapter() {
 		    		
@@ -265,19 +252,14 @@ public class PanelInventaire extends JPanel {
 			    		setItemDescript(index);
 			    		itemSelected = itemsInventaire.get(index);
 			    		selectedCase(index);
-			    		if (  itemSelected != null ) {
-			    				
-			    				if(jeuPanel.checkItemWithZone(itemSelected)) {
-			    					activerBtnUtiliser(true);
-			    				}else {
-			    					activerBtnUtiliser(false);
-			    				}
-			    				//activerBtnJeter(true);
-				    			
+			    		if (  itemSelected != null ) {			    				
+			    				if(jeuPanel.checkItemWithZone(itemSelected)) {  
+			    					activerBtnUtiliser(true);	
+			    				}else {  activerBtnUtiliser(false) ; }		
+			    				activerBtnJeter(true);				    			
 			    		}else {
 				    			activerBtnUtiliser(false);
-				    			//activerBtnJeter(false);
-				    			
+				    			activerBtnJeter(false);		
 				    	}
 		    		}
 			    });
@@ -307,7 +289,7 @@ public class PanelInventaire extends JPanel {
 		
 		
 		
-		public void activerBtnUtiliser(boolean etatBtn) {
+		private void activerBtnUtiliser(boolean etatBtn) {
 			
 			this.btnUtiliserActif = etatBtn ;
 			if(etatBtn) {
@@ -323,19 +305,19 @@ public class PanelInventaire extends JPanel {
 			}
 		}
 		
-//		public void activerBtnJeter(boolean etatBtn) {
-//			
-//			this.btnJeterActif = etatBtn ;
-//			if(etatBtn) {
-//				this.btnJeterItem.setBackground(Color.DARK_GRAY);  // btn UTILISER activé
-//				this.btnJeterItem.setForeground(Color.LIGHT_GRAY);
-//				this.btnJeterItem.setBorder(new LineBorder(Color.RED, 2, true)) ;
-//			}else {
-//				this.btnJeterItem.setBackground(Color.DARK_GRAY); // btn UTILISER désactivé
-//				this.btnJeterItem.setForeground(Color.GRAY);
-//				this.btnJeterItem.setBorder(null) ;
-//				
-//				
-//			}
-//		}
+		private void activerBtnJeter(boolean etatBtn) {
+			
+			this.btnJeterActif = etatBtn ;
+			if(etatBtn) {
+				this.btnJeterItem.setBackground(Color.DARK_GRAY);  // btn UTILISER activé
+				this.btnJeterItem.setForeground(Color.LIGHT_GRAY);
+				this.btnJeterItem.setBorder(new LineBorder(Color.RED, 2, true)) ;
+			}else {
+				this.btnJeterItem.setBackground(Color.DARK_GRAY); // btn UTILISER désactivé
+				this.btnJeterItem.setForeground(Color.GRAY);
+				this.btnJeterItem.setBorder(null) ;
+				
+				
+			}
+		}
 }
