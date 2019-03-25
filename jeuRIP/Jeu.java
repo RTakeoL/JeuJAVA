@@ -493,7 +493,8 @@ public class Jeu {
 			this.inventaireItems.get("Jerrican").setEtatItem(true);
 			this.inventaireItems.remove("Jerrican");
 			this.zones[12].ajouteItems(1, tableItems.get("Jerrican (Plein)"));
-			jeuPanel.afficherItemZC(this.zoneCourante);
+			jeuPanel.initAffichageZC(this.zoneCourante);	
+			//jeuPanel.afficherItemZC(this.zoneCourante);
 		break;
 		case "Pills" :
 			this.inventaireItems.get("Pills").setEtatItem(true);
