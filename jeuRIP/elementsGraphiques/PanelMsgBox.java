@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import jeuRIP.Utils.ImgFond;
 
@@ -48,20 +49,31 @@ public class PanelMsgBox {
 		this.msgText.setEditable(false);
 		this.msgText.setOpaque(false);
 		this.msgText.setForeground(Color.BLACK);
-		this.msgText.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 21));
-		this.msgText.setBounds(170  , 13, 450 , 130 );
-		this.msgText.setPreferredSize( new Dimension(400 , 130)) ;
+		this.msgText.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 19));
+		this.msgText.setBounds(170  , 13, 450 , 150 );
+		this.msgText.setPreferredSize( new Dimension(400 , 150)) ;
 		
-		this.btnFermer = new JLabel(" FERMER ");
-		this.btnFermer.setBounds(650 , 20, 80 , 40 );
+		this.btnFermer = new JLabel("   FERMER ");
+		this.btnFermer.setBounds(670 , 20, 80 , 40 );
 		this.btnFermer.setPreferredSize( new Dimension(80 , 40)) ;
-		this.btnFermer.setBackground(Color.GREEN);
+		this.btnFermer.setBackground(Color.DARK_GRAY);
 		this.btnFermer.setOpaque(true);
+		this.btnFermer.setForeground(Color.LIGHT_GRAY);
+		this.btnFermer.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
+		this.btnFermer.setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true)) ;
 		this.btnFermer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				fermerMsgBox();
 			}
+			@Override
+		 	public void mouseEntered(MouseEvent e) {
+		 		btnFermer.setBorder(new LineBorder(Color.GREEN, 4, true)) ;
+		 	}
+		 	@Override
+		 	public void mouseExited(MouseEvent e) {
+				btnFermer.setBorder(new LineBorder(Color.LIGHT_GRAY, 2, true)) ;
+		 	}			
 		});
 	
 		this.msgContainer.add(imgPNJ);
@@ -75,14 +87,12 @@ public class PanelMsgBox {
 	
 	//
 	public void afficherPensee(String texte) {
-		//this.msgContainer.setLocation(800 , 150);
-		//this.msgText.setLocation(170, 400);
-		
+				
 		this.imgPNJ.setLocation(-200 , 0);
 		this.msgText.setText(texte);
 		this.msgText.setBounds(100, 15, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(450 , 130)) ;
-		setImageDeFondLbl ("fondPensee.png" , this.fondBox);
+		this.setImageDeFondLbl ("fondPensee.png" , this.fondBox);
 		this.msgContainer.setLocation(0 , 400);
 	}
 	
@@ -91,76 +101,20 @@ public class PanelMsgBox {
 		this.msgContainer.setLocation(800 , 150);
 		//this.penseeText.setLocation(100, 400);
 		
-		setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
+		this.setImageDeFondLbl ("fondDialogue.png" , this.fondBox);
 		this.msgText.setText(msgText );
 		this.msgText.setBounds(170  , 13, 450 , 130 );
 		this.msgText.setPreferredSize( new Dimension(450 , 130)) ;
 		
 		this.imgPNJ.setBounds(33 , 23, 114 , 104 );
 		this.imgPNJ.setPreferredSize( new Dimension(114, 104)) ;
-		this.imgPNJ.setBackground(Color.BLUE);
-		this.imgPNJ.setOpaque(true);
-		setImageDeFondLbl(nomImg , imgPNJ);
-		
+		//this.imgPNJ.setBackground(Color.BLUE);
+		this.imgPNJ.setOpaque(false);
+		this.setImageDeFondLbl(nomImg , imgPNJ);		
 		this.msgContainer.setLocation(0 , 400);
-		
-		
 
 	}
 	
-	
-	
-	
-	private void mouseLeft() {
-
-		this.msgContainer.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				
-				new Thread (new Runnable (){
-					public void run() {
-						 for (int i=400 ; i<=800 ; i++) {
-							 msgContainer.setLocation(i, 150);				    					 
-							 try {
-								Thread.currentThread().sleep(1);
-								
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								System.out.println("marche pas");
-							} 
-						 }	
-						 
-					}
-				}).start(); ; 
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				
-			}
-		});
-
-	}
 	
 	public void fermerMsgBox() {
 		
