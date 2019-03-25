@@ -292,22 +292,42 @@ public class Jeu {
 					//-------------------------------------------------------------------
 					// Le cas du supermarché doit être traiter pour le case des zombies...
 					case "Supermarché" :
-					
+					int indexItemZone;
 					if(this.zones[6].getPNJZone() == null && this.tableItems.get("Bouteille")!=null) { // Cas ou la bouteille est utilisé
 						if(this.tableItems.get("Bouteille").getEtatItem() && !this.tableItems.get("Gun").getEtatItem()) {
+							this.zones[6].ajoutePNJ(this.tablePNJ.get("Zombie"));
 							jeuPanel.afficherPNJ(this.tablePNJ.get("Zombie"));
 						}
 					}
 					
 					
-					if(!zombie.getInitQuete()) {
-						zombie.setInitQuete(true);
-						jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
-					} else {
-						if(!zombie.getDoneQuete()) {
-							jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
-										+ "Il faut trouver un objet qui pourrait les faire partir.");
+					
+					indexItemZone=0;
+					if(this.zones[6].getPNJZone() != null) { // Si des zombies sont présent dans la zone..
+						
+						// regarder si des items sont liés à la zone, dans le cas oui, il faut les cacher....
+						if(!this.zones[6].listItemZone.isEmpty()) { 
+							while(!this.zones[6].listItemZone.isEmpty()) {
+								if(this.zones[6].listItemZone.get(indexItemZone) != null) {
+									this.zones[6].listItemZone.remove(indexItemZone);
+								}
+								indexItemZone+=1;
+							}
 						}
+						
+						jeuPanel.afficherItemZC(this.zoneCourante);
+						
+						// Initialiser les dialogues...
+						if(!zombie.getInitQuete()) {
+							zombie.setInitQuete(true);
+							jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
+						} else {
+							if(!zombie.getDoneQuete()) {
+								jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
+											+ "Il faut trouver un objet qui pourrait les faire partir.");
+							}
+						}
+					
 					}
 					break;
 					//-------------------------------------------------------------------
@@ -417,9 +437,18 @@ public class Jeu {
 			this.tablePNJ.get("Zombie").setDoneQuete(true);
 			jeuPanel.afficherDialoguePNJ(this.tablePNJ.get("Zombie").getDoneDialogue(), 
 					this.tablePNJ.get("Zombie").getImage());
-			this.zones[6].ajouteItems(0, tableItems.get("Pince"));
-			this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
-			this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+			
+			
+					if(this.inventaireItems.get("Pills") == null && !this.tableItems.get("Pills").getEtatItem()) {
+						this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+					}
+					if(this.inventaireItems.get("Pince") == null && !this.tableItems.get("Pince").getEtatItem()) {
+						this.zones[6].ajouteItems(0, tableItems.get("Pince"));
+					}
+					if(this.inventaireItems.get("Jerrican") == null && !this.tableItems.get("Jerrican").getEtatItem()) {
+						this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
+					}
+					
 
 			this.zones[6].setPNJZone(null);
 			jeuPanel.afficherPNJ(null);
@@ -446,9 +475,16 @@ public class Jeu {
 			if(this.zones[6].getPNJZone() != null) {
 				this.zones[6].setPNJZone(null);
 			jeuPanel.afficherPensee("Les zombies sont parties.. seulement pour un certains temps.....");
-			this.zones[6].ajouteItems(0, tableItems.get("Pince"));
-			this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
-			this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+			if(this.inventaireItems.get("Pills") == null && !this.tableItems.get("Pills").getEtatItem()) {
+				this.zones[6].ajouteItems(1, tableItems.get("Pills"));
+			}
+			if(this.inventaireItems.get("Pince") == null && !this.tableItems.get("Pince").getEtatItem()) {
+				this.zones[6].ajouteItems(0, tableItems.get("Pince"));
+			}
+			if(this.inventaireItems.get("Jerrican") == null && !this.tableItems.get("Jerrican").getEtatItem()) {
+				this.zones[6].ajouteItems(2, tableItems.get("Jerrican"));
+			}
+
 			jeuPanel.afficherPNJ(null);
 			jeuPanel.afficherItemZC(this.zoneCourante);
 			}
