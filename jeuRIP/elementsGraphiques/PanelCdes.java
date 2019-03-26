@@ -236,4 +236,16 @@ public class PanelCdes extends JPanel {
 			 ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
 		}
 
+		 
+		 
+		 
+		public void cacherAllCdes() {
+			this.btnInventaire.setVisible(false) ;
+			this.btnMap.setVisible(false);
+			this.cacherBtnSortie( "NORD") ;
+			this.cacherBtnSortie( "SUD") ;
+			this.cacherBtnSortie( "EST") ;
+			this.cacherBtnSortie( "OUEST") ;
+
+		}
 }

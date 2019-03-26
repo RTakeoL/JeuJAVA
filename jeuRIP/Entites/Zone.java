@@ -98,5 +98,9 @@ public class Zone   {
 		
 		public String getDescription() {
 			return(this.description);
-		}	
+		}
+		
+		public void setNomImage(String nomImage) {
+			this.nomImage = nomImage;
+		}
 }
