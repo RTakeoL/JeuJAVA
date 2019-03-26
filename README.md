@@ -1,3 +1,15 @@
+khamis 26 /03
+ * image fin jeu :
+     + ajout setNomImage dans Zone.java 
+     + Jeu  : changement switch etat de jeu  :  case "Fin" au lieu debloquer fin en ajoutant nouvelle zone ,
+          on change seulement nomImage ... (voir commentaire )
+          modif methode se deplacer ( condition si fin jeu ) 
+     + JeuPanel  : modif methede changerZone
+     + panelZone  :  nouvelle methode pour ajouter imageFinJeu ( spéciale pour les GIF)
+     + panelCdes :  ajout methode cacherAllCdes 
+     
+
+
 
 Khamis 24/03
 
