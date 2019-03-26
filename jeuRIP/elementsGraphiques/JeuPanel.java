@@ -165,7 +165,8 @@ public class JeuPanel extends JPanel   {
 		}
 		this.jeu.zoneCourante.ajouteItems(index ,  item);
 		
-    	this.afficherItemZC(jeu.zoneCourante); 
+    		//this.afficherItemZC(jeu.zoneCourante); 
+		this.initAffichageZC(this.jeu.zoneCourante);
 		
 
 	}
@@ -192,7 +193,7 @@ public class JeuPanel extends JPanel   {
 	
 	// afficher dialogue PNJ WAIT  => pour le click dans PanelZone : 
 	public void afficherDialoguePNJWait () {
-		if(this.jeu.zoneCourante.getPNJZone() != null) {
+		if(this.jeu.zoneCourante.getPNJZone() != null && ! this.jeu.zoneCourante.getPNJZone().getDoneQuete()) {
 		String msg =this.jeu.zoneCourante.getPNJZone().getWaitDialogue();
 		String nomImg = this.jeu.zoneCourante.getPNJZone().getImage() ;
 		

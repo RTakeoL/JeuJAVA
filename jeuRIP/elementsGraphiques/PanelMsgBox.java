@@ -80,6 +80,14 @@ public class PanelMsgBox {
 		this.msgContainer.add(msgText);
 		this.msgContainer.add(btnFermer);
 		this.msgContainer.add(this.fondBox);
+		
+		this.msgContainer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fermerMsgBox();
+			}
+				
+		});
 		this.jeuPanel.add(msgContainer); 
 		
 	}
@@ -121,7 +129,10 @@ public class PanelMsgBox {
 		this.msgContainer.setLocation(this.boxX, this.boxY);
 	}
 	
-	
+     public void afficherMsgBox() {
+		
+		this.msgContainer.setLocation(this.boxX, 400);
+	}
 	
 	 public void setImageDeFondLbl (String nomFichier, JLabel lbl) {
 
