@@ -14,10 +14,10 @@ public class Jeu {
 	private JeuPanel jeuPanel ;
 	
 	private Zone[] zones;
-	public HashMap<String, Item> tableItems ;
-	public HashMap<String, PersoNonJoueur> tablePNJ;
-	public HashMap<String, Item> inventaireItems; // par kh 15/03
-	public Zone zoneCourante;
+	private HashMap<String, Item> tableItems ;
+	private HashMap<String, PersoNonJoueur> tablePNJ;
+	private HashMap<String, Item> inventaireItems; // par kh 15/03
+	private Zone zoneCourante;
 	private MapZone mapJeu;
 
 	// Propriété cheminFin qui permets de savoir quel chemin à été pris:
@@ -170,10 +170,10 @@ public class Jeu {
 //	        	jeuPanel.afficherItemZC(zoneCourante); // affichage items
 //	       		jeuPanel.afficherPNJ(this.zoneCourante.getPNJZone());
 //	        	jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
-				
-				 this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
-	        	
-	        	System.out.println(" test .........: "+this.zoneCourante.listItemZone.size());
+				if( this.zoneCourante.getDescription() != "Fin") {
+					this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
+				}
+				 
 	        }
 	}
 
@@ -386,15 +386,20 @@ public class Jeu {
 					if(this.cheminFinMarina) {
 						if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
 								(this.tableItems.get("Cle") != null)) {
-							this.zoneCourante = this.zones[16]; // Débloque la bonne fin..
+							//this.zoneCourante = this.zones[16]; // Débloque la bonne fin..
+							this.zoneCourante.setNomImage("ZONE0.gif"); // par khamis image pour la bonne fin 
+							
 						} else {
-							this.zoneCourante = this.zones[17]; // Débloque mauvaise fin....
+							//this.zoneCourante = this.zones[17]; // Débloque mauvaise fin....
+							this.zoneCourante.setNomImage("ZONE8.gif"); // par khamis  image pour mauvaise fin
 						}
 					} else {
 						if((veteranGuerre.getDoneQuete() && pilote.getDoneQuete())) {
-							this.zoneCourante = this.zones[16];
+							//this.zoneCourante = this.zones[16];
+							this.zoneCourante.setNomImage("ZONE0.gif"); // par khamis pour bonne fin 
 						} else {
-							this.zoneCourante = this.zones[17];
+							//this.zoneCourante = this.zones[17];
+							this.zoneCourante.setNomImage("ZONE9.gif"); // par khamis pour mauvaise fin
 						}
 					}
 					break;
@@ -428,7 +433,7 @@ public class Jeu {
 				// Une loop if qui va permettre de nullifier l'utilisation de la bouteille....
 				if(this.inventaireItems.get("Bouteille") != null) {
 					this.inventaireItems.remove("Bouteille");
-					this.inventaireItems.get("Bouteille").setEtatItem(true);
+					//this.inventaireItems.get("Bouteille").setEtatItem(true);
 				} else {
 					if(this.zones[2].getItem(0) != null) {
 						this.zones[2].enleveItem(0);
@@ -486,14 +491,16 @@ public class Jeu {
 			}
 
 			jeuPanel.afficherPNJ(null);
-			jeuPanel.afficherItemZC(this.zoneCourante);
+			//jeuPanel.afficherItemZC(this.zoneCourante);
+			jeuPanel.initAffichageZC(this.zoneCourante);
 			}
 		break;
 		case "Jerrican" :
 			this.inventaireItems.get("Jerrican").setEtatItem(true);
 			this.inventaireItems.remove("Jerrican");
 			this.zones[12].ajouteItems(1, tableItems.get("Jerrican (Plein)"));
-			jeuPanel.afficherItemZC(this.zoneCourante);
+			jeuPanel.initAffichageZC(this.zoneCourante);
+			//jeuPanel.afficherItemZC(this.zoneCourante);
 		break;
 		case "Pills" :
 			this.inventaireItems.get("Pills").setEtatItem(true);
@@ -690,5 +697,13 @@ public class Jeu {
 	 public MapZone getMapJeu() {
 		return (this.mapJeu);
 	}
+	 
+	 public Zone getZoneCourante() {
+		return zoneCourante;
+	}
+	 public HashMap<String, Item> getInventaireItems() {
+		return inventaireItems;
+	}
+	 
 	 
 }

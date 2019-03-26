@@ -53,11 +53,21 @@ public class JeuPanel extends JPanel   {
 	}
 	
 	 public void changerZone(String dir) {
-	        
-	        this.jeu.seDeplacer( dir);	
-	        //this.initAffichageZC(this.jeu.zoneCourante);
-	        this.panelInventaire.cacherInventaire();
-	        this.panelMap.cacherMap();
+		 if (this.jeu.getZoneCourante().obtientSortie( dir).getDescription() != "Fin") {
+			 this.jeu.seDeplacer( dir);	
+			 
+			 
+		 }else {
+			 this.jeu.seDeplacer( dir);	
+			 this.panelZone.ajouterImgFinJeu(this.jeu.getZoneCourante().getNomImage());
+			 this.panelCdes.cacherAllCdes();
+			 this.panelMsgBox.fermerMsgBox();
+			 this.updateJeu();
+		 }
+		 
+		 this.panelInventaire.cacherInventaire();
+	     this.panelMap.cacherMap();
+	         
 	        
 	 }
 	 
@@ -128,16 +138,16 @@ public class JeuPanel extends JPanel   {
 	
 		// pour verifier si on peut utiliser item  dans la bonne zone
 		public boolean checkItemWithZone(Item item) {
-			 return ( this.jeu.zoneCourante.getDescription() == item.getZoneUtilise() ) ;
+			 return ( this.jeu.getZoneCourante().getDescription() == item.getZoneUtilise() ) ;
 		}
 		 
 		 
 	   // ramasser Item  de la zone  le 15/03
 		public void ramasserItem(int indexItem) {			
-			Item item = this.jeu.zoneCourante.getItem(indexItem); // recuperer item de la zone
-			if (this.jeu.inventaireItems.size() < 5)	{				
-				this.jeu.zoneCourante.listItemZone.remove(indexItem); // supprimer item de la zone 
-				this.jeu.inventaireItems.put(item.getNomItem(), item) ; // ajouter item dans liste inventaire				
+			Item item = this.jeu.getZoneCourante().getItem(indexItem); // recuperer item de la zone
+			if (this.jeu.getInventaireItems().size() < 5)	{				
+				this.jeu.getZoneCourante().listItemZone.remove(indexItem); // supprimer item de la zone 
+				this.jeu.getInventaireItems().put(item.getNomItem(), item) ; // ajouter item dans liste inventaire				
 				this.panelZone.supprimerImgItem(indexItem); // supprimer img item de le panel zone
 				this.panelInventaire.ajouterItem(item); // afficher item dans inventaire panel
 				  
@@ -146,7 +156,7 @@ public class JeuPanel extends JPanel   {
 			}
 			
 			System.out.println(item.getNomItem()); // pr debug
-			System.out.println("----nb items inventaire :"+this.jeu.inventaireItems.size()); // pr debug
+			System.out.println("----nb items inventaire :"+this.jeu.getInventaireItems().size()); // pr debug
 		}		   
 	
 	// utiliser objet  ( applée au click sur btn utiliser dans panel INVENTAIRE ) 
@@ -157,16 +167,16 @@ public class JeuPanel extends JPanel   {
 	
 	// jeter objet  ( applée au click sur btn JETER dans panel INVENTAIRE ) 
 	public void jeterItem(Item item) {
-		
-		this.jeu.inventaireItems.remove(item.getNomItem()) ; // supprimer de l'inventaire item dans liste inventaire
+		this.cacherIneventaire();
+		this.jeu.getInventaireItems().remove(item.getNomItem()) ; // supprimer de l'inventaire item dans liste inventaire
 		int index = 0 ;
-		while (this.jeu.zoneCourante.listItemZone.containsKey(index)) {
+		while (this.jeu.getZoneCourante().listItemZone.containsKey(index)) {
 				 index ++ ;	
 		}
-		this.jeu.zoneCourante.ajouteItems(index ,  item);
+		this.jeu.getZoneCourante().ajouteItems(index ,  item);
 		
-    	this.afficherItemZC(jeu.zoneCourante); 
-		
+    	//this.afficherItemZC(jeu.zoneCourante); 
+		this.initAffichageZC(this.jeu.getZoneCourante());
 
 	}
 	
@@ -192,11 +202,14 @@ public class JeuPanel extends JPanel   {
 	
 	// afficher dialogue PNJ WAIT  => pour le click dans PanelZone : 
 	public void afficherDialoguePNJWait () {
-		if(this.jeu.zoneCourante.getPNJZone() != null) {
-		String msg =this.jeu.zoneCourante.getPNJZone().getWaitDialogue();
-		String nomImg = this.jeu.zoneCourante.getPNJZone().getImage() ;
 		
-		 this.afficherDialoguePNJ(msg , nomImg);
+		
+		if(this.jeu.getZoneCourante().getPNJZone() != null  && ! this.jeu.getZoneCourante().getPNJZone().getDoneQuete()) {
+			
+			String msg =this.jeu.getZoneCourante().getPNJZone().getWaitDialogue();
+			String nomImg = this.jeu.getZoneCourante().getPNJZone().getImage() ;
+			
+			 this.afficherDialoguePNJ(msg , nomImg);
 		}
 	}
 
