@@ -283,7 +283,11 @@ public class Jeu {
 						if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
 							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
 							this.cheminFinMarina = true;
-							jeuPanel.afficherPensee("Je peux enfin m'enfuir de l'île..");
+							if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
+								jeuPanel.afficherPensee("Le bateau est là avec le capitaine et sa fille ! On peut enfin quitter cette île !");
+							}else {
+								jeuPanel.afficherPensee("Le bateau est là ! Mais le capitaine et sa fille ne sont pas encore arrivé. Je pars sans eux ou je vais les checher ?");
+							}
 						}
 					}
 					break;
@@ -387,19 +391,19 @@ public class Jeu {
 						if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
 								(this.tableItems.get("Cle") != null)) {
 							//this.zoneCourante = this.zones[16]; // Débloque la bonne fin..
-							this.zoneCourante.setNomImage("ZONE0.gif"); // par khamis image pour la bonne fin 
+							this.zoneCourante.setNomImage("good.gif"); // par khamis image pour la bonne fin 
 							
 						} else {
 							//this.zoneCourante = this.zones[17]; // Débloque mauvaise fin....
-							this.zoneCourante.setNomImage("ZONE8.gif"); // par khamis  image pour mauvaise fin
+							this.zoneCourante.setNomImage("badMarina.gif"); // par khamis  image pour mauvaise fin
 						}
 					} else {
-						if((veteranGuerre.getDoneQuete() && pilote.getDoneQuete())) {
+						if((this.inventaireItems.get("parachute")!=null && pilote.getDoneQuete())) {
 							//this.zoneCourante = this.zones[16];
-							this.zoneCourante.setNomImage("ZONE0.gif"); // par khamis pour bonne fin 
+							this.zoneCourante.setNomImage("good.gif"); // par khamis pour bonne fin 
 						} else {
 							//this.zoneCourante = this.zones[17];
-							this.zoneCourante.setNomImage("ZONE9.gif"); // par khamis pour mauvaise fin
+							this.zoneCourante.setNomImage("badAirport.gif"); // par khamis pour mauvaise fin
 						}
 					}
 					break;
