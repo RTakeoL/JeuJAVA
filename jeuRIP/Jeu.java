@@ -258,17 +258,18 @@ public class Jeu {
 
 					//-------------------------------------------------------------------
 					case "Marina" :
-					if(this.zones[5].obtientSortie("NORD") == null) {
-						if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
+					if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
+						if(this.zones[5].obtientSortie("NORD") == null) {
 							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
-							this.cheminFinMarina = true;
-							if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
-								jeuPanel.afficherPensee("Le bateau est là avec le capitaine et sa fille ! On peut enfin quitter cette île !");
-							}else {
-								jeuPanel.afficherPensee("Le bateau est là ! Mais le capitaine et sa fille ne sont pas encore arrivé. Je pars sans eux ou je vais les checher ?");
-							}
+						}
+						this.cheminFinMarina = true;
+						if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
+							jeuPanel.afficherPensee("Le bateau est là avec le capitaine et sa fille ! On peut enfin quitter cette île !");
+						}else {
+							jeuPanel.afficherPensee("Le bateau est là ! Mais le capitaine et sa fille ne sont pas encore arrivé. Je pars sans eux ou je vais les checher ?");
 						}
 					}
+					
 					break;
 
 
