@@ -16,6 +16,7 @@ public class PanelCdes extends JPanel {
 	private JLabel btnInventaire ;
 	private JLabel btnQuiter ;
 	private JLabel btnMap ;
+	private JLabel btnStart ;
 	
 	// Btn de deplacement entre zones 
 	private JLabel NORD ;
@@ -29,11 +30,12 @@ public class PanelCdes extends JPanel {
 		
 		setBackground(Color.BLACK);
 	    setBounds(0, 520, 800, 100);
-	    
+	    this.setBtnStart();
 	    this.setBtnInventaire(); // creation btn inventaire
 	    //this.setBtnQuiter();
 	    this.setBtnMap(); // creation btn map
 	    this.setBtnSortie (jeuPanel) ;
+	    
 	
 	}
 	
@@ -247,5 +249,49 @@ public class PanelCdes extends JPanel {
 			this.cacherBtnSortie( "EST") ;
 			this.cacherBtnSortie( "OUEST") ;
 
+		}
+		
+		public void afficherBtnInvent() {
+			this.btnInventaire.setVisible(true) ;
+		}
+		
+		public void afficherBtnMap() {
+			this.btnMap.setVisible(true) ;
+		}
+		public void setBtnStart() {
+			this.btnStart= new JLabel();
+			this.btnStart.setLocation(650, 700);
+			this.btnStart.setSize(130, 50);;
+			this.btnStart.setOpaque(true);
+			this.btnStart.setBorder(new LineBorder(Color.LIGHT_GRAY, 3, true));
+			this.setImageDeFondLbl("commencer.png", this.btnStart);
+			
+			this.btnStart.addMouseListener(new MouseAdapter() {
+		    	@Override
+		    	public void mouseClicked(MouseEvent arg0) {
+		    		btnStart.setBorder(new LineBorder(Color.GREEN, 4, true));
+		    		jeuPanel.startJeu();;
+		    	}
+		    	@Override
+		    	public void mouseEntered(MouseEvent e) {
+		    		btnStart.setBorder(new LineBorder(Color.GREEN, 4, true));
+		    	}
+		    	@Override
+		    	public void mouseExited(MouseEvent e) {
+		    		btnStart.setBorder(new LineBorder(Color.LIGHT_GRAY, 3, true));
+		    	}
+		    });
+			
+		    this.jeuPanel.add(btnStart);
+		}
+		
+		public void cacherBtnStart(){
+			this.btnStart.setVisible(false);
+		}
+		
+		public void afficherBtnStart(){
+			
+			this.btnStart.setLocation(600, 500);
+		
 		}
 }
