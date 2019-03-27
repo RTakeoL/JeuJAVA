@@ -1,3 +1,9 @@
+Roland 27/03
++ Modification dialogue vétéran de guerre, zombie
++ Ajout de compteur pour la fin de jeu
++ Réduction du tableau de zones dans jeu de 18 -> 16
+
+
 khamis 26 /03
  * image fin jeu :
      + ajout setNomImage dans Zone.java 
