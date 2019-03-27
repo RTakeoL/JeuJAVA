@@ -59,7 +59,7 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		
-		this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
+		this.jeuPanel.afficherImgStart("ZONE2.png"); // par khamis le 27/03 pour image demarrage jeu
 	}
 	private void creerCarte() {
         this.zones = new Zone[16];
@@ -670,5 +670,8 @@ public class Jeu {
 		return inventaireItems;
 	}
 	 
+	 public void startJeu() {
+		 this.zoneCourante = this.zones[0] ; 
+	 }
 	 
 }
