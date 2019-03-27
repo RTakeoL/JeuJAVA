@@ -51,11 +51,20 @@ public class JeuPanel extends JPanel   {
 		this.revalidate();
 
 	}
-	
+	 
 	 public void changerZone(String dir) {
 		 if (this.jeu.getZoneCourante().obtientSortie( dir).getDescription() != "Fin") {
 			 this.jeu.seDeplacer( dir);	
-			 
+			 if(this.jeu.getZoneCourante().getDescription() == "Fin"){
+				 this.panelZone.ajouterImgFinJeu(this.jeu.getZoneCourante().getNomImage());
+				 this.panelCdes.cacherAllCdes();
+				 this.panelMsgBox.fermerMsgBox();
+				 this.updateJeu();
+				 
+				 
+			 }else {
+				 this.initAffichageZC(this.jeu.getZoneCourante());
+			 }
 			 
 		 }else {
 			 this.jeu.seDeplacer( dir);	
@@ -65,10 +74,10 @@ public class JeuPanel extends JPanel   {
 			 this.updateJeu();
 		 }
 		 
+		 
 		 this.panelInventaire.cacherInventaire();
 	     this.panelMap.cacherMap();
-	         
-	        
+	      
 	 }
 	 
 	 
