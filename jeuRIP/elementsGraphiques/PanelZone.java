@@ -4,6 +4,7 @@ import java.awt.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -201,6 +202,17 @@ public class PanelZone extends JPanel {
 	    ImgFond.setImageDeFondLbl(nomFichier, lbl, this.getClass());
 	}  
 	
+	
+	// pour changer image fin jeu (  pour les format gif)
+		public void ajouterImgFinJeu(String nomImg) {
+			
+			URL url = this.getClass().getResource("/images/"+ nomImg);
+			this.lblImgZone.setIcon(new ImageIcon(url)); 	
+			//this.panelZoneCourante.setLocation(0, 0);
+			this.revalidate();
+			this.repaint();
+		}
+		
 	
 
 }
