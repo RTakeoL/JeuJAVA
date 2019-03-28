@@ -59,7 +59,7 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		
-		this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
+		this.jeuPanel.afficherImgStart("ZONE2.png"); // par khamis le 27/03 pour image demarrage jeu
 	}
 	private void creerCarte() {
         this.zones = new Zone[16];
@@ -258,17 +258,18 @@ public class Jeu {
 
 					//-------------------------------------------------------------------
 					case "Marina" :
-					if(this.zones[5].obtientSortie("NORD") == null) {
-						if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
+					if((capitaine.getDoneQuete() || fille.getDoneQuete()) && (this.tableItems.get("Cle") != null)) {
+						if(this.zones[5].obtientSortie("NORD") == null) {
 							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
-							this.cheminFinMarina = true;
-							if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
-								jeuPanel.afficherPensee("Le bateau est là avec le capitaine et sa fille ! On peut enfin quitter cette île !");
-							}else {
-								jeuPanel.afficherPensee("Le bateau est là ! Mais le capitaine et sa fille ne sont pas encore arrivé. Je pars sans eux ou je vais les checher ?");
-							}
+						}
+						this.cheminFinMarina = true;
+						if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
+							jeuPanel.afficherPensee("Le bateau est là avec le capitaine et sa fille ! On peut enfin quitter cette île !");
+						}else {
+							jeuPanel.afficherPensee("Le bateau est là ! Mais le capitaine et sa fille ne sont pas encore arrivé. Je pars sans eux ou je vais les checher ?");
 						}
 					}
+					
 					break;
 
 
@@ -669,5 +670,8 @@ public class Jeu {
 		return inventaireItems;
 	}
 	 
+	 public void startJeu() {
+		 this.zoneCourante = this.zones[0] ; 
+	 }
 	 
 }

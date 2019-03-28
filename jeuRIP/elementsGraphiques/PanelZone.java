@@ -54,7 +54,7 @@ public class PanelZone extends JPanel {
 	public void ajouterImgZoneCourante(String nomImg) {
 			
 		 	this.setImageDeFondLbl(nomImg, this.lblImgZone);
-			this.panelZoneCourante.setLocation(0, 0);
+			//this.panelZoneCourante.setLocation(0, 0);
 			this.revalidate();
 			this.repaint();
 	}
@@ -168,13 +168,20 @@ public class PanelZone extends JPanel {
 		   this.zoneDescipt.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 20));
 		   this.zoneDescipt.setBounds(descX+30 , descY+10, 150 , 60 );
 		   this.zoneDescipt.setPreferredSize( new Dimension(150 , 60)) ;
+		   
+		   this.fondZoneDescipt.setVisible(false);
+		   this.zoneDescipt.setVisible(false);
 		   this.add(this.zoneDescipt);
 		   this.add(this.fondZoneDescipt);
 		   
 	   }
 	   
 	   public  void afficherDescript(String texte) {
+		   if(texte != "") {
+			   fondZoneDescipt.setVisible(true);
+			   this.zoneDescipt.setVisible(true);
 		    this.zoneDescipt.setText(texte);
+		    
 			Thread thread = new Thread (new Runnable (){
 				public void run() {
 					fondZoneDescipt.setLocation(descX, descY);	
@@ -193,6 +200,13 @@ public class PanelZone extends JPanel {
 				}
 			});
 			thread.start(); ;
+			
+		   } else {
+			   this.fondZoneDescipt.setVisible(false);
+			   this.zoneDescipt.setVisible(false);
+			   
+		   }
+		   
 	   }
 	   
 
@@ -213,6 +227,6 @@ public class PanelZone extends JPanel {
 			this.repaint();
 		}
 		
-	
+		
 
 }

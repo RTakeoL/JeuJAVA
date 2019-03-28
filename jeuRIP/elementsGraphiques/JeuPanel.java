@@ -77,7 +77,25 @@ public class JeuPanel extends JPanel   {
 		 
 		 this.panelInventaire.cacherInventaire();
 	     this.panelMap.cacherMap();
+	     
 	      
+	 }
+	 
+	 
+	 public void afficherImgStart(String imgStart) {
+		 this.panelCdes.cacherAllCdes();
+		 this.panelZone.ajouterImgZoneCourante(imgStart);
+		 this.panelCdes.afficherBtnStart();
+		
+		 
+	 }
+	 
+	 public void startJeu(){
+		 this.jeu.startJeu();
+		 this.initAffichageZC(this.jeu.getZoneCourante());
+		 this.panelCdes.afficherBtnMap();
+		 this.panelCdes.afficherBtnInvent();
+		 this.panelCdes.cacherBtnStart();
 	 }
 	 
 	 
