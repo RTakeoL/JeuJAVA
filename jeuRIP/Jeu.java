@@ -24,7 +24,9 @@ public class Jeu {
 	// True => Marina
 	// False => Aéroport
 	private Boolean cheminFinMarina = false;
+	private Boolean tempsJeuDepasse = false;
 	private static int nombreTour = 0;
+	private static final int nombreTourMax = 30;
 	
 	
 	public Jeu () {
@@ -58,10 +60,6 @@ public class Jeu {
 		this.jeuPanel = panel;
 		
 		this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
-//		jeuPanel.afficherImgZone(zoneCourante.getNomImage());
-//		jeuPanel.checkSorties(this.zoneCourante);
-//		jeuPanel.setImageMap(this.mapJeu.getMap(this.zoneCourante.getDescription()));
-//		//afficherItemZC(zoneCourante); // affichage item 1
 	}
 	private void creerCarte() {
         this.zones = new Zone[16];
@@ -162,11 +160,13 @@ public class Jeu {
 	    	}
 	        else {
 				this.zoneCourante = nouvelle;
+				
 				Jeu.nombreTour +=1;
-				this.etatJeu(zoneCourante);
-				if( this.zoneCourante.getDescription() != "Fin") {
-					this.jeuPanel.initAffichageZC(this.zoneCourante); // par khamis le 24/03
-				}
+				if(Jeu.nombreTour >= Jeu.nombreTourMax) {
+					this.tempsJeuDepasse = true;
+					this.zoneCourante = this.zones[15];
+				}			
+				this.etatJeu(this.zoneCourante);
 				 
 	        }
 	}
@@ -303,11 +303,11 @@ public class Jeu {
 							// Initialiser les dialogues...
 							if(!zombie.getInitQuete()) {
 								zombie.setInitQuete(true);
-								jeuPanel.afficherPensee("Je ne peux passer dans le supermarché des zombies bloque l'entrée.");
+								jeuPanel.afficherPensee("** Un zombie qui semble agité vous barre la route.....");
 							} else {
 								if(!zombie.getDoneQuete()) {
-									jeuPanel.afficherPensee("Les zombies ne semble pas vouloir partir... "
-												+ "Il faut trouver un objet qui pourrait les faire partir.");
+									jeuPanel.afficherPensee("** Ce zombie semble apprécié les bonbons du supermarché, il ne partira pas de si tôt...."
+												+ "Il faut trouver un objet qui pourrait le faire partir, ou bien le tuer....");
 								}
 							}
 						
@@ -353,19 +353,25 @@ public class Jeu {
 					break;
 					// ----------------------------------------------------
 					case "Fin" :
-					if(this.cheminFinMarina) {
-						if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
-								(this.tableItems.get("Cle") != null)) {
-							this.zoneCourante.setNomImage("good.gif"); // par khamis image pour la bonne fin 
-							
-						} else {
-							this.zoneCourante.setNomImage("badMarina.gif"); // par khamis  image pour mauvaise fin
-						}
+					if(this.tempsJeuDepasse) {
+						System.out.println("Dans le switch de Fin : " + this.zoneCourante.toString());
+						this.zoneCourante.setNomImage("badTime.gif");
+						System.out.println("Changement d image effectué");
 					} else {
-						if((this.inventaireItems.get("parachute")!=null && pilote.getDoneQuete())) {
-							this.zoneCourante.setNomImage("good.gif"); // par khamis pour bonne fin 
+						if(this.cheminFinMarina) {
+							if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
+									(this.tableItems.get("Cle") != null)) {
+								this.zoneCourante.setNomImage("good.gif"); // par khamis image pour la bonne fin 
+								
+							} else {
+								this.zoneCourante.setNomImage("badMarina.gif"); // par khamis  image pour mauvaise fin
+							}
 						} else {
-							this.zoneCourante.setNomImage("badAirport.gif"); // par khamis pour mauvaise fin
+							if((this.inventaireItems.get("Parachute")!=null && pilote.getDoneQuete())) {
+								this.zoneCourante.setNomImage("good.gif"); // par khamis pour bonne fin 
+							} else {
+								this.zoneCourante.setNomImage("badAirport.gif"); // par khamis pour mauvaise fin
+							}
 						}
 					}
 					break;
@@ -596,7 +602,7 @@ public class Jeu {
 			Fille.setSize(100, 100);
 			tablePNJ.put("Fille",Fille);
 			
-			PersoNonJoueur Capitaine = new PersoNonJoueur("Capitaine", "capitaine.png", "Attention..*ich* ! Capitaine à..*ich* babord !" +,
+			PersoNonJoueur Capitaine = new PersoNonJoueur("Capitaine", "capitaine.png", "Attention..*ich* ! Capitaine à..*ich* babord !",
 					"Zzzzzzzzzz !", "Oh ma tête ! Que ce passe-t-il ici? Je dois retrouver ma fille. "
 							+ "J'ai laisser mes clés de bateau dans ma chambre d'hotel, prends les et rejoins moi a la Marina, c'est la chambre n°14",
 					"Capitaine d'un bateau qui semble avoir un penchant pour l'alcool.");
@@ -626,7 +632,7 @@ public class Jeu {
 			
 			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombie.jpg", "",
 					"** Un zombie traîne dans le supermarché, il faut trouver un moyen de le faire partir, ou pire... le tuer.... **", 
-					"",
+					"** Un tir, dans le ventre.... le zombie s'approche ! Second tir... pleine tête ! La fin du zombie.... **",
 					"");
 			Zombie.setPosition(100, 300);
 			Zombie.setSize(100, 100);
