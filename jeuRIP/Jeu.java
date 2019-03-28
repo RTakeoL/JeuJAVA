@@ -18,12 +18,8 @@ public class Jeu {
 	private HashMap<String, PersoNonJoueur> tablePNJ;
 	private HashMap<String, Item> inventaireItems; // par kh 15/03
 	private Zone zoneCourante;
+	private Zone zonePrec; // zonePrec, capture la zone qui precede celle qui va s'afficher. Elle permet notemment de savoir par quelle fin le joueur souhaite passer.
 	private MapZone mapJeu;
-
-	// Propriété cheminFin qui permets de savoir quel chemin à été pris:
-	// True => Marina
-	// False => Aéroport
-	private Boolean cheminFinMarina = false;
 	private Boolean tempsJeuDepasse = false;
 	private static int nombreTour = 0;
 	private static final int nombreTourMax = 30;
@@ -156,11 +152,10 @@ public class Jeu {
 	    	Zone nouvelle = zoneCourante.obtientSortie( direction);
 	    	if ( nouvelle == null ) {
 	    		jeuPanel.afficher( "Pas de sortie " + direction);
-	    		
 	    	}
 	        else {
+				this.zonePrec = this.zoneCourante;
 				this.zoneCourante = nouvelle;
-				
 				Jeu.nombreTour +=1;
 				if(Jeu.nombreTour >= Jeu.nombreTourMax) {
 					this.tempsJeuDepasse = true;
@@ -201,7 +196,9 @@ public class Jeu {
 					break;
 					case "Métro" :
 						if(this.zones[7].obtientSortie("SUD") != null) {
-							jeuPanel.afficherPensee("**Dernier train vers l'aéroport ! Départ iminant !**");
+							jeuPanel.afficherPensee(
+							"** ATTENTION À TOUS LES USAGERS.. CECI EST LE DERNIER TRAIN POUR L'AÉROPORT.. LE SERVICE SERA TERMINÉ APRÈS CELUI-CI **" + 
+							"Le métro est le moyen le plus rapide pour rejoindre l'aéroport, et en plus c'est le dernier, je devrais le prendre au plus vite pour quitter l'île....");
 						}
 						break;
 
@@ -218,7 +215,9 @@ public class Jeu {
 					// La première fois que l'on atteint cette zone, la sortie vers
 					// L'aéroport est bloquée. Il faut une pince pour débloquer la zone.
 					if(this.zones[13].obtientSortie("NORD") == null) {
-						jeuPanel.afficherPensee("L'entrée vers l'aéroport est bloquée ! Il faut briser ces chaînes...");
+						jeuPanel.afficherPensee(
+						"** La porte vers la piste c'est fermée derrière vous.... ** " + 
+						"ZUT ! Il faut que je trouve un objet pouvant m'aider à couper les chaînes ou faire un trou dans ces fichus portes..." );
 					}
 
 					if(this.zones[13].obtientSortie("SUD") == null && pilote.getInitQuete()) {
@@ -246,12 +245,12 @@ public class Jeu {
 				           // On ramasse la clé et cela signifie que la bonne fin est débloquée
 						Item Cle = new Item("Cle","","Ceci est la cle du bateau",this.zones[5].getDescription());
 						tableItems.put("Cle", Cle);
-						jeuPanel.afficherPensee("La cle est dans la chambre n°14 ... *Vous avez obtenu la cle du bateau* ");
+						jeuPanel.afficherPensee("** Vous rentrez dans le motel, chambre 14.... vous parvenez à trouver la clé du bateau ! ** ");
 					}
 					else {
 							// On as accomplit aucune des deux quetes et donc on affiche
 							// Le dialogue qui renseigne qu'aucune action ne peut être effectuées avec cette zone.
-						jeuPanel.afficherPensee("C'est un bel hotel mais je n'ai pas le temps pour ça.");
+						jeuPanel.afficherPensee("Pas le temps de demander à la Police de m'aider... il faut que je trouve un moyen de sortir de cette île au plus vite...");
 						}
 					break;
 
@@ -262,11 +261,10 @@ public class Jeu {
 						if(this.zones[5].obtientSortie("NORD") == null) {
 							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
 						}
-						this.cheminFinMarina = true;
 						if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
-							jeuPanel.afficherPensee("Le bateau est là avec le capitaine et sa fille ! On peut enfin quitter cette île !");
+							jeuPanel.afficherPensee("** En arrivant, au loin au NORD, le capitaine avec sa fille à bord du navire... le Titanic_v2..... ** ");
 						}else {
-							jeuPanel.afficherPensee("Le bateau est là ! Mais le capitaine et sa fille ne sont pas encore arrivé. Je pars sans eux ou je vais les checher ?");
+							jeuPanel.afficherPensee("** Le bateau se met à rugir, la fuite vers le NORD est possible, mais le capitaine et sa fille ne se trouve nulle part sur la Marina.... Que faire ?! **");
 						}
 					}
 					
@@ -304,11 +302,12 @@ public class Jeu {
 							// Initialiser les dialogues...
 							if(!zombie.getInitQuete()) {
 								zombie.setInitQuete(true);
-								jeuPanel.afficherPensee("** Un zombie qui semble agité vous barre la route.....");
+								jeuPanel.afficherPensee("** Un zombie qui semble agité vous barre la route... ** " + 
+								" Chouette, un vrai de vrai, il faut que je trouve un objet pour le faire partir !");
 							} else {
 								if(!zombie.getDoneQuete()) {
 									jeuPanel.afficherPensee("** Ce zombie semble apprécié les bonbons du supermarché, il ne partira pas de si tôt...."
-												+ "Il faut trouver un objet qui pourrait le faire partir, ou bien le tuer....");
+												+ "Il faut trouver un objet qui pourrait le faire partir, ou bien le tuer.... **");
 								}
 							}
 						
@@ -318,15 +317,17 @@ public class Jeu {
 					// Le cas de la station essence où l'on n'as pas le bidon d'essence pour le remplir...
 					case "Station Essence" :
 					if(this.inventaireItems.get("Jerrican") == null && this.inventaireItems.get("Jerrican (Plein)")==null && pilote.getInitQuete()) {
-						jeuPanel.afficherPensee("Je dois trouver un moyen de récupérer l'essence...");
+						jeuPanel.afficherPensee("** LA STATION ESSENCE QUI A DU SENS ! **" + 
+						" Cette station essence c'est toute mon enfance.... ");
 					}
 					break;
 
 					// -----------------------------------------------------------
 					case "Ruelle EST (Sud)" :
 					if(this.zones[9].obtientSortie("EST") == null) {
-						jeuPanel.afficherPensee("Le chemin vers l'armurerie est bloqué par des branche..." + 
-						" Une hache pourrait m'aider à libérer le chemin.");
+						jeuPanel.afficherPensee("** La sortie vers l'EST est bloquée par des branches... **" + 
+						" L'armurerie de la ville se trouve à droite de cette rue, une hache pourrait m'aider à libérer le chemin. " + 
+						" L'armurerie doit regorger d'objets qui pourraient m'aider à me défendre...");
 					}
 					break;
 
@@ -355,11 +356,9 @@ public class Jeu {
 					// ----------------------------------------------------
 					case "Fin" :
 					if(this.tempsJeuDepasse) {
-						System.out.println("Dans le switch de Fin : " + this.zoneCourante.toString());
 						this.zoneCourante.setNomImage("badTime.gif");
-						System.out.println("Changement d image effectué");
 					} else {
-						if(this.cheminFinMarina) {
+						if(this.zonePrec.getDescription() == "Marina") {
 							if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
 									(this.tableItems.get("Cle") != null)) {
 								this.zoneCourante.setNomImage("good.gif"); // par khamis image pour la bonne fin 
@@ -394,7 +393,9 @@ public class Jeu {
 			this.inventaireItems.remove("Hache");
 			if(this.zones[9].obtientSortie("EST") == null) {
 				this.zones[9].ajouteSortie(Sortie.EST, this.zones[10]);
-				jeuPanel.afficherPensee("L'accès a l'armurie semble dégagé...");
+				jeuPanel.afficherPensee("** Un arbre tombé à cause du chaos vous barre la route... **" + 
+				"Aller hop ! Mes heures de gym ne vont pas servir à rien ! " + 
+				"** Vous débloquez le chemin vers l'armurerie ! **");
 				jeuPanel.checkSorties(this.zoneCourante);
 			}
 		break;
@@ -596,8 +597,9 @@ public class Jeu {
 
 			PersoNonJoueur Fille = new PersoNonJoueur("Fille", "fille.png", "Hey toi! Oui toi! J'ai besoin de ton aide. Mon père possède un bateau pour s'enfuire mais il doit être encore bourré au bar."
 					+ " J'ai oublier mon téléphone chez moi, je dois absolument appeler ma mère. Tu peux aller me le chercher? Ma maison se trouve près du métro en allant vers l'EST.",
-					"Alors tu as trouvé mon téléphone?",
-					"Oh merci à toi! Les clé du bateau de mon père sont dans sa chambre d'hotel, c'est la chambre n°14. Je te retrouve à la Marina",
+					"Ma mère doit s'inquiéter pour moi... Retrouve vite mon téléphone s'il te plaît..",
+					"Oh merci à toi! Si tu cherche à t'enfuir mon père possède un bateau. La clé du bateau se trouve dans sa chambre de Motel, c'est la chambre n°14." + 
+					" Je te retrouve à la Marina avec mon Père dès que possible !",
 					"fille en detresse qui se dit etre la fille du capitaine.");
 			Fille.setPosition(250, 450);
 			Fille.setSize(100, 100);
