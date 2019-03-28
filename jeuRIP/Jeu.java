@@ -55,7 +55,7 @@ public class Jeu {
 	public void setPanel(JeuPanel panel) {
 		this.jeuPanel = panel;
 		
-		this.jeuPanel.afficherImgStart("ZONE2.png"); // par khamis le 27/03 pour image demarrage jeu
+		this.jeuPanel.afficherImgStart("Intro.png"); // par khamis le 27/03 pour image demarrage jeu
 	}
 	private void creerCarte() {
         this.zones = new Zone[16];
@@ -202,6 +202,11 @@ public class Jeu {
 							"Le métro est le moyen le plus rapide pour rejoindre l'aéroport, et en plus c'est le dernier, je devrais le prendre au plus vite pour quitter l'île....");
 						}
 						break;
+					case "Maison" :
+						if(this.inventaireItems.get("Portable") == null && fille.getDoneQuete() == false) {
+							jeuPanel.afficherPensee("Je dois trouver le portable et le ramener à la fille du capitaine.");
+						}
+						break;
 
 					//-------------------------------------------------------------------
 					case "Entrée Aéroport" :
@@ -263,9 +268,9 @@ public class Jeu {
 							this.zones[5].ajouteSortie(Sortie.NORD, this.zones[15]);
 						}
 						if(capitaine.getDoneQuete() && fille.getDoneQuete()) {
-							jeuPanel.afficherPensee("** En arrivant, au loin au NORD, le capitaine avec sa fille à bord du navire... le Titanic_v2..... ** ");
+							jeuPanel.afficherPensee("** En arrivant, au loin au NORD, le capitaine avec sa fille sont à bord du navire, ils vous attendent pour partir ** ");
 						}else {
-							jeuPanel.afficherPensee("** Le bateau se met à rugir, la fuite vers le NORD est possible, mais le capitaine et sa fille ne se trouve nulle part sur la Marina.... Que faire ?! **");
+							jeuPanel.afficherPensee("** Le bateau est devant vous, la fuite vers le NORD est possible, mais le capitaine et sa fille ne se trouve nulle part sur la Marina.... Faut-il partir sans eux ? **");
 						}
 					}
 					
@@ -362,14 +367,14 @@ public class Jeu {
 						if(this.zonePrec.getDescription() == "Marina") {
 							if((capitaine.getDoneQuete() && fille.getDoneQuete()) && 
 									(this.tableItems.get("Cle") != null)) {
-								this.zoneCourante.setNomImage("good.gif"); // par khamis image pour la bonne fin 
+								this.zoneCourante.setNomImage("Good1.gif"); // par khamis image pour la bonne fin 
 								
 							} else {
 								this.zoneCourante.setNomImage("badMarina.gif"); // par khamis  image pour mauvaise fin
 							}
 						} else {
 							if((this.inventaireItems.get("Parachute")!=null && pilote.getDoneQuete())) {
-								this.zoneCourante.setNomImage("good.gif"); // par khamis pour bonne fin 
+								this.zoneCourante.setNomImage("Good1.gif"); // par khamis pour bonne fin 
 							} else {
 								this.zoneCourante.setNomImage("badAirport.gif"); // par khamis pour mauvaise fin
 							}
@@ -533,22 +538,22 @@ public class Jeu {
 			this.tableItems = new HashMap<String, Item>();
 
 			
-			Item Hache = new Item("Hache","hache.png","Une hache capable un arbre au travers de la route",this.zones[9].getDescription());
+			Item Hache = new Item("Hache","hache.png","Une hache capable de dégager \n un arbre au travers de la route",this.zones[9].getDescription());
 			Hache.setPosition(80, 450);
 			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
 			
-			Item Gun = new Item("Gun","gun.png","Un pistolet ? Ca peut toujours servir contre les zombies",this.zones[6].getDescription());
+			Item Gun = new Item("Gun","gun.png","Un pistolet ? Ca peut toujours servir \n contre les zombies",this.zones[6].getDescription());
 			Gun.setPosition(20, 450);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
 			
-			Item Pince = new Item("Pince","pinceC.png","Une pince qui peut couper une chaîne de métal",this.zones[13].getDescription());
+			Item Pince = new Item("Pince","pinceC.png","Une pince qui peut couper une chaîne \n de métal",this.zones[13].getDescription());
 			Pince.setPosition(350, 350);
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
 			
-			Item Bouteille = new Item("Bouteille","bouteille.png","Une bouteille en verre idéal pour faire diversion",this.zones[6].getDescription());
+			Item Bouteille = new Item("Bouteille","bouteille.png","Une bouteille en verre idéal pour faire \n diversion",this.zones[6].getDescription());
 			Bouteille.setPosition(175, 296);
 			Bouteille.setSize(65, 35);
 			tableItems.put("Bouteille", Bouteille);
@@ -563,17 +568,17 @@ public class Jeu {
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
-			Item Pills = new Item("Pills","pillules.png","Des pillules povant soignerun mal de tête ou une gueule de bois...",this.zones[2].getDescription());
+			Item Pills = new Item("Pills","pillules.png","Des pillules povant soignerun mal de tête \n ou une gueule de bois...",this.zones[2].getDescription());
 			Pills.setPosition(90, 250);
 			Pills.setSize(70, 70);
 			tableItems.put("Pills",Pills);
 			
-			Item Portable = new Item("Portable","portable.png","C'est le portable que recherche la fille du capitaine",this.zones[1].getDescription());
+			Item Portable = new Item("Portable","portable.png","C'est le portable que recherche la fille \n du capitaine",this.zones[1].getDescription());
 			Portable.setPosition(650, 350);
 			Portable.setSize(20, 10);
 			tableItems.put("Portable", Portable);
 
-			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.png","Un couteau, pratique pour ouvrir des boites",this.zones[13].getDescription());
+			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.png","Un couteau, pratique pour ouvrir une boite",this.zones[13].getDescription());
 			CouteauDeGuerre.setPosition(700, 450);
 			CouteauDeGuerre.setSize(100, 100);
 			tableItems.put("CouteauDeGuerre", CouteauDeGuerre);
