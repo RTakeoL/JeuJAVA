@@ -1,3 +1,8 @@
+Jb 28/03
++ toute les images sont terminées
++ changement des descriptions objet
++ compteur TourMax mis a 45
+
 Roland 27/03
 + Modification dialogue vétéran de guerre, zombie
 + Ajout de compteur pour la fin de jeu
@@ -16,7 +21,6 @@ khamis 26 /03
      
 
 
-
 Khamis 24/03
 
      ATTENTION : 
@@ -30,11 +34,6 @@ Khamis 24/03
 + Ajout méthode initAffichageZC  : pour modif  manip graphic de Jeu pour affichage items+ imgzone + et les modifié en jeuPanel 
 + correction de bug 
 + ajout qlq effets graphique sur les btn des commandes 
-
-
-Pour Khamis:
-code pour changer la font :  Font font = Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf"));
- return font.deriveFont(12f);
 
 Roland 21/03
 + Ajout de la Map
