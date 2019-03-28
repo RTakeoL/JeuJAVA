@@ -22,7 +22,7 @@ public class Jeu {
 	private MapZone mapJeu;
 	private Boolean tempsJeuDepasse = false;
 	private static int nombreTour = 0;
-	private static final int nombreTourMax = 30;
+	private static final int nombreTourMax = 45;
 	
 	
 	public Jeu () {
@@ -157,6 +157,7 @@ public class Jeu {
 				this.zonePrec = this.zoneCourante;
 				this.zoneCourante = nouvelle;
 				Jeu.nombreTour +=1;
+				System.out.println(Jeu.nombreTour);
 				if(Jeu.nombreTour >= Jeu.nombreTourMax) {
 					this.tempsJeuDepasse = true;
 					this.zoneCourante = this.zones[15];
@@ -532,52 +533,52 @@ public class Jeu {
 			this.tableItems = new HashMap<String, Item>();
 
 			
-			Item Hache = new Item("Hache","hache.png","Ceci est une hache",this.zones[9].getDescription());
+			Item Hache = new Item("Hache","hache.png","Une hache capable un arbre au travers de la route",this.zones[9].getDescription());
 			Hache.setPosition(80, 450);
 			Hache.setSize(100, 100);
 			tableItems.put("Hache", Hache);
 			
-			Item Gun = new Item("Gun","gun.png","Ceci est un gun",this.zones[6].getDescription());
+			Item Gun = new Item("Gun","gun.png","Un pistolet ? Ca peut toujours servir contre les zombies",this.zones[6].getDescription());
 			Gun.setPosition(20, 450);
 			Gun.setSize(100, 100);
 			tableItems.put("Gun", Gun);
 			
-			Item Pince = new Item("Pince","pince.jpg","Ceci est une pince",this.zones[13].getDescription());
-			Pince.setPosition(100, 100);
+			Item Pince = new Item("Pince","pinceC.png","Une pince qui peut couper une chaîne de métal",this.zones[13].getDescription());
+			Pince.setPosition(350, 350);
 			Pince.setSize(100, 100);
 			tableItems.put("Pince", Pince);
 			
-			Item Bouteille = new Item("Bouteille","bouteille.png","Ceci est une bouteille",this.zones[6].getDescription());
+			Item Bouteille = new Item("Bouteille","bouteille.png","Une bouteille en verre idéal pour faire diversion",this.zones[6].getDescription());
 			Bouteille.setPosition(175, 296);
 			Bouteille.setSize(65, 35);
 			tableItems.put("Bouteille", Bouteille);
 			
-			Item Jerrican = new Item("Jerrican","jerrican.png","Ceci est un jerrican",this.zones[12].getDescription());
+			Item Jerrican = new Item("Jerrican","jerrican.png","Un jerrican vide, il faudrait le remplir ?",this.zones[12].getDescription());
 			Jerrican.setPosition(550, 475);
 			Jerrican.setSize(100, 100);
 			tableItems.put("Jerrican", Jerrican);
 			
-			Item Parachute = new Item("Parachute","parachute.png","Ceci est un parachute",this.zones[15].getDescription());
+			Item Parachute = new Item("Parachute","parachute.png","Un parachute ? On ne sait jamais",this.zones[15].getDescription());
 			Parachute.setPosition(100, 400);
 			Parachute.setSize(100, 100);
 			tableItems.put("Parachute",Parachute);
 			
-			Item Pills = new Item("Pills","pills.jpg","Ceci est un pills",this.zones[2].getDescription());
-			Pills.setPosition(200, 100);
-			Pills.setSize(100, 100);
+			Item Pills = new Item("Pills","pillules.png","Des pillules povant soignerun mal de tête ou une gueule de bois...",this.zones[2].getDescription());
+			Pills.setPosition(90, 250);
+			Pills.setSize(70, 70);
 			tableItems.put("Pills",Pills);
 			
-			Item Portable = new Item("Portable","portable.png","Ceci est un portable",this.zones[1].getDescription());
+			Item Portable = new Item("Portable","portable.png","C'est le portable que recherche la fille du capitaine",this.zones[1].getDescription());
 			Portable.setPosition(650, 350);
 			Portable.setSize(20, 10);
 			tableItems.put("Portable", Portable);
 
-			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.png","L'objet favoris du vétéran de guerre!",this.zones[13].getDescription());
+			Item CouteauDeGuerre = new Item("CouteauDeGuerre", "couteau.png","Un couteau, pratique pour ouvrir des boites",this.zones[13].getDescription());
 			CouteauDeGuerre.setPosition(700, 450);
 			CouteauDeGuerre.setSize(100, 100);
 			tableItems.put("CouteauDeGuerre", CouteauDeGuerre);
 
-			Item JerricanPlein = new Item("Jerrican (Plein)","jerrican.png","Le jerrican est remplit d'essence..",this.zones[14].getDescription());
+			Item JerricanPlein = new Item("Jerrican (Plein)","jerrican.png","Le jerrican est remplit d'essence",this.zones[14].getDescription());
 			JerricanPlein.setPosition(400, 450);
 			JerricanPlein.setSize(100, 100);
 			tableItems.put("Jerrican (Plein)",JerricanPlein);
@@ -633,12 +634,12 @@ public class Jeu {
 			Pilote.setSize(250, 250);
 			tablePNJ.put("Pilote",Pilote);
 			
-			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombie.jpg", "",
+			PersoNonJoueur Zombie = new PersoNonJoueur("Zombie", "zombieS.png", "",
 					"** Un zombie traîne dans le supermarché, il faut trouver un moyen de le faire partir, ou pire... le tuer.... **", 
 					"** Un tir, dans le ventre.... le zombie s'approche ! Second tir... pleine tête ! La fin du zombie.... **",
 					"");
-			Zombie.setPosition(100, 300);
-			Zombie.setSize(100, 100);
+			Zombie.setPosition(160, 240);
+			Zombie.setSize(280, 280);
 			tablePNJ.put("Zombie",Zombie);
 		}
 
